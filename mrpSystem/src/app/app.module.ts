@@ -29,7 +29,7 @@ import { ProposalRegisterComponent } from './pages/proposal/proposal-register/pr
     FormsModule,
     HttpModule
   ],
-  providers: [QuotationService, UserService], CommonService,
+  providers: [QuotationService, UserService, CommonService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
