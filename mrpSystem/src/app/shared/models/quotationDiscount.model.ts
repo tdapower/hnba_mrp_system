@@ -1,9 +1,9 @@
 export interface IQuotationDiscount
 {
-SeqId :int;
-QuotationSeqId :int;
+SeqId :number;
+QuotationSeqId :number;
 QuotationNo :string;
-Revision :int;
+Revision :number;
 Reason :string;
 ApproveRejectRemark :string;
 Status :string;

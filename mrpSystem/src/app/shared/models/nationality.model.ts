@@ -1,6 +1,6 @@
 export interface INationality
 {
-    Id:int;
+    Id:number;
 	Country:string;
 	Adjective:string;
 	Person:string;
