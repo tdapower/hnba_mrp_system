@@ -1,4 +1,4 @@
-export interface ILoanType{
-    LoanTypeId:int;
-	LoanTypeName:string;
+export interface ILoanType {
+    LoanTypeId: number;
+    LoanTypeName: string;
 }

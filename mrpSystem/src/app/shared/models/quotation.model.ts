@@ -1,8 +1,8 @@
 export interface IQuotation
 {
-SeqId :int;
+SeqId :number;
 QuotationNo :string;
-RevisionNo :int;
+RevisionNo :number;
 LifeAss1Name :string;
 LifeAss1Dob :string;
 LifeAss1Gender :string;
@@ -15,16 +15,16 @@ LifeAss3Name :string;
 LifeAss3Dob :string;
 LifeAss3Gender :string;
 LifeAss3Nic :string;
-LoanAmount :double;
-Term :int;
-CompanyBufferId :int;
-CurrentAwplr :double;
-AdditionalToAwplr :double;
-TermOfFixederest :double;
-Discount :double;
-Premium :double;
-LoanTypeId :int;
-BranchCodeId :int;
+LoanAmount :number;
+Term :number;
+CompanyBufferId :number;
+CurrentAwplr :number;
+AdditionalToAwplr :number;
+TermOfFixederest :number;
+Discount :number;
+Premium :number;
+LoanTypeId :number;
+BranchCodeId :number;
 UserId :string;
 Status :string;
 RegisterDate :string;

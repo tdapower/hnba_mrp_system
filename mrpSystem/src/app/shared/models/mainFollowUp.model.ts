@@ -1,7 +1,7 @@
 export interface IMainFollowUp
 {
-    MainFollowUpSeqId:int;
-	MainSeqId:int;
+    MainFollowUpSeqId:number;
+	MainSeqId:number;
 	Status:string;
 	UserId:string;
 	SysDate:string;

@@ -1,5 +1,5 @@
 export interface IHnbaBranch{
-    HnbaBranchId:int;
+    HnbaBranchId:number;
 	HnbaCode:string;
 	HnbaBranchName:string;
 }

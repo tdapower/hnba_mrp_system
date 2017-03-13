@@ -1,5 +1,5 @@
 export interface IPending
 {
-    PendingId:int;
+    PendingId:number;
 	PendingName:string;
 }

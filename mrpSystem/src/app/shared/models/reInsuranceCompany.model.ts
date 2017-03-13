@@ -1,5 +1,5 @@
 export interface IReInsuranceCompany
 {
-ReInsuranceCompanyId :int;
+ReInsuranceCompanyId :number;
 ReInsuranceCompanyName :string;
 }

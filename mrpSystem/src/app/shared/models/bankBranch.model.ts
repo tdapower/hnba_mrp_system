@@ -1,4 +1,4 @@
 export interface IBankBranch{
-    BankBranchId:int;
+    BankBranchId:number;
 	BankBranchName:string;
 }

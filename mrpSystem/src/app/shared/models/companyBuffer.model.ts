@@ -1,4 +1,4 @@
 export interface ICompanyBuffer{
-    CompanyBufferId:int;
+    CompanyBufferId:number;
 	CompanyBufferName:string;
 }

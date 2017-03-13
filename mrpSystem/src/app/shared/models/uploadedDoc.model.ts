@@ -1,7 +1,7 @@
 export interface IUploadedDoc
 {
-DocumentId :int;
-MainSeqId:int;
+DocumentId :number;
+MainSeqId:number;
 DocumentName :string;
 Document:string;
 }

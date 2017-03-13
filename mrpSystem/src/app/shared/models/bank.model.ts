@@ -1,4 +1,4 @@
 export interface IBank{
-    BankId:int;
+    BankId:number;
 	BankName:string;
 }
