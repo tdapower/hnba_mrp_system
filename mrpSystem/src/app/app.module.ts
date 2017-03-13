@@ -9,6 +9,8 @@ import { HeaderComponent } from './layout/header/header.component';
 import { QuotationService } from './shared/services/quotation/quotation.service';
 import { UserService } from './shared/services/user/user.service';
 import { CommonService } from './shared/services/common/common.service';
+import { ProposalAddService } from './shared/services/proposal-add/proposal-add.service';
+import { ProposalRegisterService } from './shared/services/proposal-register/proposal-register.service';
 
 
 import { QuotationAddComponent } from './pages/quotation/quotation-add/quotation-add.component';
@@ -29,7 +31,7 @@ import { ProposalRegisterComponent } from './pages/proposal/proposal-register/pr
     FormsModule,
     HttpModule
   ],
-  providers: [QuotationService, UserService, CommonService],
+  providers: [QuotationService, UserService, CommonService, ProposalAddService, ProposalRegisterComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
