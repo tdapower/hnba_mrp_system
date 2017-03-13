@@ -34,6 +34,7 @@ import { ProposalRegisterComponent } from './pages/proposal/proposal-register/pr
   providers: [QuotationService, UserService, CommonService, ProposalAddService, ProposalRegisterComponent],
 
 
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
