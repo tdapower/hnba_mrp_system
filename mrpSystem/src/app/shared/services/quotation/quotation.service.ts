@@ -13,10 +13,21 @@ export class QuotationService {
   constructor(private http: Http) { }
 
 
+addQuotationDetails(params) {
+    let body = params;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+   // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let postoptions = new RequestOptions({ headers: headers });
 
+    return this.http.put(URL_CONST.URL_PREFIX + 'api/Quotation', body, postoptions)
+      .map(res => res)
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
 
-
-
+ 
 
   private handleError(error: Response) {
     console.error('Error occured - ', error);

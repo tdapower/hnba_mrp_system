@@ -9,7 +9,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { QuotationService } from './shared/services/quotation/quotation.service';
 import { UserService } from './shared/services/user/user.service';
 import { CommonService } from './shared/services/common/common.service';
-import { ProposalAddService } from './shared/services/proposal-add/proposal-add.service';
+import { ProposalUpdateService } from './shared/services/proposal-update/proposal-update.service';
 import { ProposalRegisterService } from './shared/services/proposal-register/proposal-register.service';
 
 
@@ -31,7 +31,7 @@ import { ProposalRegisterComponent } from './pages/proposal/proposal-register/pr
     FormsModule,
     HttpModule
   ],
-  providers: [QuotationService, UserService, CommonService, ProposalAddService, ProposalRegisterComponent],
+  providers: [QuotationService, UserService, CommonService, ProposalUpdateService, ProposalRegisterComponent],
 
 
 
