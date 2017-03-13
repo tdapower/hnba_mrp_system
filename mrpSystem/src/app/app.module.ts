@@ -32,6 +32,8 @@ import { ProposalRegisterComponent } from './pages/proposal/proposal-register/pr
     HttpModule
   ],
   providers: [QuotationService, UserService, CommonService, ProposalAddService, ProposalRegisterComponent],
+
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
