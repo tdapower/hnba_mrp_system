@@ -29,7 +29,8 @@
           <div class="form-group">
             <label for="LifeAss1Nic" class="col-lg-4 control-label">NIC</label>
             <div class="col-lg-8">
-              <input type="text" class="form-control  input-sm" placeholder="NIC" required [(ngModel)]="LifeAss1Nic" name="LifeAss1Nic" id="LifeAss1Nic">
+              <input type="text" class="form-control  input-sm" placeholder="NIC" required [(ngModel)]="LifeAss1Nic" name="LifeAss1Nic"
+                id="LifeAss1Nic">
             </div>
           </div>
         </div>
@@ -83,14 +84,16 @@
           <div class="form-group">
             <label for="LifeAss1Age" class="col-lg-4 control-label">Age</label>
             <div class="col-lg-4">
-              <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss1Age" name="LifeAss1Age" id="LifeAss1Age">
+              <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss1Age" name="LifeAss1Age" id="LifeAss1Age"
+                type="number" min=0 max=150>
             </div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <div class="col-lg-4">
-              <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss2Age" name="LifeAss2Age" id="LifeAss2Age">
+              <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss2Age" name="LifeAss2Age" id="LifeAss2Age"
+               type="number" min=0 max=150>
             </div>
           </div>
         </div>
@@ -100,10 +103,10 @@
           <div class="form-group">
             <label for="LifeAss1Gender" class="col-lg-4 control-label">Gender</label>
             <div class="col-lg-4">
-              <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss1Gender" name="LifeAss1Gender" id="LifeAss1Gender">
+              <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss1Gender" name="LifeAss1Gender" id="LifeAss1Gender" required>
 <option value="0">Gender</option>
-<option value="Male">Male</option>
-<option value="Female">Female</option>
+<option value="M">Male</option>
+<option value="F">Female</option>
 </select>
             </div>
           </div>
@@ -150,9 +153,10 @@
           <div class="form-group">
             <label for="LoanTypeId" class="col-lg-4 control-label">Loan Type</label>
             <div class="col-lg-6">
-              <select type="text" class="form-control input-sm" [(ngModel)]="LoanTypeId" name="LoanTypeId" id="LoanTypeId">
+              <select type="text" class="form-control input-sm" [(ngModel)]="selectedLoanTypeId" name="selectedLoanTypeId" id="selectedLoanTypeId"
+                (ngModelChange)="onSelectOfLoanType($event)"  required>
 <option value="0">Select</option>
-<option *ngFor="let loanType of loanTypeList" value={{loanType.LoanTypeId}}>{{loanType.LoanTypeName}}</option>
+<option *ngFor="let loanType of loanTypeList" [ngValue]="loanType">{{loanType.LoanTypeName}}</option>
 </select> </div>
           </div>
         </div>
@@ -160,7 +164,8 @@
           <div class="form-group">
             <label for="LoanAmount" class="col-lg-5 control-label">Loan Amount</label>
             <div class="col-lg-7">
-              <input type="text" class="form-control  input-sm" placeholder="Loan Amount" [(ngModel)]="LoanAmount" name="LoanAmount" id="LoanAmount">
+              <input type="text" class="form-control  input-sm" placeholder="Loan Amount" [(ngModel)]="LoanAmount" name="LoanAmount" id="LoanAmount"
+               type="number" min=0   required>
             </div>
           </div>
         </div>
@@ -174,16 +179,17 @@
           <div class="form-group">
             <label for="Term" class="col-lg-4 control-label">Full Term of Loan</label>
             <div class="col-lg-6">
-              <input type="text" class="form-control  input-sm" placeholder="Full Term of Loan" [(ngModel)]="Term" name="Term" id="Term">
+              <input type="text" class="form-control  input-sm" placeholder="Full Term of Loan" [(ngModel)]="Term" name="Term" id="Term"
+               type="number" min=0  required>
             </div>
           </div>
         </div>
         <div class="col-md-5">
           <div class="form-group">
             <label for="FixedInterest" class="col-lg-5 control-label">Fixed Interest</label>
-            <div class="col-lg-7">
+            <div class="col-lg-7" required>
               <input type="text" class="form-control  input-sm" placeholder="Fixed Interest" [(ngModel)]="FixedInterest" name="FixedInterest"
-                id="FixedInterest">
+                id="FixedInterest"  type="number" min=0 max=100>
             </div>
           </div>
         </div>
@@ -199,9 +205,10 @@
           <div class="form-group">
             <label for="CompanyBufferId" class="col-lg-4 control-label">Company Buffer</label>
             <div class="col-lg-6">
-              <select type="text" class="form-control input-sm" [(ngModel)]="CompanyBufferId" name="CompanyBufferId" id="CompanyBufferId">
+              <select type="text" class="form-control input-sm" [(ngModel)]="selectedCompanyBufferId" name="selectedCompanyBufferId" id="selectedCompanyBufferId"
+                (ngModelChange)="onSelectOfCompanyBuffer($event)">
 <option value="0">Select</option>
-<option *ngFor="let companyBuffer of companyBufferList" value={{companyBuffer.ComapnyBufferId}}>{{companyBuffer.ComapnyBufferName}}</option>
+<option *ngFor="let companyBuffer of companyBufferList" [ngValue]="companyBuffer">{{companyBuffer.ComapnyBufferName}}</option>
 </select>
             </div>
           </div>
@@ -212,7 +219,7 @@
             <label for="CurrentAwplr" class="col-lg-5 control-label">Current AWPLR</label>
             <div class="col-lg-7">
               <input type="text" class="form-control  input-sm" placeholder="Current AWPLR" [(ngModel)]="CurrentAwplr" name="CurrentAwplr"
-                id="CurrentAwplr"></div>
+                id="CurrentAwplr"  type="number" min=0 ></div>
           </div>
         </div>
         <div class="col-md-2">
@@ -229,7 +236,7 @@
             <label for="AdditionalToAwplr" class="col-lg-4 control-label">Additionto AWPLR</label>
             <div class="col-lg-6">
               <input type="text" class="form-control  input-sm" placeholder="Additionto AWPLR" [(ngModel)]="AdditionalToAwplr" name="AdditionalToAwplr"
-                id="AdditionalToAwplr">
+                id="AdditionalToAwplr"  type="number" min=0 >
             </div>
           </div>
         </div>
@@ -238,7 +245,7 @@
             <label for="TermOfFixederest" class="col-lg-5 control-label">Term of Fixed Interest</label>
             <div class="col-lg-7">
               <input type="text" class="form-control  input-sm" placeholder="Term of Fixed Interest" [(ngModel)]="TermOfFixederest" name="TermOfFixederest"
-                id="TermOfFixederest">
+                id="TermOfFixederest"  type="number" min=0 >
             </div>
           </div>
         </div>

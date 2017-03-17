@@ -1,5 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { MomentModule } from 'angular2-moment';
 
+import { ToastrService, ToastrConfig } from 'toastr-ng2';
 
 import { CommonService } from '../../../shared/services/common/common.service';
 import { QuotationService } from '../../../shared/services/quotation/quotation.service';
@@ -7,6 +10,8 @@ import { IHnbaBranch } from '../../../shared/models/hnbaBranch.model';
 import { ILoanType } from '../../../shared/models/loanType.model';
 import { ICompanyBuffer } from '../../../shared/models/companyBuffer.model';
 import { IQuotation } from '../../../shared/models/quotation.model';
+import { IQuotationCalculation } from '../../../shared/models/quotationCalculate.model';
+
 import { IUser } from '../../../shared/models/user/user.model';
 import { COMMON_VALUES } from '../../../shared/config/commonValues';
 declare var jQuery: any;
@@ -41,12 +46,14 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   Term: number;
   FixedInterest: number;
   CompanyBufferId: number;
+  CompanyBufferValue: string = '';
   CurrentAwplr: number;
   AdditionalToAwplr: number;
   TermOfFixederest: number;
   Discount: number;
   Premium: number;
   LoanTypeId: number;
+  LoanTypeName: string = '';
   BranchCode: string = '';
   UserId: string = '';
   Status: string = '';
@@ -59,11 +66,17 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   companyBufferList: Array<ICompanyBuffer> = [];
 
 
-  constructor(private quotationService: QuotationService, private commonService: CommonService) { }
+  constructor(private quotationService: QuotationService,
+    private commonService: CommonService, moment: MomentModule,
+    private toastrService: ToastrService,
+    toastrConfig: ToastrConfig) {
+    toastrConfig.timeOut = 0;
+    toastrConfig.closeButton = true;
+    toastrConfig.tapToDismiss = true;
+  }
 
   ngOnInit() {
 
-    // this.isLoading = true;
     this.getHnbaBranches();
     this.getLoanTypes();
     this.getCompanyBuffer();
@@ -76,6 +89,27 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
 
   }
+
+
+
+  showSuccess(message) {
+    this.toastrService.success(message, 'Success!');
+  }
+
+  showError(message) {
+    this.toastrService.error(message, 'Oops!');
+  }
+
+  showWarning(message) {
+    this.toastrService.warning(message, 'Alert!');
+  }
+
+  showInfo(message) {
+    this.toastrService.info(message);
+  }
+
+
+
   clearValues() {
     this.SeqId = 0;
     this.QuotationNo = '';
@@ -139,6 +173,25 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   }
 
 
+
+  onSelectOfLoanType(loanType) {
+
+    console.log(loanType.LoanTypeId);
+    this.LoanTypeId = loanType.LoanTypeId;
+    this.LoanTypeName = loanType.LoanTypeName;
+  }
+
+
+  onSelectOfCompanyBuffer(companyBuffer) {
+
+
+    this.CompanyBufferId = companyBuffer.ComapnyBufferId;
+    this.CompanyBufferValue = companyBuffer.ComapnyBufferName;
+  }
+
+
+
+
   public AddNewQuotation() {
     this.clearValues();
   }
@@ -185,7 +238,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
     let obj: IQuotation = {
       SeqId: 0,
-      QuotationNo: '17MRP00001',
+      QuotationNo: '',
       RevisionNo: 0,
       LifeAss1Name: this.LifeAss1Name,
       LifeAss1Dob: new Date(this.LifeAss1Dob).toLocaleDateString("en-GB"),
@@ -217,7 +270,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     console.log(obj);
     console.log(JSON.stringify(obj));
     this.quotationService.addQuotationDetails(obj).subscribe((data: any) => {
-
+      console.log(data);
+      this.showSuccess("Quotation Successfully Saved. Quotation Number - " + data);
       this.isLoading = false;
     }),
       (err) => {
@@ -232,6 +286,93 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   }
 
   public Calculate() {
+    if (this.LifeAss1Age == null) {
+      this.LifeAss1Age = 0;
+    }
+    if (this.LifeAss2Age == null) {
+      this.LifeAss2Age = 0;
+    }
+    if (this.LoanAmount == null) {
+      this.LoanAmount = 0;
+    }
+    if (this.Term == null) {
+      this.Term = 0;
+    }
+    if (this.FixedInterest == null) {
+      this.FixedInterest = 0;
+    }
+    if (this.CompanyBufferId == null) {
+      this.CompanyBufferId = 0;
+    }
+    if (this.CurrentAwplr == null) {
+      this.CurrentAwplr = 0;
+    }
+    if (this.AdditionalToAwplr == null) {
+      this.AdditionalToAwplr = 0;
+    }
+    if (this.TermOfFixederest == null) {
+      this.TermOfFixederest = 0;
+    }
+    if (this.Discount == null) {
+      this.Discount = 0;
+    }
+    if (this.Premium == null) {
+      this.Premium = 0;
+    }
+    if (this.LoanTypeId == null) {
+      this.LoanTypeId = 0;
+    }
+
+    var moment = require('moment');
+    var obj = [{
+      username: this.User.UserName,
+      term: this.Term.toString(),
+      loan_interest: this.FixedInterest.toString(),
+      loan_amount: this.LoanAmount.toString(),
+      grace_period: '0',
+      dob_life1: moment(this.LifeAss1Dob).format('YYYY/MM/DD'),
+      dob_life2: moment(this.LifeAss2Dob).format('YYYY/MM/DD'),
+      loan_type: this.LoanTypeName,
+      loan_type_loading_Home_loading: '0',
+      loan_type_loading_car_education_loan: '0',
+      loan_type_loading_business_loan: '0',
+      loan_type_loading_personal_commercial_laon: '0',
+      gender_life1: this.LifeAss1Gender,
+      gender_life2: this.LifeAss2Gender,
+      Company_Buffer: this.CompanyBufferValue,
+      Current_AWPLR: this.CurrentAwplr.toString(),
+      Addition_to_AWPLR: this.AdditionalToAwplr.toString(),
+      life1_discount: '0',
+      life2_discount: '0',
+      basic_healthExtraPecentage_life1: '0',
+      basic_healthExtraPecentage_life2: '0',
+      tpd_healthExtraPecentage_life1: '0',
+      tpd_healthExtraPecentage_life2: '0',
+      basic_OccupationalExtraPecentage_life1: '0',
+      basic_OccupationalExtraPecentage_life2: '0',
+      tpd_OccupationalExtraPecentage_life1: '0',
+      tpd_OccupationalExtraPecentage_life2: '0',
+      basic_healthExtraPermile_life1: '0',
+      basic_healthExtraPermile_life2: '0',
+      tpd_healthExtraPermile_life1: '0',
+      tpd_healthExtraPermile_life2: '0'
+
+
+    }]
+
+    console.log(obj);
+    console.log(JSON.stringify(obj));
+    this.quotationService.calculateQuotation(obj).subscribe((data: any) => {
+      console.log("done");
+      this.isLoading = false;
+    }),
+      (err) => {
+        // alert(err);
+        console.log(err);
+
+        this.isLoading = false;
+      },
+      () => console.log('done')
 
   }
   public PrintQuotation() {
