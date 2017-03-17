@@ -1,3 +1,317 @@
-<p>
-  quotation-add works!
-</p>
+<div *ngIf="isLoading">
+  <app-spinner-top></app-spinner-top>
+</div>
+
+<div *ngIf="!isLoading">
+  <form class="form-horizontal" role="form">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-8">
+              <label for="inputEmail" class="control-label">Life 1</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="col-lg-8">
+              <label for="inputEmail" class="control-label">Life 2</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="LifeAss1Nic" class="col-lg-4 control-label">NIC</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control  input-sm" placeholder="NIC" required [(ngModel)]="LifeAss1Nic" name="LifeAss1Nic" id="LifeAss1Nic">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="col-lg-8">
+              <input type="text" class="form-control input-sm" placeholder="NIC" [(ngModel)]="LifeAss2Nic" name="LifeAss2Nic" id="LifeAss2Nic">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="LifeAss1Name" class="col-lg-4 control-label">Customer Name</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control input-sm" placeholder="Customer Name" [(ngModel)]="LifeAss1Name" name="LifeAss1Name"
+                id="LifeAss1Name">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="col-lg-8">
+              <input type="text" class="form-control input-sm" placeholder="Customer Name" [(ngModel)]="LifeAss2Name" name="LifeAss2Name"
+                id="LifeAss2Name">
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="" class="col-lg-4 control-label">Date of Birth</label>
+            <div class="col-lg-8">
+              <datetime name="LifeAss1Dob" id="LifeAss1Dob" [(ngModel)]="LifeAss1Dob" [timepicker]="false"></datetime>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="col-lg-8">
+              <datetime name="LifeAss2Dob" id="LifeAss2Dob" [(ngModel)]="LifeAss2Dob" [timepicker]="false"></datetime>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="LifeAss1Age" class="col-lg-4 control-label">Age</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss1Age" name="LifeAss1Age" id="LifeAss1Age">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="col-lg-4">
+              <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss2Age" name="LifeAss2Age" id="LifeAss2Age">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="LifeAss1Gender" class="col-lg-4 control-label">Gender</label>
+            <div class="col-lg-4">
+              <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss1Gender" name="LifeAss1Gender" id="LifeAss1Gender">
+<option value="0">Gender</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="col-lg-4">
+              <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss2Gender" name="LifeAss2Gender" id="LifeAss2Gender">
+<option value="0">Gender</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="BranchCode" class="col-lg-4 control-label">Branch</label>
+            <div class="col-lg-4">
+              <select type="text" class="form-control input-sm" [(ngModel)]="BranchCode" name="BranchCode" id="BranchCode">
+<option value="0">Select</option>
+<option *ngFor="let branch of hnbaBranchList" value={{branch.HnbaCode}}>{{branch.HnbaBranchName}}</option>
+</select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+      </div>
+
+
+
+      <div class="row">
+
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="LoanTypeId" class="col-lg-4 control-label">Loan Type</label>
+            <div class="col-lg-6">
+              <select type="text" class="form-control input-sm" [(ngModel)]="LoanTypeId" name="LoanTypeId" id="LoanTypeId">
+<option value="0">Select</option>
+<option *ngFor="let loanType of loanTypeList" value={{loanType.LoanTypeId}}>{{loanType.LoanTypeName}}</option>
+</select> </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="LoanAmount" class="col-lg-5 control-label">Loan Amount</label>
+            <div class="col-lg-7">
+              <input type="text" class="form-control  input-sm" placeholder="Loan Amount" [(ngModel)]="LoanAmount" name="LoanAmount" id="LoanAmount">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="Term" class="col-lg-4 control-label">Full Term of Loan</label>
+            <div class="col-lg-6">
+              <input type="text" class="form-control  input-sm" placeholder="Full Term of Loan" [(ngModel)]="Term" name="Term" id="Term">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="FixedInterest" class="col-lg-5 control-label">Fixed Interest</label>
+            <div class="col-lg-7">
+              <input type="text" class="form-control  input-sm" placeholder="Fixed Interest" [(ngModel)]="FixedInterest" name="FixedInterest"
+                id="FixedInterest">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+
+
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="CompanyBufferId" class="col-lg-4 control-label">Company Buffer</label>
+            <div class="col-lg-6">
+              <select type="text" class="form-control input-sm" [(ngModel)]="CompanyBufferId" name="CompanyBufferId" id="CompanyBufferId">
+<option value="0">Select</option>
+<option *ngFor="let companyBuffer of companyBufferList" value={{companyBuffer.ComapnyBufferId}}>{{companyBuffer.ComapnyBufferName}}</option>
+</select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="CurrentAwplr" class="col-lg-5 control-label">Current AWPLR</label>
+            <div class="col-lg-7">
+              <input type="text" class="form-control  input-sm" placeholder="Current AWPLR" [(ngModel)]="CurrentAwplr" name="CurrentAwplr"
+                id="CurrentAwplr"></div>
+          </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+
+
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="AdditionalToAwplr" class="col-lg-4 control-label">Additionto AWPLR</label>
+            <div class="col-lg-6">
+              <input type="text" class="form-control  input-sm" placeholder="Additionto AWPLR" [(ngModel)]="AdditionalToAwplr" name="AdditionalToAwplr"
+                id="AdditionalToAwplr">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="TermOfFixederest" class="col-lg-5 control-label">Term of Fixed Interest</label>
+            <div class="col-lg-7">
+              <input type="text" class="form-control  input-sm" placeholder="Term of Fixed Interest" [(ngModel)]="TermOfFixederest" name="TermOfFixederest"
+                id="TermOfFixederest">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="LifeAss1Nic" class="col-lg-4 control-label">Premium Amount</label>
+            <div class="col-lg-6">
+              <input type="text" class="form-control  input-sm" placeholder="Premium Amount" readonly [(ngModel)]="Premium" name="Premium"
+                id="Premium">
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="LifeAss1Nic" class="col-lg-4 control-label">Need printed quotation?</label>
+            <div class="col-lg-4">
+              <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked />
+    <span data-on="Yes" data-off="No"></span>
+  </label>
+
+            </div>
+
+
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-3">
+
+
+        </div>
+        <div class="col-md-2">
+
+          <button class="btn btn-primary btn-block  btn-sm" (click)="AddNewQuotation()" type="button">Add New</button>
+
+        </div>
+        <div class="col-md-2">
+
+          <button class="btn btn-primary btn-block  btn-sm" (click)="SaveQuotation()" type="button">Save</button>
+
+        </div>
+
+        <div class="col-md-2">
+          <button class="btn btn-primary btn-block  btn-sm" (click)="Calculate()" type="button">Calculate</button>
+        </div>
+
+        <div class="col-md-2">
+
+          <button class="btn btn-primary btn-block  btn-sm" (click)="PrintQuotation()" type="button">Print</button>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <div class="row">
+    </div>
+  </form>
+</div>

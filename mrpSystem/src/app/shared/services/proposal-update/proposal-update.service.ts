@@ -18,7 +18,7 @@ export class ProposalUpdateService {
   updateProposalDetails(params) {
     let body = params;
     let headers = new Headers({ 'Content-Type': 'application/json' });
-   // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+   headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let postoptions = new RequestOptions({ headers: headers });
 
     return this.http.put(URL_CONST.URL_PREFIX + 'api/Main', body, postoptions)
@@ -32,7 +32,7 @@ export class ProposalUpdateService {
    updateAssureDetails(params) {
     let body = params;
     let headers = new Headers({ 'Content-Type': 'application/json' });
-   // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+   headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let postoptions = new RequestOptions({ headers: headers });
 
     return this.http.put(URL_CONST.URL_PREFIX + 'api/AssureDetail', body, postoptions)

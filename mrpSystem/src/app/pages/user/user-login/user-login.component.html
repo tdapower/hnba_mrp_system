@@ -1,0 +1,18 @@
+<div *ngIf="isLoading">
+  <app-spinner-large></app-spinner-large>
+</div>
+<div class="container">
+
+</div>
+<div class="form">
+  <div class="thumbnail">
+    <!--<img src="../../../../assets/images/gilogo.png" />--></div>
+
+  <form class="login-form">
+    <input type="text" placeholder="username" [(ngModel)]="UserName" name="UserName" id="UserName" />
+    <input type="password" placeholder="password" [(ngModel)]="Password" name="Password" id="Password" />
+    <button (click)="validateUser()" type="button">login</button>
+    <p class="text-danger">{{message}}</p>
+    <p class="message">Developed by Tharindu @ HNBA IT Dept.</p>
+  </form>
+</div>

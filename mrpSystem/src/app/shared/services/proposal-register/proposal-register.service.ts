@@ -17,7 +17,7 @@ export class ProposalRegisterService {
   saveProposalDetails(params) {
     let body = params;
     let headers = new Headers({ 'Content-Type': 'application/json' });
-   // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let postoptions = new RequestOptions({ headers: headers });
 
     return this.http.post(URL_CONST.URL_PREFIX + 'api/Main', body, postoptions)
@@ -28,10 +28,10 @@ export class ProposalRegisterService {
       });
   }
 
-    saveAssureDetails(params) {
+  saveAssureDetails(params) {
     let body = params;
     let headers = new Headers({ 'Content-Type': 'application/json' });
-   // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let postoptions = new RequestOptions({ headers: headers });
 
     return this.http.post(URL_CONST.URL_PREFIX + 'api/AssureDetail', body, postoptions)

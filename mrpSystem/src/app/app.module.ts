@@ -2,12 +2,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 
+import { Ng2PaginationModule } from 'ng2-pagination';
+import { ModalModule } from "ng2-modal";
+import { Md2DatepickerModule } from 'md2-datepicker';
+
+import { routes } from './app.router';
 import { QuotationService } from './shared/services/quotation/quotation.service';
-import { UserService } from './shared/services/user/user.service';
 import { CommonService } from './shared/services/common/common.service';
 import { ProposalUpdateService } from './shared/services/proposal-update/proposal-update.service';
 import { ProposalRegisterService } from './shared/services/proposal-register/proposal-register.service';
@@ -16,7 +20,14 @@ import { ProposalRegisterService } from './shared/services/proposal-register/pro
 import { QuotationAddComponent } from './pages/quotation/quotation-add/quotation-add.component';
 import { ProposalAddComponent } from './pages/proposal/proposal-add/proposal-add.component';
 import { ProposalRegisterComponent } from './pages/proposal/proposal-register/proposal-register.component';
+import { UserLoginComponent } from './pages/user/user-login/user-login.component';
+import { LayoutComponent } from './layout/layout/layout.component';
 
+import { AuthenticationService } from './shared/services/user/authentication.service';
+import { AuthGuard } from '../app/authGuard';
+import { SpinnerLargeComponent } from './layout/spinner-large/spinner-large.component';
+import { SpinnerTopComponent } from './layout/spinner-top/spinner-top.component';
+import { QuotationSearchComponent } from './pages/quotation/quotation-search/quotation-search.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +35,31 @@ import { ProposalRegisterComponent } from './pages/proposal/proposal-register/pr
     HeaderComponent,
     QuotationAddComponent,
     ProposalAddComponent,
-    ProposalRegisterComponent
+    ProposalRegisterComponent,
+    UserLoginComponent,
+    LayoutComponent,
+    SpinnerLargeComponent,
+    SpinnerTopComponent,
+    QuotationSearchComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    routes,
+    NKDatetimeModule,
+    Ng2PaginationModule,
+    ModalModule,
+    Md2DatepickerModule.forRoot()
+    
   ],
-  providers: [QuotationService, UserService, CommonService, ProposalUpdateService, ProposalRegisterComponent],
+  providers: [
+    QuotationService,
+    AuthenticationService,
+    AuthGuard,
+    CommonService,
+    ProposalUpdateService,
+    ProposalRegisterComponent],
 
 
 

@@ -16,7 +16,7 @@ export class CommonService {
 
   getLoanTypes() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/LoanType', options)
@@ -29,7 +29,7 @@ export class CommonService {
 
   getBank() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/Bank', options)
@@ -43,7 +43,7 @@ export class CommonService {
 
     getBankBranch() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/BankBranch', options)
@@ -56,7 +56,7 @@ export class CommonService {
 
   getCompanyBuffer() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/CompanyBuffer', options)
@@ -69,7 +69,7 @@ export class CommonService {
 
   getCurrency() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/Currency', options)
@@ -82,7 +82,7 @@ export class CommonService {
 
   getHnbaBranch() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/HnbaBranch', options)
@@ -95,7 +95,7 @@ export class CommonService {
 
    getNationality() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/Nationality', options)
@@ -108,7 +108,7 @@ export class CommonService {
 
   getPending() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/Pending', options)
@@ -122,7 +122,7 @@ export class CommonService {
 
   getReInsuranceCompany() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/ReInsuranceCompany', options)

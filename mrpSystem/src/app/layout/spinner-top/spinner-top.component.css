@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  /*padding: 5%;*/
+  height: 100vh;
+  width: 100vw;
+  /*background: #090707;*/
+}
+
+.loading-bar {
+  position: relative;
+}
+
+.bar {
+  width: 100%;
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  height: 3px;
+  
+  /*box-shadow: 0 1px 5px rgba(0,0,0,0.7);*/
+}
+.bar:nth-child(1) {
+  background: #1462d6;
+  animation: show 6s infinite;
+  animation-timing-function: linear;
+  animation-delay: -2s;
+  
+}
+.bar:nth-child(2) {
+  background: #000080;
+  animation: show 6s infinite;
+  animation-timing-function: linear;
+  animation-delay: -4s;
+}
+.bar:nth-child(3) {
+  background: #000033;
+  animation: show 6s infinite;
+  animation-timing-function: linear;
+  animation-delay: -6s;
+}
+
+@keyframes show {
+  from {
+    z-index: 10;
+    width: 0;
+  }
+  33.3% {
+    z-index: 5;
+    width: 100%;
+  }
+  to {
+    z-index: 0;
+    width: 100%;
+  }
+}
