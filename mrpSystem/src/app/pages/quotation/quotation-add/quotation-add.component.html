@@ -26,7 +26,7 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="{{LifeAss1NicClass}}">
             <label for="LifeAss1Nic" class="col-lg-4 control-label">NIC</label>
             <div class="col-lg-8">
               <input type="text" class="form-control  input-sm" placeholder="NIC" required [(ngModel)]="LifeAss1Nic" name="LifeAss1Nic"
@@ -44,7 +44,7 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="{{LifeAss1NameClass}}">
             <label for="LifeAss1Name" class="col-lg-4 control-label">Customer Name</label>
             <div class="col-lg-8">
               <input type="text" class="form-control input-sm" placeholder="Customer Name" [(ngModel)]="LifeAss1Name" name="LifeAss1Name"
@@ -64,28 +64,30 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="{{LifeAss1DobClass}}">
             <label for="" class="col-lg-4 control-label">Date of Birth</label>
             <div class="col-lg-8">
-              <datetime name="LifeAss1Dob" id="LifeAss1Dob" [(ngModel)]="LifeAss1Dob" [timepicker]="false"></datetime>
+              <datetime name="LifeAss1Dob" id="LifeAss1Dob" [(ngModel)]="LifeAss1Dob" [timepicker]="false"
+               (ngModelChange)="calculateLife1Age($event)" ></datetime>
             </div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <div class="col-lg-8">
-              <datetime name="LifeAss2Dob" id="LifeAss2Dob" [(ngModel)]="LifeAss2Dob" [timepicker]="false"></datetime>
+              <datetime name="LifeAss2Dob" id="LifeAss2Dob" [(ngModel)]="LifeAss2Dob" [timepicker]="false" 
+              (ngModelChange)="calculateLife2Age($event)"></datetime>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="{{LifeAss1AgeClass}}">
             <label for="LifeAss1Age" class="col-lg-4 control-label">Age</label>
             <div class="col-lg-4">
               <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss1Age" name="LifeAss1Age" id="LifeAss1Age"
-                type="number" min=0 max=150>
+                type="number" readonly>
             </div>
           </div>
         </div>
@@ -93,17 +95,18 @@
           <div class="form-group">
             <div class="col-lg-4">
               <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss2Age" name="LifeAss2Age" id="LifeAss2Age"
-               type="number" min=0 max=150>
+                type="number" readonly>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="{{LifeAss1GenderClass}}">
             <label for="LifeAss1Gender" class="col-lg-4 control-label">Gender</label>
             <div class="col-lg-4">
-              <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss1Gender" name="LifeAss1Gender" id="LifeAss1Gender" required>
+              <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss1Gender" name="LifeAss1Gender" id="LifeAss1Gender"
+                required>
 <option value="0">Gender</option>
 <option value="M">Male</option>
 <option value="F">Female</option>
@@ -125,10 +128,10 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="{{BranchCodeClass}}">
             <label for="BranchCode" class="col-lg-4 control-label">Branch</label>
             <div class="col-lg-4">
-              <select type="text" class="form-control input-sm" [(ngModel)]="BranchCode" name="BranchCode" id="BranchCode">
+              <select type="text" class="form-control input-sm" [(ngModel)]="HnbaBranchCode" name="HnbaBranchCode" id="HnbaBranchCode">
 <option value="0">Select</option>
 <option *ngFor="let branch of hnbaBranchList" value={{branch.HnbaCode}}>{{branch.HnbaBranchName}}</option>
 </select>
@@ -150,22 +153,22 @@
 
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="{{LoanTypeIdClass}}">
             <label for="LoanTypeId" class="col-lg-4 control-label">Loan Type</label>
             <div class="col-lg-6">
-              <select type="text" class="form-control input-sm" [(ngModel)]="selectedLoanTypeId" name="selectedLoanTypeId" id="selectedLoanTypeId"
-                (ngModelChange)="onSelectOfLoanType($event)"  required>
+              <select type="text" class="form-control input-sm" [(ngModel)]="LoanTypeId" name="LoanTypeId" id="LoanTypeId"
+            (change)="onSelectOfLoanType($event.target.value)" required>
 <option value="0">Select</option>
-<option *ngFor="let loanType of loanTypeList" [ngValue]="loanType">{{loanType.LoanTypeName}}</option>
+<option *ngFor="let loanType of loanTypeList" value={{loanType.LoanTypeId}}>{{loanType.LoanTypeName}}</option>
 </select> </div>
           </div>
         </div>
         <div class="col-md-5">
-          <div class="form-group">
+          <div class="{{LoanAmountClass}}">
             <label for="LoanAmount" class="col-lg-5 control-label">Loan Amount</label>
             <div class="col-lg-7">
               <input type="text" class="form-control  input-sm" placeholder="Loan Amount" [(ngModel)]="LoanAmount" name="LoanAmount" id="LoanAmount"
-               type="number" min=0   required>
+                type="number" min=0 required>
             </div>
           </div>
         </div>
@@ -176,20 +179,20 @@
 
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="{{TermClass}}">
             <label for="Term" class="col-lg-4 control-label">Full Term of Loan</label>
             <div class="col-lg-6">
               <input type="text" class="form-control  input-sm" placeholder="Full Term of Loan" [(ngModel)]="Term" name="Term" id="Term"
-               type="number" min=0  required>
+                type="number" min=0 required>
             </div>
           </div>
         </div>
         <div class="col-md-5">
-          <div class="form-group">
+          <div class="{{FixedInterestClass}}">
             <label for="FixedInterest" class="col-lg-5 control-label">Fixed Interest</label>
             <div class="col-lg-7" required>
               <input type="text" class="form-control  input-sm" placeholder="Fixed Interest" [(ngModel)]="FixedInterest" name="FixedInterest"
-                id="FixedInterest"  type="number" min=0 max=100>
+                id="FixedInterest" type="number" min=0 max=100>
             </div>
           </div>
         </div>
@@ -205,10 +208,10 @@
           <div class="form-group">
             <label for="CompanyBufferId" class="col-lg-4 control-label">Company Buffer</label>
             <div class="col-lg-6">
-              <select type="text" class="form-control input-sm" [(ngModel)]="selectedCompanyBufferId" name="selectedCompanyBufferId" id="selectedCompanyBufferId"
-                (ngModelChange)="onSelectOfCompanyBuffer($event)">
+              <select type="text" class="form-control input-sm" [(ngModel)]="CompanyBufferId" name="CompanyBufferId" id="CompanyBufferId"
+         (change)="onSelectOfCompanyBuffer($event.target.value)">
 <option value="0">Select</option>
-<option *ngFor="let companyBuffer of companyBufferList" [ngValue]="companyBuffer">{{companyBuffer.ComapnyBufferName}}</option>
+<option *ngFor="let companyBuffer of companyBufferList" value={{companyBuffer.CompanyBufferId}}>{{companyBuffer.ComapnyBufferName}}</option>
 </select>
             </div>
           </div>
@@ -219,7 +222,7 @@
             <label for="CurrentAwplr" class="col-lg-5 control-label">Current AWPLR</label>
             <div class="col-lg-7">
               <input type="text" class="form-control  input-sm" placeholder="Current AWPLR" [(ngModel)]="CurrentAwplr" name="CurrentAwplr"
-                id="CurrentAwplr"  type="number" min=0 ></div>
+                id="CurrentAwplr" type="number" min=0></div>
           </div>
         </div>
         <div class="col-md-2">
@@ -236,7 +239,7 @@
             <label for="AdditionalToAwplr" class="col-lg-4 control-label">Additionto AWPLR</label>
             <div class="col-lg-6">
               <input type="text" class="form-control  input-sm" placeholder="Additionto AWPLR" [(ngModel)]="AdditionalToAwplr" name="AdditionalToAwplr"
-                id="AdditionalToAwplr"  type="number" min=0 >
+                id="AdditionalToAwplr" type="number" min=0>
             </div>
           </div>
         </div>
@@ -245,7 +248,7 @@
             <label for="TermOfFixederest" class="col-lg-5 control-label">Term of Fixed Interest</label>
             <div class="col-lg-7">
               <input type="text" class="form-control  input-sm" placeholder="Term of Fixed Interest" [(ngModel)]="TermOfFixederest" name="TermOfFixederest"
-                id="TermOfFixederest"  type="number" min=0 >
+                id="TermOfFixederest" type="number" min=0>
             </div>
           </div>
         </div>
@@ -254,7 +257,7 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label for="LifeAss1Nic" class="col-lg-4 control-label">Premium Amount</label>
+            <label for="Premium" class="col-lg-4 control-label">Premium Amount</label>
             <div class="col-lg-6">
               <input type="text" class="form-control  input-sm" placeholder="Premium Amount" readonly [(ngModel)]="Premium" name="Premium"
                 id="Premium">
@@ -262,12 +265,21 @@
 
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="PremiumWithPolicyFee" class="col-lg-4 control-label">With Policy Fee</label>
+            <div class="col-lg-6">
+              <input type="text" class="form-control  input-sm" placeholder="Premium With Policy Fee" readonly [(ngModel)]="PremiumWithPolicyFee"
+                name="PremiumWithPolicyFee" id="PremiumWithPolicyFee">
+            </div>
 
+          </div>
+        </div>
 
       </div>
 
 
-      <div class="row">
+      <div class="row" hidden>
         <div class="col-md-6">
           <div class="form-group">
             <label for="LifeAss1Nic" class="col-lg-4 control-label">Need printed quotation?</label>

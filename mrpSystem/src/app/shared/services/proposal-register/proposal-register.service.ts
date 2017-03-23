@@ -20,7 +20,7 @@ export class ProposalRegisterService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let postoptions = new RequestOptions({ headers: headers });
 
-    return this.http.post(URL_CONST.URL_PREFIX + 'api/Main', body, postoptions)
+    return this.http.post(URL_CONST.URL_PREFIX + 'api/Main/AddProposalDetails', body, postoptions)
       .map(res => res)
       .catch((error: any) => {
         this.handleError;

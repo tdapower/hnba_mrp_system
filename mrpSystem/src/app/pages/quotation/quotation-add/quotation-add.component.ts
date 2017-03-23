@@ -52,14 +52,27 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   TermOfFixederest: number;
   Discount: number;
   Premium: number;
+  PremiumWithPolicyFee: number;
+
   LoanTypeId: number;
   LoanTypeName: string = '';
-  BranchCode: string = '';
+  HnbaBranchCode: string = '';
   UserId: string = '';
   Status: string = '';
   RegisterDate: string = '';
 
+  LifeAss1NameClass: string;
+  LifeAss1DobClass: string;
+  LifeAss1AgeClass: string;
+  LifeAss1GenderClass: string;
+  LifeAss1NicClass: string;
+  LoanAmountClass: string;
+  TermClass: string;
+  FixedInterestClass: string;
+  LoanTypeIdClass: string;
+  BranchCodeClass: string;
 
+  isQuotationDetailsValid: boolean = false;
 
   hnbaBranchList: Array<IHnbaBranch> = [];
   loanTypeList: Array<ILoanType> = [];
@@ -134,7 +147,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.Discount = null;
     this.Premium = null;
     this.LoanTypeId = null;
-    this.BranchCode = '';
+    this.HnbaBranchCode = '';
     this.UserId = '';
     this.Status = '';
     this.RegisterDate = '';
@@ -175,19 +188,21 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
 
   onSelectOfLoanType(loanType) {
-
-    console.log(loanType.LoanTypeId);
     this.LoanTypeId = loanType.LoanTypeId;
-    this.LoanTypeName = loanType.LoanTypeName;
+    this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == loanType)[0]['LoanTypeName'];
+
   }
 
 
   onSelectOfCompanyBuffer(companyBuffer) {
-
-
     this.CompanyBufferId = companyBuffer.ComapnyBufferId;
-    this.CompanyBufferValue = companyBuffer.ComapnyBufferName;
+    this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == companyBuffer)[0]['ComapnyBufferName'];
+
   }
+
+
+
+
 
 
 
@@ -197,95 +212,172 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   }
   public SaveQuotation() {
 
-    this.isLoading = true;
+    this.validateFields();
+    console.log(this.isQuotationDetailsValid);
+    if (this.isQuotationDetailsValid) {
+      this.isLoading = true;
 
-    if (this.LifeAss1Age == null) {
-      this.LifeAss1Age = 0;
-    }
-    if (this.LifeAss2Age == null) {
-      this.LifeAss2Age = 0;
-    }
-    if (this.LoanAmount == null) {
-      this.LoanAmount = 0;
-    }
-    if (this.Term == null) {
-      this.Term = 0;
-    }
-    if (this.FixedInterest == null) {
-      this.FixedInterest = 0;
-    }
-    if (this.CompanyBufferId == null) {
-      this.CompanyBufferId = 0;
-    }
-    if (this.CurrentAwplr == null) {
-      this.CurrentAwplr = 0;
-    }
-    if (this.AdditionalToAwplr == null) {
-      this.AdditionalToAwplr = 0;
-    }
-    if (this.TermOfFixederest == null) {
-      this.TermOfFixederest = 0;
-    }
-    if (this.Discount == null) {
-      this.Discount = 0;
-    }
-    if (this.Premium == null) {
-      this.Premium = 0;
-    }
-    if (this.LoanTypeId == null) {
-      this.LoanTypeId = 0;
-    }
+      if (this.LifeAss1Age == null) {
+        this.LifeAss1Age = 0;
+      }
+      if (this.LifeAss2Age == null) {
+        this.LifeAss2Age = 0;
+      }
+      if (this.LoanAmount == null) {
+        this.LoanAmount = 0;
+      }
+      if (this.Term == null) {
+        this.Term = 0;
+      }
+      if (this.FixedInterest == null) {
+        this.FixedInterest = 0;
+      }
+      if (this.CompanyBufferId == null) {
+        this.CompanyBufferId = 0;
+      }
+      if (this.CurrentAwplr == null) {
+        this.CurrentAwplr = 0;
+      }
+      if (this.AdditionalToAwplr == null) {
+        this.AdditionalToAwplr = 0;
+      }
+      if (this.TermOfFixederest == null) {
+        this.TermOfFixederest = 0;
+      }
+      if (this.Discount == null) {
+        this.Discount = 0;
+      }
+      if (this.Premium == null) {
+        this.Premium = 0;
+      }
+      if (this.LoanTypeId == null) {
+        this.LoanTypeId = 0;
+      }
 
-    let obj: IQuotation = {
-      SeqId: 0,
-      QuotationNo: '',
-      RevisionNo: 0,
-      LifeAss1Name: this.LifeAss1Name,
-      LifeAss1Dob: new Date(this.LifeAss1Dob).toLocaleDateString("en-GB"),
-      LifeAss1Age: this.LifeAss1Age,
-      LifeAss1Gender: this.LifeAss1Gender,
-      LifeAss1Nic: this.LifeAss1Nic,
-      LifeAss2Name: this.LifeAss2Name,
-      LifeAss2Dob: new Date(this.LifeAss2Dob).toLocaleDateString("en-GB"),
-      LifeAss2Age: this.LifeAss2Age,
-      LifeAss2Gender: this.LifeAss2Gender,
-      LifeAss2Nic: this.LifeAss2Nic,
-      LoanAmount: this.LoanAmount,
-      Term: this.Term,
-      FixedInterest: this.FixedInterest,
-      CompanyBufferId: this.CompanyBufferId,
-      CurrentAwplr: this.CurrentAwplr,
-      AdditionalToAwplr: this.AdditionalToAwplr,
-      TermOfFixederest: this.TermOfFixederest,
-      Discount: 0,
-      Premium: this.Premium,
-      LoanTypeId: this.LoanTypeId,
-      BranchCode: this.User.BranchCode,
-      UserId: this.User.UserName,
-      Status: COMMON_VALUES.QUOTATION_STATUS_INITIAL,
-      RegisterDate: ''
+      let obj: IQuotation = {
+        SeqId: 0,
+        QuotationNo: '',
+        RevisionNo: 0,
+        LifeAss1Name: this.LifeAss1Name,
+        LifeAss1Dob: new Date(this.LifeAss1Dob).toLocaleDateString("en-GB"),
+        LifeAss1Age: this.LifeAss1Age,
+        LifeAss1Gender: this.LifeAss1Gender,
+        LifeAss1Nic: this.LifeAss1Nic,
+        LifeAss2Name: this.LifeAss2Name,
+        LifeAss2Dob: new Date(this.LifeAss2Dob).toLocaleDateString("en-GB"),
+        LifeAss2Age: this.LifeAss2Age,
+        LifeAss2Gender: this.LifeAss2Gender,
+        LifeAss2Nic: this.LifeAss2Nic,
+        LoanAmount: this.LoanAmount,
+        Term: this.Term,
+        FixedInterest: this.FixedInterest,
+        CompanyBufferId: this.CompanyBufferId,
+        CurrentAwplr: this.CurrentAwplr,
+        AdditionalToAwplr: this.AdditionalToAwplr,
+        TermOfFixederest: this.TermOfFixederest,
+        Discount: 0,
+        Premium: this.Premium,
+        LoanTypeId: this.LoanTypeId,
+        HnbaBranchCode: this.HnbaBranchCode,
+        UserId: this.User.UserName,
+        Status: COMMON_VALUES.QUOTATION_STATUS_INITIAL,
+        RegisterDate: ''
 
-    }
+      }
 
-    console.log(obj);
-    console.log(JSON.stringify(obj));
-    this.quotationService.addQuotationDetails(obj).subscribe((data: any) => {
-      console.log(data);
-      this.showSuccess("Quotation Successfully Saved. Quotation Number - " + data);
-      this.isLoading = false;
-    }),
-      (err) => {
-        // alert(err);
-        console.log(err);
-
+      console.log(obj);
+      console.log(JSON.stringify(obj));
+      this.quotationService.addQuotationDetails(obj).subscribe((data: any) => {
+        console.log(data);
+        this.showSuccess("Quotation Successfully Saved. Quotation Number - " + data);
         this.isLoading = false;
-      },
-      () => console.log('done')
+      }),
+        (err) => {
+          // alert(err);
+          console.log(err);
+
+          this.isLoading = false;
+        },
+        () => console.log('done')
+
+    }
+
 
 
   }
 
+
+  public validateFields() {
+    this.isQuotationDetailsValid = true;
+    if (this.LifeAss1Name == "") {
+      this.LifeAss1NameClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+
+    if (this.LifeAss1Dob == null) {
+      this.LifeAss1DobClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+
+    if (this.LifeAss1Age == null) {
+      this.LifeAss1AgeClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+    if (this.LifeAss1Age < 18) {
+      this.LifeAss1AgeClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+    if (this.LifeAss1Gender == null || this.LifeAss1Gender == "") {
+      this.LifeAss1GenderClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+
+    if (this.LifeAss1Nic == "") {
+      this.LifeAss1NicClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+
+    if (this.LoanAmount == null) {
+      this.LoanAmountClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+
+    if (this.TermOfFixederest == null) {
+      this.TermClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+
+    if (this.FixedInterest == null) {
+      this.FixedInterestClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+
+    if (this.LoanTypeId == null) {
+      this.LoanTypeIdClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+    if (this.HnbaBranchCode == "") {
+      this.BranchCodeClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    }
+
+  }
+
+  public calculateLife1Age(life1Dob: Date) {
+
+    var moment = require('moment');
+    this.LifeAss1Age = moment().diff(moment(life1Dob, 'DD/DD/YYYY'), 'years');
+  }
+
+  public calculateLife2Age(life2Dob: Date) {
+
+    var moment = require('moment');
+    this.LifeAss1Age = moment().diff(moment(life2Dob, 'DD/DD/YYYY'), 'years');
+  }
+
   public Calculate() {
+
+    this.isLoading = true;
     if (this.LifeAss1Age == null) {
       this.LifeAss1Age = 0;
     }
@@ -324,45 +416,58 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     }
 
     var moment = require('moment');
-    var obj = [{
+
+ 
+    var obj = {
       username: this.User.UserName,
       term: this.Term.toString(),
       loan_interest: this.FixedInterest.toString(),
       loan_amount: this.LoanAmount.toString(),
-      grace_period: '0',
+      grace_period: 0,
       dob_life1: moment(this.LifeAss1Dob).format('YYYY/MM/DD'),
       dob_life2: moment(this.LifeAss2Dob).format('YYYY/MM/DD'),
       loan_type: this.LoanTypeName,
-      loan_type_loading_Home_loading: '0',
-      loan_type_loading_car_education_loan: '0',
-      loan_type_loading_business_loan: '0',
-      loan_type_loading_personal_commercial_laon: '0',
       gender_life1: this.LifeAss1Gender,
       gender_life2: this.LifeAss2Gender,
-      Company_Buffer: this.CompanyBufferValue,
+      Company_Buffer: 0,
       Current_AWPLR: this.CurrentAwplr.toString(),
       Addition_to_AWPLR: this.AdditionalToAwplr.toString(),
-      life1_discount: '0',
-      life2_discount: '0',
-      basic_healthExtraPecentage_life1: '0',
-      basic_healthExtraPecentage_life2: '0',
-      tpd_healthExtraPecentage_life1: '0',
-      tpd_healthExtraPecentage_life2: '0',
-      basic_OccupationalExtraPecentage_life1: '0',
-      basic_OccupationalExtraPecentage_life2: '0',
-      tpd_OccupationalExtraPecentage_life1: '0',
-      tpd_OccupationalExtraPecentage_life2: '0',
-      basic_healthExtraPermile_life1: '0',
-      basic_healthExtraPermile_life2: '0',
-      tpd_healthExtraPermile_life1: '0',
-      tpd_healthExtraPermile_life2: '0'
+      life1_discount: 0,
+      life2_discount: 0,
+      basic_healthExtraPecentage_life1: 0,
+      basic_healthExtraPecentage_life2: 0,
+      tpd_healthExtraPecentage_life1: 0,
+      tpd_healthExtraPecentage_life2: 0,
+      basic_healthExtraPermile_life1: 0,
+      basic_healthExtraPermile_life2: 0,
+      tpd_healthExtraPermile_life1: 0,
+      tpd_healthExtraPermile_life2: 0,
+      term_fixed_interest: 0
+
+    };
 
 
-    }]
+    //   console.log(obj);
+    //  console.log(JSON.stringify(obj));
 
-    console.log(obj);
-    console.log(JSON.stringify(obj));
-    this.quotationService.calculateQuotation(obj).subscribe((data: any) => {
+    var data = obj;
+    var keyValPairString = "?";
+    for (var key in data) {
+      //   console.log(key + ' : ' + data[key]);
+      keyValPairString = keyValPairString + key + '=' + data[key] + '&';
+      // alert(key + ' --> ' + data[key]);
+    }
+    //console.log('http://mobileapps.hnbassurance.com/quotation_calculation/webservice/mrptest.php' + keyValPairString);
+    console.log(keyValPairString);
+    this.quotationService.calculateQuotation(keyValPairString).subscribe((data: any) => {
+      console.log(data);
+      //  console.log('Premium = ' + data.data.premium);
+
+
+      this.Premium = data.data.premium;
+      this.PremiumWithPolicyFee = data.data.premium_with_policy_fee;
+
+
       console.log("done");
       this.isLoading = false;
     }),

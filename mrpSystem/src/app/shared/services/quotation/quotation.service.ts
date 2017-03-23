@@ -19,7 +19,7 @@ export class QuotationService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let postoptions = new RequestOptions({ headers: headers });
 
-    return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation', body, postoptions)
+    return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/AddQuotation', body, postoptions)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
@@ -30,13 +30,13 @@ export class QuotationService {
 
 
   calculateQuotation(params) {
-    let body = params;
-    let headers = new Headers({ 'Content-Type': '' });
+    let body = params.toString();
+   // let headers = new Headers({ 'Content-Type': '' });
     //headers.append('Authorization', USER.USER_AUTH_TOKEN);
-    let postoptions = new RequestOptions({ headers: headers });
+   // let postoptions = new RequestOptions({ headers: headers });
 
-    return this.http.post(URL_CONST.CALCULATION_URL, body, postoptions)
-      .map(res => res)
+    return this.http.post(URL_CONST.CALCULATION_URL + body, '')
+      .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
         return Observable.throw(new Error(error.status))
@@ -58,6 +58,20 @@ export class QuotationService {
       });
   }
 
+
+  getQuotationByQuotationId(quotationNo) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
+
+
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Quotation/GetQuotationByQuotationNo?quotationNo='+quotationNo, options)
+      .map((response: Response) => JSON.stringify(response.json()))
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
 
   private handleError(error: Response) {
     console.error('Error occured - ', error);

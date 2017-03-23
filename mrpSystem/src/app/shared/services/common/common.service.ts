@@ -19,7 +19,7 @@ export class CommonService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/LoanType', options)
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/LoanType/get', options)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
@@ -27,12 +27,27 @@ export class CommonService {
       });
   }
 
+  getProposalStatuses() {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/ProposalStatus/get', options)
+      .map((response: Response) => response.json())
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+  
+
+
   getBank() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/Bank', options)
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Bank/get', options)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
@@ -46,7 +61,7 @@ export class CommonService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/BankBranch', options)
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/BankBranch/get', options)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
@@ -54,12 +69,27 @@ export class CommonService {
       });
   }
 
+
+    getBankBranchByBankId(bankId) {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      headers.append('Authorization', USER.USER_AUTH_TOKEN);
+      let options = new RequestOptions({ headers: headers });
+
+      return this.http.get(URL_CONST.URL_PREFIX + 'api/BankBranch/GetBranchByBankId/' + bankId, options)
+        .map((response: Response) => response.json())
+        .catch((error: any) => {
+          this.handleError;
+          return Observable.throw(new Error(error.status))
+        });
+    }
+
+
   getCompanyBuffer() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/CompanyBuffer', options)
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/CompanyBuffer/get', options)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
@@ -72,7 +102,7 @@ export class CommonService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/Currency', options)
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Currency/get', options)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
@@ -85,7 +115,7 @@ export class CommonService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/HnbaBranch', options)
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/HnbaBranch/get', options)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
@@ -98,7 +128,7 @@ export class CommonService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/Nationality', options)
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Nationality/get', options)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
@@ -111,7 +141,7 @@ export class CommonService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/Pending', options)
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Pending/get', options)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;
@@ -125,7 +155,7 @@ export class CommonService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/ReInsuranceCompany', options)
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/ReInsuranceCompany/get', options)
       .map((response: Response) => response.json())
       .catch((error: any) => {
         this.handleError;

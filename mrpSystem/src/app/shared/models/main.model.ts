@@ -20,7 +20,7 @@ export interface IMain
  BranchId :number;
  CurrencyId :number;
  InterestRateType :string;
- HnbaBranchId :number;
+ HnbaBranchCode: string;
  BrokerCode :string;
  ChannelCode :number;
  IsReInsurance :number;

@@ -21,7 +21,6 @@ import { ProposalRegisterService } from './shared/services/proposal-register/pro
 
 
 import { QuotationAddComponent } from './pages/quotation/quotation-add/quotation-add.component';
-import { ProposalAddComponent } from './pages/proposal/proposal-add/proposal-add.component';
 import { ProposalRegisterComponent } from './pages/proposal/proposal-register/proposal-register.component';
 import { UserLoginComponent } from './pages/user/user-login/user-login.component';
 import { LayoutComponent } from './layout/layout/layout.component';
@@ -31,19 +30,20 @@ import { AuthGuard } from '../app/authGuard';
 import { SpinnerLargeComponent } from './layout/spinner-large/spinner-large.component';
 import { SpinnerTopComponent } from './layout/spinner-top/spinner-top.component';
 import { QuotationSearchComponent } from './pages/quotation/quotation-search/quotation-search.component';
+import { ProposalUpdateComponent } from './pages/proposal/proposal-update/proposal-update.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     QuotationAddComponent,
-    ProposalAddComponent,
     ProposalRegisterComponent,
     UserLoginComponent,
     LayoutComponent,
     SpinnerLargeComponent,
     SpinnerTopComponent,
-    QuotationSearchComponent
+    QuotationSearchComponent,
+    ProposalUpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -63,6 +63,7 @@ import { QuotationSearchComponent } from './pages/quotation/quotation-search/quo
     AuthenticationService,
     AuthGuard,
     CommonService,
+    ProposalRegisterService,
     ProposalUpdateService,
     ProposalRegisterComponent],
 

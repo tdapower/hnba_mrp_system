@@ -22,7 +22,7 @@ export interface IQuotation {
     Discount: number;
     Premium: number;
     LoanTypeId: number;
-    BranchCode: string;
+    HnbaBranchCode: string;
     UserId: string;
     Status: string;
     RegisterDate: string;
