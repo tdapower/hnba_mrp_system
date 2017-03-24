@@ -189,7 +189,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.proposalStatusList = data
         this.isLoading = false;
       },
-      (err) => console.log(err));
+      (err) => {
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error loading Statuses");
+
+      });
   }
 
 
@@ -200,7 +206,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.nationalityList = data
         this.isLoading = false;
       },
-      (err) => console.log(err));
+      (err) => {
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error loading Nationalities");
+
+      });
   }
 
 
@@ -211,7 +223,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.bankList = data
         this.isLoading = false;
       },
-      (err) => console.log(err));
+      (err) => {
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error loading Banks");
+
+      });
   }
 
 
@@ -222,13 +240,25 @@ export class ProposalRegisterComponent implements OnInit {
         this.loanTypeList = data
         this.isLoading = false;
       },
-      (err) => console.log(err));
+      (err) => {
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error loading Loan Types");
+
+      });
   }
 
   onSelectOfBankId(bankId) {
     this.commonService.getBankBranchByBankId(bankId)
       .subscribe((data) => { this.bankBranchList = data },
-      (err) => console.log(err));
+      (err) => {
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error loading Bank Branches");
+
+      });
   }
 
 
@@ -284,7 +314,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.Life2Nic = obj.LifeAss2Nic;
 
       },
-      (err) => console.log(err));
+      (err) => {
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error loading quotation details");
+
+      });
   }
 
 
@@ -389,8 +425,8 @@ export class ProposalRegisterComponent implements OnInit {
         LoanTypeId: this.LoanTypeId,
         ReInsCompanyId: 0,
         ExchangeRate: 0,
-        DateOfCommence: '',
-        DateOfProposal: '',
+        DateOfCommence: '01/01/1970',
+        DateOfProposal: '01/01/1970',
         Premium: this.Premium,
         PremiumWithPolicyFee: 0,
         Status: this.Status,
@@ -405,14 +441,15 @@ export class ProposalRegisterComponent implements OnInit {
         console.log(data);
         this.showSuccess("Proposal Successfully Saved.");
         this.isLoading = false;
-      }),
+      },
         (err) => {
           // alert(err);
           console.log(err);
 
           this.isLoading = false;
+          this.showError("Error while saving Proposal.");
         },
-        () => console.log('done')
+        () => console.log('done'));
 
     }
 

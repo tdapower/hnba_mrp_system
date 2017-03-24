@@ -47,7 +47,7 @@ export class UserLoginComponent implements OnInit {
           console.log(USER.USER_AUTH_TOKEN);
 
           localStorage.setItem("currentMRPUser", JSON.stringify(this.User));
-          this.router.navigate(['/', 'proposalReg']);
+          this.router.navigate(['/', 'add']);
 
         } else {
           this.message = "Invalid User name or Password...";

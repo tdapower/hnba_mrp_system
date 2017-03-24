@@ -67,16 +67,14 @@
           <div class="{{LifeAss1DobClass}}">
             <label for="" class="col-lg-4 control-label">Date of Birth</label>
             <div class="col-lg-8">
-              <datetime name="LifeAss1Dob" id="LifeAss1Dob" [(ngModel)]="LifeAss1Dob" [timepicker]="false"
-               (ngModelChange)="calculateLife1Age($event)" ></datetime>
+              <datetime name="LifeAss1Dob" id="LifeAss1Dob" [(ngModel)]="LifeAss1Dob" [timepicker]="false" (ngModelChange)="calculateLife1Age($event)"></datetime>
             </div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <div class="col-lg-8">
-              <datetime name="LifeAss2Dob" id="LifeAss2Dob" [(ngModel)]="LifeAss2Dob" [timepicker]="false" 
-              (ngModelChange)="calculateLife2Age($event)"></datetime>
+              <datetime name="LifeAss2Dob" id="LifeAss2Dob" [(ngModel)]="LifeAss2Dob" [timepicker]="false" (ngModelChange)="calculateLife2Age($event)"></datetime>
             </div>
           </div>
         </div>
@@ -156,8 +154,7 @@
           <div class="{{LoanTypeIdClass}}">
             <label for="LoanTypeId" class="col-lg-4 control-label">Loan Type</label>
             <div class="col-lg-6">
-              <select type="text" class="form-control input-sm" [(ngModel)]="LoanTypeId" name="LoanTypeId" id="LoanTypeId"
-            (change)="onSelectOfLoanType($event.target.value)" required>
+              <select type="text" class="form-control input-sm" [(ngModel)]="LoanTypeId" name="LoanTypeId" id="LoanTypeId" required>
 <option value="0">Select</option>
 <option *ngFor="let loanType of loanTypeList" value={{loanType.LoanTypeId}}>{{loanType.LoanTypeName}}</option>
 </select> </div>
@@ -205,14 +202,15 @@
 
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
+          <div class="{{CompanyBufferClass}}">
             <label for="CompanyBufferId" class="col-lg-4 control-label">Company Buffer</label>
             <div class="col-lg-6">
-              <select type="text" class="form-control input-sm" [(ngModel)]="CompanyBufferId" name="CompanyBufferId" id="CompanyBufferId"
-         (change)="onSelectOfCompanyBuffer($event.target.value)">
+              <select type="text" class="form-control input-sm" [(ngModel)]="CompanyBufferId" name="CompanyBufferId" id="CompanyBufferId">
 <option value="0">Select</option>
-<option *ngFor="let companyBuffer of companyBufferList" value={{companyBuffer.CompanyBufferId}}>{{companyBuffer.ComapnyBufferName}}</option>
+<option *ngFor="let companyBuffer of companyBufferList" value={{companyBuffer.CompanyBufferId}}>{{companyBuffer.CompanyBufferName}}</option>
 </select>
+
+
             </div>
           </div>
         </div>
@@ -310,14 +308,14 @@
 
         </div>
         <div class="col-md-2">
+          <button class="btn btn-primary btn-block  btn-sm" (click)="Calculate()" type="button">Calculate</button>
+        </div>
+        <div class="col-md-2">
 
           <button class="btn btn-primary btn-block  btn-sm" (click)="SaveQuotation()" type="button">Save</button>
 
         </div>
 
-        <div class="col-md-2">
-          <button class="btn btn-primary btn-block  btn-sm" (click)="Calculate()" type="button">Calculate</button>
-        </div>
 
         <div class="col-md-2">
 
