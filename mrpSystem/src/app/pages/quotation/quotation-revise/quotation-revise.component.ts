@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MomentModule } from 'angular2-moment';
 
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService, ToastrConfig } from 'toastr-ng2';
 
 import { CommonService } from '../../../shared/services/common/common.service';
@@ -16,11 +17,11 @@ import { IUser } from '../../../shared/models/user/user.model';
 import { COMMON_VALUES } from '../../../shared/config/commonValues';
 declare var jQuery: any;
 @Component({
-  selector: 'app-quotation-add',
-  templateUrl: './quotation-add.component.html',
-  styleUrls: ['./quotation-add.component.css']
+  selector: 'app-quotation-revise',
+  templateUrl: './quotation-revise.component.html',
+  styleUrls: ['./quotation-revise.component.css']
 })
-export class QuotationAddComponent implements OnInit, AfterViewInit {
+export class QuotationReviseComponent implements OnInit, AfterViewInit {
 
   isLoading: boolean;
 
@@ -34,12 +35,12 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   BaseQuotationNo: string = '';
   RevisionNo: number = 0;
   LifeAss1Name: string = '';
-  LifeAss1Dob: string = '';
+  LifeAss1Dob: Date = new Date();
   LifeAss1Age: number;
   LifeAss1Gender: string = '';
   LifeAss1Nic: string = '';
   LifeAss2Name: string = '';
-  LifeAss2Dob: string = '';
+  LifeAss2Dob: Date = new Date();
   LifeAss2Age: number;
   LifeAss2Gender: string = '';
   LifeAss2Nic: string = '';
@@ -76,6 +77,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
 
   isQuotationDetailsValid: boolean = false;
+  isEditable: boolean = false;
+
 
   hnbaBranchList: Array<IHnbaBranch> = [];
   loanTypeList: Array<ILoanType> = [];
@@ -85,10 +88,20 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   constructor(private quotationService: QuotationService,
     private commonService: CommonService, moment: MomentModule,
     private toastrService: ToastrService,
-    toastrConfig: ToastrConfig) {
-    toastrConfig.timeOut = 0;
+    toastrConfig: ToastrConfig, private activatedRoute: ActivatedRoute) {
+    toastrConfig.timeOut = 10000;
     toastrConfig.closeButton = true;
     toastrConfig.tapToDismiss = true;
+
+
+    this.SeqId = activatedRoute.snapshot.params['SeqId'];
+
+    console.log('SeqId by view ' + this.SeqId);
+
+
+    this.loadQuotationDetails();
+
+
   }
 
   ngOnInit() {
@@ -130,15 +143,14 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.SeqId = 0;
     this.QuotationNo = '';
     this.BaseQuotationNo = '';
-    
     this.RevisionNo = 0;
     this.LifeAss1Name = '';
-    this.LifeAss1Dob = '';
+    this.LifeAss1Dob = new Date();
     this.LifeAss1Age = null;
     this.LifeAss1Gender = '';
     this.LifeAss1Nic = '';
     this.LifeAss2Name = '';
-    this.LifeAss2Dob = '';
+    this.LifeAss2Dob = new Date();
     this.LifeAss2Age = null;
     this.LifeAss2Gender = '';
     this.LifeAss2Nic = '';
@@ -283,9 +295,9 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
       let obj: IQuotation = {
         SeqId: 0,
-        QuotationNo: '',
-        BaseQuotationNo: '',
-        RevisionNo: 0,
+        QuotationNo: this.QuotationNo,
+        BaseQuotationNo: this.BaseQuotationNo,
+        RevisionNo: this.RevisionNo,
         LifeAss1Name: this.LifeAss1Name,
         LifeAss1Dob: new Date(this.LifeAss1Dob).toLocaleDateString("en-GB"),
         LifeAss1Age: this.LifeAss1Age,
@@ -309,20 +321,26 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         LoanTypeId: this.LoanTypeId,
         HnbaBranchCode: this.HnbaBranchCode,
         UserId: this.User.UserName,
-        Status: COMMON_VALUES.QUOTATION_STATUS_INITIAL,
+        Status: COMMON_VALUES.QUOTATION_STATUS_REVISED,
         RegisterDate: ''
 
       }
 
       console.log(obj);
       console.log(JSON.stringify(obj));
-      this.quotationService.addQuotationDetails(obj).subscribe((data: any) => {
-        console.log(data);
-        this.showSuccess("Quotation Successfully Saved. Quotation Number - " + data);
+      this.quotationService.reviseQuotation(obj).subscribe((data: any) => {
+
+
+        if (data.status == 200) {
+          this.showSuccess("Revised Quotation Successfully Saved.");
+          this.isEditable = false;
+          console.log(this.isEditable);
+          
+        }
         this.isLoading = false;
       },
         (err) => {
-          // alert(err);
+
           console.log(err);
 
           this.isLoading = false;
@@ -604,5 +622,93 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     );
 
 
+  }
+
+
+
+
+  loadQuotationDetails() {
+    this.quotationService.getQuotationBySeqId(this.SeqId)
+      .subscribe((data) => {
+        console.log(data);
+
+        let obj: IQuotation = JSON.parse(data);
+
+
+        this.SeqId = obj.SeqId;
+        this.QuotationNo = obj.QuotationNo;
+        this.BaseQuotationNo = obj.BaseQuotationNo;
+        this.RevisionNo = obj.RevisionNo;
+        this.LifeAss1Name = obj.LifeAss1Name;
+        this.LifeAss1Dob = new Date(obj.LifeAss1Dob);
+        this.LifeAss1Age = obj.LifeAss1Age;
+        this.LifeAss1Gender = obj.LifeAss1Gender;
+        this.LifeAss1Nic = obj.LifeAss1Nic;
+        this.LifeAss2Name = obj.LifeAss2Name;
+        this.LifeAss2Dob = new Date(obj.LifeAss2Dob);
+        this.LifeAss2Age = obj.LifeAss2Age;
+        this.LifeAss2Gender = obj.LifeAss2Gender;
+        this.LifeAss2Nic = obj.LifeAss2Nic;
+        this.LoanAmount = obj.LoanAmount;
+        this.Term = obj.Term;
+        this.FixedInterest = obj.FixedInterest;
+        this.CompanyBufferId = obj.CompanyBufferId;
+        this.CurrentAwplr = obj.CurrentAwplr;
+        this.AdditionalToAwplr = obj.AdditionalToAwplr;
+        this.TermOfFixedInterest = obj.TermOfFixedInterest;
+        this.Discount = obj.Discount;
+        this.Premium = obj.Premium;
+        this.PremiumWithPolicyFee = obj.PremiumWithPolicyFee;
+        this.LoanTypeId = obj.LoanTypeId;
+        this.HnbaBranchCode = obj.HnbaBranchCode;
+        this.UserId = obj.UserId;
+        this.Status = obj.Status;
+        this.RegisterDate = obj.RegisterDate;
+
+
+        console.log(this.LifeAss1Dob);
+
+
+      },
+      (err) => console.log(err));
+
+  }
+
+
+  public ReviseQuotation() {
+    //chck is this quotation is revised here
+
+    this.quotationService.getMaxRevisionNo(this.BaseQuotationNo)
+      .subscribe((data) => {
+        if (data.toString().replace(/"/g, '') == this.RevisionNo.toString()) {
+
+          this.RevisionNo = this.RevisionNo + 1;
+          if (this.RevisionNo > 1) {
+            this.QuotationNo = this.QuotationNo.substring(0, 11) + 'R' + this.zeroPad(this.RevisionNo, 2);
+          } else {
+            this.QuotationNo = this.QuotationNo + 'R' + this.zeroPad(this.RevisionNo, 2);
+          }
+          this.isEditable = true;
+        } else {
+          this.showWarning("This quotation is revised and this is not the latest revision.");
+
+        }
+
+
+      },
+      (err) => console.log(err));
+
+
+
+
+
+
+
+  }
+
+
+  public zeroPad(num, places) {
+    var zero = places - num.toString().length + 1;
+    return Array(+(zero > 0 && zero)).join("0") + num;
   }
 }

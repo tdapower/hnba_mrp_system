@@ -1,3 +1,1128 @@
-<p>
-  proposal-update works!
-</p>
+<form class="form-horizontal" role="form">
+  <div class="panel-body">
+    <!-- Tab headers-->
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#general" data-toggle="tab" aria-expanded="true">General</a></li>
+      <li class=""><a href="#loan" data-toggle="tab" aria-expanded="false">Loan</a></li>
+      <li class=""><a href="#policy" data-toggle="tab" aria-expanded="false">Policy</a></li>
+    </ul>
+
+    <!--outer tab body-->
+    <div id="myTabContent" class="tab-content">
+
+      <!--In General Tab-->
+      <div class="tab-pane fade active in" id="general">
+        <div class="panel-body">
+          <!-- 1st row-->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="medicalType" class="col-lg-4  control-label">Medical Type</label>
+                <div class="col-lg-6">
+                  <select class="form-control input-sm input-sm" id="medicalType" name="medicalType" [(ngModel)]="medicalType">
+                                  <option value="0">Select Type</option>
+                                  <option>Medical</option>
+                                  <option>Non - Medical</option>
+                                </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+
+              <div class="{{revisionNoClass}}">
+                <label for="revisionNo" class="col-lg-4  control-label">Revision</label>
+                <div class="col-lg-6">
+                  <input type="number" class="form-control input-sm input-sm" id="revisionNo" name="revisionNo" required [(ngModel)]="revisionNo"
+                    placeholder="Revision No" required [(ngModel)]="revisionNo">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--End of the 1st row-->
+          <!--2nd row-->
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{customerName1Class}}">
+                <label for="customerName1" class="col-lg-4  control-label">Customer Name</label>
+                <div class="col-lg-6">
+                  <input type="text" class="form-control input-sm" id="customerName1" name="customerName1" required [(ngModel)]="customerName1"
+                    placeholder="Life Assurance 1">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-lg-6">
+                  <input type="text" class="form-control input-sm" id="customerName2" placeholder="Life Assurance 2">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!--3rd row-->
+
+          <div class="row">
+            <div class="col-md-6">
+
+
+              <div class="{{nic1Class}}">
+                <label for="nic1" class="col-lg-4  control-label">NIC</label>
+                <div class="col-lg-6">
+                  <input type="text" maxlength="10" class="form-control input-sm" id="nic1" name="nic1" required [(ngModel)]="nic1" placeholder="Life Assurance 1">
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-lg-6">
+                  <input type="text" maxlength="10" class="form-control input-sm" id="nic2" name="nic2" required [(ngModel)]="nic2" placeholder="Life Assurance 2">
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!--4th row-->
+          <div class="row">
+            <div class="col-md-6">
+
+
+              <div class="{{occupation1Class}}">
+                <label for="occupation1" class="col-lg-4  control-label">Occupation</label>
+                <div class="col-lg-6">
+                  <input type="text" class="form-control input-sm" id="occupation1" name="occupation1" required [(ngModel)]="occupation1" placeholder="Life Assurance 1">
+                </div>
+              </div>
+
+
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-lg-6">
+
+                  <input type="text" class="form-control input-sm" id="occupation2" name="occupation2" required [(ngModel)]="occupation2" placeholder="Life Assurance 2">
+
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!--5th row-->
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="{{dob1Class}}">
+                <label for="dob1" class="col-lg-4  control-label">Date of Birth</label>
+                <div class="col-lg-6">
+
+                  <datetime name="dob1" id="dob1" [(ngModel)]="dob1" [timepicker]="false">
+                  </datetime>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-lg-6">
+
+
+                  <datetime name="dob2" id="dob2" [(ngModel)]="dob1dob2" [timepicker]="false">
+                  </datetime>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="{{age1Class}}">
+                <label for="age1" class="col-lg-4  control-label">Age</label>
+                <div class="col-lg-6">
+                  <input type="number" class="form-control input-sm" id="age1" name="age1" required [(ngModel)]="age1" placeholder="Life 1">
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-lg-6">
+
+                  <input type="number" class="form-control input-sm" id="age2" name="age2" required [(ngModel)]="age2" placeholder="Life 2">
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{gender1Class}}">
+                <label for="gender1" class="col-lg-4  control-label">Gender</label>
+                <div class="col-lg-6">
+                  <select class="form-control input-sm" id="gender1" name="gender1" required [(ngModel)]="gender1">
+                                  <option>Male</option>
+                                  <option>Female</option>
+                                </select>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-lg-6">
+
+                  <select class="form-control input-sm" id="gender2" name="gender2" required [(ngModel)]="gender2">
+                                  <option>Male</option>
+                                  <option>Female</option>
+                                </select>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="{{nationality1Class}}">
+                <label for="nationality1" type="text" class="col-lg-4  control-label">Nationality</label>
+                <div class="col-lg-6">
+                  <select class="form-control input-sm" id="nationality1" name="nationality1" required [(ngModel)]="nationality1">
+                                    <option value="0">Select Nationality</option>
+                                    <option *ngFor="let nation of nationalityList" value={{nation.Id}}>{{nation.Adjective}}</option>
+                                  </select>
+
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-lg-6">
+
+
+                  <select type="text" class="form-control input-sm" id="nationality2" name="nationality2" required [(ngModel)]="nationality2">
+                              <option value="0">Select Nationality</option>
+                              <option *ngFor="let nation of nationalityList" value={{nation.Id}}>{{nation.Adjective}}</option>
+                            
+                            </select>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <span class="label label-primary">Measurements</span>
+
+          <div class="row">
+
+            <label for="heightCm1" class="col-md-2  control-label">Height</label>
+
+            <div class="col-md-2">
+
+              <div class="{{heightCm1Class}}">
+
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="heightCm1" name="heightCm1" required [(ngModel)]="heightCm1" placeholder="cm"
+                   (ngModelChange)="valueChangeHeightCm1($event)">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="{{heightInch1Class}}">
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="heightInch1" name="heightInch1" required [(ngModel)]="heightInch1"
+                    placeholder="inch"  (ngModelChange)="valueChangeHeightInch1($event)">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="heightCm2" name="heightCm2" required [(ngModel)]="heightCm2" placeholder="cm" 
+                (ngModelChange)="valueChangeHeightCm2($event)">
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="heightInch2" name="heightInch2" required [(ngModel)]="heightInch2"
+                placeholder="inch"  (ngModelChange)="valueChangeHeightInch2($event)">
+            </div>
+          </div>
+
+          <div class="row">
+
+            <label for="heightCm1" class="col-md-2  control-label">Weight</label>
+
+            <div class="col-md-2">
+
+              <div class="{{weightKg1Class}}">
+
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="weightKg1" name="weightKg1" required [(ngModel)]="weightKg1" placeholder="kg" 
+                   (ngModelChange)="valueChangeWeightKg1($event)">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="{{weightLbs1Class}}">
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="weightLbs1" name="weightLbs1" required [(ngModel)]="weightLbs1" placeholder="lbs"
+                   (ngModelChange)="valueChangeWeightLbs1($event)">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="weightKg2" name="weightKg2" required [(ngModel)]="weightKg2" placeholder="kg"
+               (ngModelChange)="valueChangeWeightKg2($event)">
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="weightLbs2" name="weightLbs2" required [(ngModel)]="weightLbs2" placeholder="lbs"
+               (ngModelChange)="valueChangeWeightLbs2($event)">
+
+            </div>
+          </div>
+
+
+
+          <div class="row">
+
+            <label for="bmi" class="col-md-2  control-label">BMI</label>
+
+            <div class="col-md-2">
+
+              <div class="form-group">
+
+                <div class="col-lg-12">
+                  <span class="form-control input-sm" >{{bmi1}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <div class="col-lg-12">
+                  <span class="form-control input-sm"  >{{bmi2}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+
+
+            </div>
+          </div>
+
+
+
+          <span class="label label-primary">Contact Details</span>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{addressClass}}">
+                <label for="address" class="col-lg-4  control-label">Address</label>
+                <div class="col-lg-4">
+                  <textarea id="address" name="address" required [(ngModel)]="address" class="form-control input-sm" rows="4" cols="8" placeholder="Address"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{contact1Class}}">
+                <label for="contact1" class="col-lg-4  control-label">Contact Number</label>
+                <div class="col-lg-4">
+                  <input type="number" class="form-control input-sm" id="contact1" name="contact1" required [(ngModel)]="contact1" placeholder="Life Assurance 1">
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+
+              <div class="col-lg-4">
+                <input type="number" class="form-control input-sm" id="contact2" name="contact2" required [(ngModel)]="contact2" placeholder="Life Assurance 2">
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{email1Class}}">
+                <label for="email1" class="col-lg-4  control-label">E-mail</label>
+                <div class="col-lg-4">
+                  <input type="email" class="form-control input-sm" id="email1" name="email1" required [(ngModel)]="email1" placeholder="Life Assurance 1">
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="col-lg-4">
+                <input type="email" class="form-control input-sm" id="email2" name="email2" required [(ngModel)]="email2" placeholder="Life Assurance 2">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of General Tab-->
+
+      <div class="tab-pane fade" id="loan">
+        <div class="panel-body">
+          <!--1st Row-->
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="loanType" class="col-lg-4  control-label">Loan Type</label>
+                <div class="col-lg-6">
+                  <select class="form-control input-sm" id="loanType" name="loanType" required [(ngModel)]="loanType">
+                        <option value="0">Select Type</option>
+                        <option *ngFor="let loan of loanTypeList" value={{loan.LoanTypeId}}>{{loan.LoanTypeName}}</option>
+                      </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="{{loanAmountClass}}">
+
+                <label for="loanAmount" class="col-lg-4 control-label">Loan Amount</label>
+                <div class="col-lg-4">
+                  <input type="number" class="form-control input-sm" id="loanAmount" name="loanAmount" required [(ngModel)]="loanAmount" placeholder="Enter Loan Amount">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{interestClass}}">
+                <label for="interest" class="col-lg-4  control-label">Interest</label>
+                <div class="col-lg-4">
+                  <input type="number" class="form-control input-sm" id="interest" name="interest" required [(ngModel)]="interest" placeholder="Enter Interest">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="{{termClass}}">
+                <label for="term" class="col-lg-4  control-label">Term</label>
+                <div class="col-lg-6">
+                  <input type="number" class="form-control input-sm" id="term" name="term" required [(ngModel)]="term" placeholder="Term">
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+
+              <div class="{{termOfFixedInterestClass}}">
+                <label for="termOfFixedInterest" class="col-lg-4 control-label">Term of Fixed Interest</label>
+                <div class="col-lg-4">
+                  <input type="number" class="form-control input-sm" id="termOfFixedInterest" name="termOfFixedInterest" required [(ngModel)]="termOfFixedInterest">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="{{fullTermInMonthsClass}}">
+                <label for="fullTermInMonths" class="col-lg-4 control-label">Full Term in Months</label>
+                <div class="col-lg-6">
+                  <input type="number" class="form-control input-sm" id="fullTermInMonths" name="fullTermInMonths" required [(ngModel)]="fullTermInMonths"
+                    placeholder="">
+                </div>
+              </div>
+
+
+            </div>
+            <div class="col-md-6">
+
+              <div class="{{gracePeriodInMonthsClass}}">
+                <label for="gracePeriodInMonths" class="col-lg-4  control-label">Grace Period in Months</label>
+                <div class="col-lg-4">
+                  <input type="number" class="form-control input-sm" id="gracePeriodInMonths" name="gracePeriodInMonths" required [(ngModel)]="gracePeriodInMonths"
+                    placeholder="">
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="form-group">
+
+                <label for="companyBuffer" class="col-lg-4  control-label">Company Buffer</label>
+                <div class="col-lg-6">
+                  <select class="form-control input-sm" id="companyBuffer" name="companyBuffer" required [(ngModel)]="companyBuffer">
+                        <option value="0">Select Option</option>
+                        <option *ngFor="let companyBuff of companyBufferList" value={{companyBuff.companyBufferId}}>{{companyBuff.companyBufferName}}</option>
+                      </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+            </div>
+
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="{{currentAwplrClass}}">
+                <label for="currentAwplr" class="col-lg-4  control-label">Current AWPLR</label>
+                <div class="col-lg-6">
+                  <input type="number" id="currentAwplr" name="currentAwplr" required [(ngModel)]="currentAwplr" class="form-control input-sm">
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+
+              <div class="{{addtitionToAwplrClass}}">
+                <label for="addtitionToAwplr" class="col-lg-4  control-label">Addition To AWPLR</label>
+                <div class="col-lg-4">
+                  <input type="number" id="addtitionToAwplr" name="addtitionToAwplr" required [(ngModel)]="addtitionToAwplr" class="form-control input-sm">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="currency" class="col-lg-4  control-label">Currency</label>
+                <div class="col-lg-4">
+                  <select class="form-control input-sm" id="currency" name="currency" required [(ngModel)]="currency">
+                        <option value="0">Select Currency</option>
+                        <option *ngFor="let curr of currencyList" value={{curr.CurrencyId}}>{{curr.CurrencyName}}</option>
+              </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{bankClass}}">
+
+                <label for="selectedBankId" class="col-lg-4  control-label">Bank</label>
+                <div class="col-lg-4">
+
+                  <select type="text" class="form-control input-sm" [(ngModel)]="selectedBankId" name="selectedBankId" id="selectedBankId"
+                    (ngModelChange)="onSelectOfBankId($event)">
+<option value="0">Select</option>
+<option *ngFor="let bank of bankList" value={{bank.BankId}}>{{bank.BankName}}</option>
+</select>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+
+              <div class="{{bankBranchClass}}">
+                <label for="bankBranch" class="col-lg-4  control-label">Bank Branch</label>
+                <div class="col-lg-3">
+
+                  <select type="text" class="form-control input-sm" [(ngModel)]="BranchId" name="BranchId" id="BranchId">
+<option value="0">Select</option>
+<option *ngFor="let bankBranch of bankBranchList" value={{bankBranch.BankBranchId}}>{{bankBranch.BankBranchName}}</option>
+</select>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+
+                <label for="hnbaBranch" class="col-lg-4  control-label">HNBA Branch</label>
+                <div class="col-lg-4">
+                  <select class="form-control input-sm" id="hnbaBranchCode" name="hnbaBranchCode" required [(ngModel)]="hnbaBranchCode">
+                  <option value="0">Select Branch</option>
+                  <option *ngFor="let branch of hnbaBranchList" value={{branch.HnbaCode}}>{{branch.HnbaBranchName}}</option>              
+                </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+
+              <div class="{{hnbaCodeClass}}">
+                <label for="hnbaCode" class="col-lg-4  control-label">HNBA Code</label>
+                <div class="col-lg-4">
+                  <input type="text" id="hnbaCode" name="hnbaCode" required [(ngModel)]="hnbaCode" class="form-control input-sm" placeholder="HNBA Code">
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+
+                <label for="brokerCode" class="col-lg-4 form  control-label">Broker Code</label>
+                <div class="col-lg-4">
+                  <select class="form-control input-sm" id="brokerCode" name="brokerCode" required [(ngModel)]="brokerCode">
+              <option value="0">Select Broker code</option>
+              <option *ngFor="let broker of brokerList" value={{broker.BrokerId}}>{{broker.BrokerCode}}</option>
+            </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+
+                <label for="channelCode" class="col-lg-4  control-label">Channel Code</label>
+                <div class="col-lg-4">
+                  <select class="form-control input-sm" id="channelCode" name="channelCode" required [(ngModel)]="channelCode">
+              <option value="0">Select Code</option>
+              <option *ngFor="let channel of channelList" value={{channel.ChannelId}}>{{channel.ChannelCode}}</option>
+            </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="isReinsurance" class="col-lg-4 control-label">Is Re-Insurance</label>
+                <div class="col-lg-4">
+
+
+
+                  <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked   [(ngModel)]="isReinsurance"  name="isReinsurance" id="isReinsurance"/>
+    <span data-on="Yes" data-off="No"></span>
+  </label>
+
+                </div>
+              </div>
+
+
+            </div>
+
+            <div class="col-md-6">
+
+              <div class="form-group" *ngIf="isReinsurance">
+                <label for="reInsuranceCompany" class="col-lg-4  control-label">Re-insurance Company</label>
+                <div class="col-lg-4">
+                  <select class="form-control input-sm" id="reInsuranceCompany" name="reInsuranceCompany" [(ngModel)]="reInsuranceCompany">
+                      <option value="0">Select Company</option>
+                      <option *ngFor="let reInsCompany of reInsuranceCompanyList" value={{reInsCompany.ReInsuranceCompanyId}}>{{reInsCompany.ReInsuranceCompanyName}}</option>        
+                    </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{hnbaRefnoLife1Class}}">
+                <label for="hnbaRefnoLife1" class="col-lg-4  control-label">HNBA Ref No</label>
+                <div class="col-lg-4">
+                  <input type="text" class="form-control input-sm" id="hnbaRefnoLife1" name="hnbaRefnoLife1" required [(ngModel)]="hnbaRefnoLife1"
+                    placeholder="Life Assurance 01">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-lg-4">
+
+                  <input type="text" class="form-control input-sm" id="hnbaRefnoLife2" name="hnbaRefnoLife2" required [(ngModel)]="hnbaRefnoLife2"
+                    placeholder="Life Assurance 02">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{RiRefnoLife1Class}}">
+                <label for="RiRefnoLife1" class="col-lg-4  control-label">RI Ref No</label>
+                <div class="col-lg-4">
+                  <input type="text" class="form-control input-sm" id="RiRefnoLife1" name="RiRefnoLife1" required [(ngModel)]="RiRefnoLife1"
+                    placeholder="Life Assurance 01">
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+
+              <div class="form-group">
+                <div class="col-lg-4">
+                  <input type="text" class="form-control input-sm" id="RiRefnoLife2" name="RiRefnoLife2" required [(ngModel)]="RiRefnoLife2"
+                    placeholder="Life Assurance 02">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{exchangeRateClass}}">
+                <label for="exchangeRate" class="col-lg-4  control-label">Exchange Rate</label>
+                <div class="col-lg-4">
+                  <input type="number" class="form-control input-sm" id="exchangeRate" name="exchangeRate" required [(ngModel)]="exchangeRate"
+                    placeholder="Exchange Rate">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+      <!-- policy tab-->
+
+      <div class="tab-pane fade" id="policy">
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="{{policyNoClass}}">
+                  <label for="policyNo" class="col-lg-4  control-label">Policy Number</label>
+                  <div class="col-lg-4">
+                    <input type="number" id="policyNo" name="policyNo" required [(ngModel)]="policyNo" class="form-control input-sm">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+
+            </div>
+
+          </div>
+
+
+
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="{{dateOfCommenceClass}}">
+                <label for="dateOfCommence" class="col-lg-4  control-label">Date of Commence</label>
+                <div class="col-lg-4">
+
+                  <datetime name="dateOfCommence" id="dateOfCommence" [(ngModel)]="dateOfCommence" [timepicker]="false">
+                  </datetime>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+
+              <div class="{{dateOfProposalClass}}">
+                <label for="dateOfProposal" class="col-lg-4  control-label">Date of Proposal</label>
+                <div class="col-lg-4">
+
+                  <datetime name="dateOfProposal" id="dateOfProposal" [(ngModel)]="dateOfProposal" [timepicker]="false">
+                  </datetime>
+
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <!--<span class="label label-primary">Additional</span>
+
+
+        <div class="col-lg-3"></div>
+        <div class="col-lg-4"><span class="label label-default">Life Assurance 1</span></div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-4"><span class="label label-default">Life Assurance 2</span></div>-->
+
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="{{previousPolicies1Class}}">
+                <label for="previousPolicies1" class="col-lg-4  control-label">Previous Policies</label>
+                <div class="col-lg-8">
+                  <input type="text" class="form-control input-sm" id="previousPolicies1" name="previousPolicies1" [(ngModel)]="previousPolicies1"
+                    placeholder="Life Assurance 01">
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="col-lg-8">
+                  <input type="text" class="form-control input-sm" id="previousPolicies2" name="previousPolicies2" [(ngModel)]="previousPolicies2"
+                    placeholder="Life Assurance 02">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+
+          <div class="row">
+
+            <label for="healthBasic1" class="col-md-2  control-label">Health (Extra)</label>
+
+            <div class="col-md-2">
+
+              <div class="{{healthBasic1Class}}">
+
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="healthBasic1" placeholder="Basic">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="{{healthTpd1Class}}">
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="healthTpd1" name="healthTpd1" [(ngModel)]="healthTpd1" placeholder="TPD">
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="healthBasic2" name="healthBasic2" [(ngModel)]="healthBasic2" placeholder="Basic">
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="healthTpd2" name="healthTpd2" [(ngModel)]="healthTpd2" placeholder="TPD">
+
+            </div>
+          </div>
+
+
+
+
+
+
+
+          <div class="row">
+
+            <label for="heightCm1" class="col-md-2  control-label">Occupation (Extra)</label>
+
+            <div class="col-md-2">
+
+              <div class="{{occExtraBasic1Class}}">
+
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="occExtraBasic1" name="occExtraBasic1" [(ngModel)]="occExtraBasic1"
+                    placeholder="Basic"> </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="{{occExtraTpd1Class}}">
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="occExtraTpd1" name="occExtraTpd1" [(ngModel)]="occExtraTpd1" placeholder="TPD">
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="occExtraBasic2" name="occExtraBasic2" [(ngModel)]="occExtraBasic2"
+                placeholder="Basic"> </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="occExtraTpd2" name="occExtraTpd2" [(ngModel)]="occExtraTpd2" placeholder="TPD">
+
+            </div>
+          </div>
+
+
+          <div class="row">
+
+            <label for="occuExtraPerMileBasic1" class="col-md-2  control-label">Occupation-Extra (Per Mile)</label>
+
+            <div class="col-md-2">
+
+              <div class="{{occuExtraPerMileBasic1Class}}">
+
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="occuExtraPerMileBasic1" name="occuExtraPerMileBasic1" [(ngModel)]="occuExtraPerMileBasic1"
+                    placeholder="Basic"> </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="{{occuExtraPerMileTpd1}}">
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="occuExtraPerMileTpd1" name="occuExtraPerMileTpd1" [(ngModel)]="occuExtraPerMileTpd1"
+                    placeholder="TPD">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="occuExtraPerMileBasic2" name="occuExtraPerMileBasic2" [(ngModel)]="occuExtraPerMileBasic2"
+                placeholder="Basic"> </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="occuExtraPerMileTpd2" name="occuExtraPerMileTpd2" [(ngModel)]="occuExtraPerMileTpd2"
+                placeholder="TPD">
+            </div>
+          </div>
+
+          <div class="row">
+
+            <label for="heightCm1" class="col-md-2  control-label">Discounts</label>
+
+            <div class="col-md-2">
+
+              <div class="{{discount1Class}}">
+
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="discount1" name="discount1" [(ngModel)]="discount1" placeholder="Discount">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="discount2" name="discount2" [(ngModel)]="discount2" placeholder="Discount">
+            </div>
+            <div class="col-md-2">
+
+            </div>
+          </div>
+
+          <div class="row">
+
+            <label for="heightCm1" class="col-md-2  control-label">Loadings</label>
+
+            <div class="col-md-2">
+
+              <div class="{{loading1Class}}">
+
+                <div class="col-lg-12">
+                  <input type="number" class="form-control input-sm" id="loading1" name="loading1" [(ngModel)]="loading1" placeholder="Loading">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control input-sm" id="loading2" name="loading2" [(ngModel)]="loading2" placeholder="Loading">
+            </div>
+            <div class="col-md-2">
+
+            </div>
+          </div>
+
+
+
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="isAgeAdmitted" class="col-lg-6  control-label">Age Admitted</label>
+
+                <div class="col-lg-4">
+
+                  <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked   [(ngModel)]="isAgeAdmitted"  name="isAgeAdmitted" id="isAgeAdmitted"/>
+    <span data-on="Yes" data-off="No"></span>
+  </label>
+
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="isSmoker" class="col-lg-6  control-label">Smoker</label>
+
+                <div class="col-lg-4">
+
+                  <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked   [(ngModel)]="isSmoker"  name="isSmoker" id="isSmoker"/>
+    <span data-on="Yes" data-off="No"></span>
+  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="isFemaleRebate" class="col-lg-6  control-label">Female Rebate</label>
+                <div class="col-lg-4">
+
+
+
+                  <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked   [(ngModel)]="isFemaleRebate"  name="isFemaleRebate" id="isFemaleRebate"/>
+    <span data-on="Yes" data-off="No"></span>
+  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+
+          <div class="row">
+            <span class="label label-primary">TPD Details</span>
+          </div>
+
+
+
+
+          <div class="row">
+
+            <label for="tpd1" class="col-md-2  control-label">TPD</label>
+
+            <div class="col-md-2">
+
+              <div class="{{tpd1Class}}">
+
+                <div class="col-lg-12">
+
+
+
+
+                  <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked   [(ngModel)]="tpd1"  name="tpd1" id="tpd1"/>
+    <span data-on="Yes" data-off="No"></span>
+  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-2">
+
+
+
+              <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked   [(ngModel)]="tpd2"  name="tpd2" id="tpd2"/>
+    <span data-on="Yes" data-off="No"></span>
+  </label>
+
+
+            </div>
+            <div class="col-md-2">
+
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <label for="tpdOption1" class="col-md-2  control-label">TPD Option</label>
+            <div class="col-md-2">
+              <div class="{{tpd1Class}}">
+                <div class="col-lg-12">
+
+                  <select class="form-control input-sm" id="tpdOption1" name="tpdOption1" [(ngModel)]="tpdOption1">
+                                    <option value="0">Select Nationality</option>
+                                    <option *ngFor="let tpdOption of tpdOptionList" value={{tpdOption.TPDOptionId}}>{{tpdOption.TPDOptionName}}</option>
+                                  </select>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+
+              <select class="form-control input-sm" id="tpdOption2" name="tpdOption2" [(ngModel)]="tpdOption2">
+                                    <option value="0">Select Nationality</option>
+                                    <option *ngFor="let tpdOption of tpdOptionList" value={{tpdOption.TPDOptionId}}>{{tpdOption.TPDOptionName}}</option>
+                                  </select>
+
+            </div>
+            <div class="col-md-2">
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!--end of the panel inside-->
+
+
+
+
+      <!-- common Buttons-->
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="isValidated" class="col-lg-2  control-label">Valdated</label>
+            <div class="col-lg-2">
+              <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked   [(ngModel)]="isValidated"  name="isValidated" id="isValidated"/>
+    <span data-on="Yes" data-off="No"></span>
+</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-info">Alter</button>
+          <button type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-default">Cancel</button>
+        </div>
+      </div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</form>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Router } from '@angular/router';
 
 import { CommonService } from '../../../shared/services/common/common.service';
 import { QuotationService } from '../../../shared/services/quotation/quotation.service';
@@ -21,7 +22,7 @@ export class QuotationSearchComponent implements OnInit {
 
 
   searchResults: Array<Object> = [];
-  
+
   SeqId: number = 0;
   QuotationNo: string = '';
   RevisionNo: number = 0;
@@ -29,11 +30,13 @@ export class QuotationSearchComponent implements OnInit {
   LifeAss1Nic: string = '';
   LifeAss2Name: string = '';
   LifeAss2Nic: string = '';
-  LoanTypeId: number;
+  LoanTypeId: number = 0;
+  BranchCode: string = '';
 
+  LoanTypeName: string = '';
 
   constructor(private quotationService: QuotationService,
-    private commonService: CommonService) { }
+    private commonService: CommonService, private router: Router) { }
 
   ngOnInit() {
     this.getHnbaBranches();
@@ -68,34 +71,38 @@ export class QuotationSearchComponent implements OnInit {
 
   searchQuotations() {
 
+    //this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == this.LoanTypeId)[0]['LoanTypeName'];
 
+    console.log(this.LoanTypeId);
 
     let objSearchQuotations: ISearchQuotations = {
       QuotationNo: this.QuotationNo,
+      RevisionNo: Number(this.RevisionNo),
       LifeAss1Name: this.LifeAss1Name,
       LifeAss1Nic: this.LifeAss1Nic,
       LifeAss2Name: this.LifeAss2Name,
       LifeAss2Nic: this.LifeAss2Nic,
-      LoanTypeId: this.LoanTypeId
+      LoanTypeId: Number(this.LoanTypeId),
+      BranchCode: this.BranchCode
     }
-
+    console.log(JSON.stringify(objSearchQuotations));
     this.quotationService.searchQuotationDetails(objSearchQuotations).subscribe((data: any) => {
       console.log(data);
       this.searchResults = data;
-    }),
+    },
       (err) => {
         console.log(err);
       },
-      () => console.log('done');
+      () => console.log('done'));
 
 
 
   }
 
-  setClickedRow = function (index, JobId) {
-    console.log(JobId);
+  setClickedRow = function (index, SeqId) {
+    console.log(SeqId);
 
-    //   this.router.navigate(['/', 'view', JobId]);
+    this.router.navigate(['/', 'reviseQuote', SeqId]);
   }
 
 

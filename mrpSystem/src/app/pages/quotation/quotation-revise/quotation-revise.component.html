@@ -1,0 +1,684 @@
+<div *ngIf="isLoading">
+  <app-spinner-top></app-spinner-top>
+</div>
+
+<div *ngIf="!isEditable">
+  <form class="form-horizontal" role="form">
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="QuotationNo" class="col-lg-4 control-label">Quotation Number</label>
+          <div class="col-lg-4">
+            <span class="form-control  input-sm">{{QuotationNo}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="RevisionNo" class="col-lg-4 control-label">Revision Number</label>
+          <div class="col-lg-4">
+            <span class="form-control  input-sm">{{RevisionNo}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-4">
+          </div>
+          <div class="col-lg-8">
+            <label for="inputEmail" class="control-label">Life 1</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-8">
+            <label for="inputEmail" class="control-label">Life 2</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1NicClass}}">
+          <label for="LifeAss1Nic" class="col-lg-4 control-label">NIC</label>
+          <div class="col-lg-8">
+            <span type="text" class="form-control  input-sm">{{LifeAss1Nic}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-8">
+            <span type="text" class="form-control input-sm">{{LifeAss2Nic}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1NameClass}}">
+          <label for="LifeAss1Name" class="col-lg-4 control-label">Customer Name</label>
+          <div class="col-lg-8">
+            <span type="text" class="form-control input-sm">{{LifeAss1Name}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-8">
+            <span type="text" class="form-control input-sm">{{LifeAss2Name}}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1DobClass}}">
+          <label for="" class="col-lg-4 control-label">Date of Birth</label>
+          <div class="col-lg-4">
+            <span type="text" class="form-control input-sm">{{LifeAss1Dob | date: 'dd/MM/yyyy'}}</span>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-4">
+            <span type="text" class="form-control input-sm">{{LifeAss2Dob | date: 'dd/MM/yyyy'}}</span>.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1AgeClass}}">
+          <label for="LifeAss1Age" class="col-lg-4 control-label">Age</label>
+          <div class="col-lg-4">
+            <span type="text" class="form-control input-sm" type="number">{{LifeAss1Age}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-4">
+            <span type="text" class="form-control input-sm" type="number">{{LifeAss2Age}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1GenderClass}}">
+          <label for="LifeAss1Gender" class="col-lg-4 control-label">Gender</label>
+          <div class="col-lg-4">
+
+
+            <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss1Gender" name="LifeAss1Gender" id="LifeAss1Gender"
+              disabled>
+<option value="0">Gender</option>
+<option value="M">Male</option>
+<option value="F">Female</option>
+</select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-4">
+            <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss2Gender" name="LifeAss2Gender" id="LifeAss2Gender"
+              disabled>
+<option value="0">Gender</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{BranchCodeClass}}">
+          <label for="BranchCode" class="col-lg-4 control-label">Branch</label>
+          <div class="col-lg-4">
+            <select type="text" class="form-control input-sm" [(ngModel)]="HnbaBranchCode" name="HnbaBranchCode" id="HnbaBranchCode" disabled>
+<option value="0">Select</option>
+<option *ngFor="let branch of hnbaBranchList" value={{branch.HnbaCode}}>{{branch.HnbaBranchName}}</option>
+</select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+      </div>
+    </div>
+
+
+
+    <div class="row">
+
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LoanTypeIdClass}}">
+          <label for="LoanTypeId" class="col-lg-4 control-label">Loan Type</label>
+          <div class="col-lg-6">
+            <select type="text" class="form-control input-sm" [(ngModel)]="LoanTypeId" name="LoanTypeId" id="LoanTypeId"  disabled>
+<option value="0">Select</option>
+<option *ngFor="let loanType of loanTypeList" value={{loanType.LoanTypeId}}>{{loanType.LoanTypeName}}</option>
+</select> </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="{{LoanAmountClass}}">
+          <label for="LoanAmount" class="col-lg-5 control-label">Loan Amount</label>
+          <div class="col-lg-7">
+            <span type="text" class="form-control  input-sm" type="number" min=0 required>{{LoanAmount}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{TermClass}}">
+          <label for="Term" class="col-lg-4 control-label">Full Term of Loan</label>
+          <div class="col-lg-6">
+            <span type="text" class="form-control  input-sm" type="number" min=0 required>{{Term}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="{{FixedInterestClass}}">
+          <label for="FixedInterest" class="col-lg-5 control-label">Fixed Interest</label>
+          <div class="col-lg-7" required>
+            <span type="text" class="form-control  input-sm" type="number" min=0 max=100>{{FixedInterest}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+      </div>
+    </div>
+
+
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{CompanyBufferClass}}">
+          <label for="CompanyBufferId" class="col-lg-4 control-label">Company Buffer</label>
+          <div class="col-lg-6">
+            <select type="text" class="form-control input-sm" [(ngModel)]="CompanyBufferId" name="CompanyBufferId" id="CompanyBufferId" disabled>
+<option value="0">Select</option>
+<option *ngFor="let companyBuffer of companyBufferList" value={{companyBuffer.CompanyBufferId}}>{{companyBuffer.CompanyBufferName}}</option>
+</select>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="CurrentAwplr" class="col-lg-5 control-label">Current AWPLR</label>
+          <div class="col-lg-7">
+            <span type="text" class="form-control  input-sm" type="number" min=0>{{CurrentAwplr}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+      </div>
+
+
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="AdditionalToAwplr" class="col-lg-4 control-label">Additionto AWPLR</label>
+          <div class="col-lg-6">
+            <span type="text" class="form-control  input-sm" type="number" min=0>{{AdditionalToAwplr}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="TermOfFixedInterest" class="col-lg-5 control-label">Term of Fixed Interest</label>
+          <div class="col-lg-7">
+            <span type="text" class="form-control  input-sm" type="number" min=0>{{TermOfFixedInterest}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="Premium" class="col-lg-4 control-label">Premium Amount</label>
+          <div class="col-lg-6">
+            <span type="text" class="form-control  input-sm" readonly>{{Premium}}</span>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="PremiumWithPolicyFee" class="col-lg-4 control-label">With Policy Fee</label>
+          <div class="col-lg-6">
+            <span type="text" class="form-control  input-sm" readonly>{{PremiumWithPolicyFee}}</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row" hidden>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="LifeAss1Nic" class="col-lg-4 control-label">Need printed quotation?</label>
+          <div class="col-lg-4">
+            <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked />
+    <span data-on="Yes" data-off="No"></span>
+  </label>
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-3">
+
+
+      </div>
+      <div class="col-md-2">
+
+        <button class="btn btn-primary btn-block  btn-sm" (click)="ReviseQuotation()" type="button">Revise</button>
+
+      </div>
+
+
+
+      <div class="col-md-2">
+
+        <button class="btn btn-primary btn-block  btn-sm" (click)="PrintQuotation()" type="button">Print</button>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="row">
+    </div>
+  </form>
+</div>
+
+
+<div *ngIf="!isLoading && isEditable">
+  <form class="form-horizontal" role="form">
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="QuotationNo" class="col-lg-4 control-label">Quotation Number</label>
+          <div class="col-lg-4">
+            <span class="form-control  input-sm">{{QuotationNo}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="RevisionNo" class="col-lg-4 control-label">Revision Number</label>
+          <div class="col-lg-4">
+            <span class="form-control  input-sm">{{RevisionNo}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-4">
+          </div>
+          <div class="col-lg-8">
+            <label for="inputEmail" class="control-label">Life 1</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-8">
+            <label for="inputEmail" class="control-label">Life 2</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1NicClass}}">
+          <label for="LifeAss1Nic" class="col-lg-4 control-label">NIC</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control  input-sm" placeholder="NIC" required [(ngModel)]="LifeAss1Nic" name="LifeAss1Nic"
+              id="LifeAss1Nic">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-8">
+            <input type="text" class="form-control input-sm" placeholder="NIC" [(ngModel)]="LifeAss2Nic" name="LifeAss2Nic" id="LifeAss2Nic">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1NameClass}}">
+          <label for="LifeAss1Name" class="col-lg-4 control-label">Customer Name</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control input-sm" placeholder="Customer Name" [(ngModel)]="LifeAss1Name" name="LifeAss1Name"
+              id="LifeAss1Name">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-8">
+            <input type="text" class="form-control input-sm" placeholder="Customer Name" [(ngModel)]="LifeAss2Name" name="LifeAss2Name"
+              id="LifeAss2Name">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1DobClass}}">
+          <label for="" class="col-lg-4 control-label">Date of Birth</label>
+          <div class="col-lg-8">
+            <datetime name="LifeAss1Dob" id="LifeAss1Dob" [(ngModel)]="LifeAss1Dob" [timepicker]="false" (ngModelChange)="calculateLife1Age($event)"></datetime>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-8">
+            <datetime name="LifeAss2Dob" id="LifeAss2Dob" [(ngModel)]="LifeAss2Dob" [timepicker]="false" (ngModelChange)="calculateLife2Age($event)"></datetime>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1AgeClass}}">
+          <label for="LifeAss1Age" class="col-lg-4 control-label">Age</label>
+          <div class="col-lg-4">
+            <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss1Age" name="LifeAss1Age" id="LifeAss1Age"
+              type="number" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-4">
+            <input type="text" class="form-control input-sm" placeholder="Age" [(ngModel)]="LifeAss2Age" name="LifeAss2Age" id="LifeAss2Age"
+              type="number" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LifeAss1GenderClass}}">
+          <label for="LifeAss1Gender" class="col-lg-4 control-label">Gender</label>
+          <div class="col-lg-4">
+            <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss1Gender" name="LifeAss1Gender" id="LifeAss1Gender"
+              required>
+<option value="0">Gender</option>
+<option value="M">Male</option>
+<option value="F">Female</option>
+</select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="col-lg-4">
+            <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss2Gender" name="LifeAss2Gender" id="LifeAss2Gender">
+<option value="0">Gender</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{BranchCodeClass}}">
+          <label for="BranchCode" class="col-lg-4 control-label">Branch</label>
+          <div class="col-lg-4">
+            <select type="text" class="form-control input-sm" [(ngModel)]="HnbaBranchCode" name="HnbaBranchCode" id="HnbaBranchCode">
+<option value="0">Select</option>
+<option *ngFor="let branch of hnbaBranchList" value={{branch.HnbaCode}}>{{branch.HnbaBranchName}}</option>
+</select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+      </div>
+    </div>
+
+
+
+    <div class="row">
+
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{LoanTypeIdClass}}">
+          <label for="LoanTypeId" class="col-lg-4 control-label">Loan Type</label>
+          <div class="col-lg-6">
+            <select type="text" class="form-control input-sm" [(ngModel)]="LoanTypeId" name="LoanTypeId" id="LoanTypeId" required>
+<option value="0">Select</option>
+<option *ngFor="let loanType of loanTypeList" value={{loanType.LoanTypeId}}>{{loanType.LoanTypeName}}</option>
+</select> </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="{{LoanAmountClass}}">
+          <label for="LoanAmount" class="col-lg-5 control-label">Loan Amount</label>
+          <div class="col-lg-7">
+            <input type="text" class="form-control  input-sm" placeholder="Loan Amount" [(ngModel)]="LoanAmount" name="LoanAmount" id="LoanAmount"
+              type="number" min=0 required>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{TermClass}}">
+          <label for="Term" class="col-lg-4 control-label">Full Term of Loan</label>
+          <div class="col-lg-6">
+            <input type="text" class="form-control  input-sm" placeholder="Full Term of Loan" [(ngModel)]="Term" name="Term" id="Term"
+              type="number" min=0 required>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="{{FixedInterestClass}}">
+          <label for="FixedInterest" class="col-lg-5 control-label">Fixed Interest</label>
+          <div class="col-lg-7" required>
+            <input type="text" class="form-control  input-sm" placeholder="Fixed Interest" [(ngModel)]="FixedInterest" name="FixedInterest"
+              id="FixedInterest" type="number" min=0 max=100>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+      </div>
+    </div>
+
+
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="{{CompanyBufferClass}}">
+          <label for="CompanyBufferId" class="col-lg-4 control-label">Company Buffer</label>
+          <div class="col-lg-6">
+            <select type="text" class="form-control input-sm" [(ngModel)]="CompanyBufferId" name="CompanyBufferId" id="CompanyBufferId">
+<option value="0">Select</option>
+<option *ngFor="let companyBuffer of companyBufferList" value={{companyBuffer.CompanyBufferId}}>{{companyBuffer.CompanyBufferName}}</option>
+</select>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="CurrentAwplr" class="col-lg-5 control-label">Current AWPLR</label>
+          <div class="col-lg-7">
+            <input type="text" class="form-control  input-sm" placeholder="Current AWPLR" [(ngModel)]="CurrentAwplr" name="CurrentAwplr"
+              id="CurrentAwplr" type="number" min=0></div>
+        </div>
+      </div>
+      <div class="col-md-2">
+      </div>
+
+
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="AdditionalToAwplr" class="col-lg-4 control-label">Additionto AWPLR</label>
+          <div class="col-lg-6">
+            <input type="text" class="form-control  input-sm" placeholder="Additionto AWPLR" [(ngModel)]="AdditionalToAwplr" name="AdditionalToAwplr"
+              id="AdditionalToAwplr" type="number" min=0>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="TermOfFixedInterest" class="col-lg-5 control-label">Term of Fixed Interest</label>
+          <div class="col-lg-7">
+            <input type="text" class="form-control  input-sm" placeholder="Term of Fixed Interest" [(ngModel)]="TermOfFixedInterest"
+              name="TermOfFixedInterest" id="TermOfFixedInterest" type="number" min=0>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="Premium" class="col-lg-4 control-label">Premium Amount</label>
+          <div class="col-lg-6">
+            <input type="text" class="form-control  input-sm" placeholder="Premium Amount" readonly [(ngModel)]="Premium" name="Premium"
+              id="Premium">
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="PremiumWithPolicyFee" class="col-lg-4 control-label">With Policy Fee</label>
+          <div class="col-lg-6">
+            <input type="text" class="form-control  input-sm" placeholder="Premium With Policy Fee" readonly [(ngModel)]="PremiumWithPolicyFee"
+              name="PremiumWithPolicyFee" id="PremiumWithPolicyFee">
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row" hidden>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="LifeAss1Nic" class="col-lg-4 control-label">Need printed quotation?</label>
+          <div class="col-lg-4">
+            <label class="tgl" style="font-size:20px">  
+    <input type="checkbox" checked />
+    <span data-on="Yes" data-off="No"></span>
+  </label>
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-3">
+
+
+      </div>
+      <div class="col-md-2">
+
+        <button class="btn btn-primary btn-block  btn-sm" (click)="ReviseQuotation()" type="button">Revise</button>
+
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary btn-block  btn-sm" (click)="Calculate()" type="button">Calculate</button>
+      </div>
+      <div class="col-md-2">
+
+        <button class="btn btn-primary btn-block  btn-sm" (click)="SaveQuotation()" type="button">Save</button>
+
+      </div>
+
+
+      <div class="col-md-2">
+
+        <button class="btn btn-primary btn-block  btn-sm" (click)="PrintQuotation()" type="button">Print</button>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="row">
+    </div>
+  </form>
+</div>

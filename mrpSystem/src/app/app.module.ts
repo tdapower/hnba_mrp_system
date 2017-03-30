@@ -31,6 +31,7 @@ import { SpinnerLargeComponent } from './layout/spinner-large/spinner-large.comp
 import { SpinnerTopComponent } from './layout/spinner-top/spinner-top.component';
 import { QuotationSearchComponent } from './pages/quotation/quotation-search/quotation-search.component';
 import { ProposalUpdateComponent } from './pages/proposal/proposal-update/proposal-update.component';
+import { QuotationReviseComponent } from './pages/quotation/quotation-revise/quotation-revise.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ProposalUpdateComponent } from './pages/proposal/proposal-update/propos
     SpinnerLargeComponent,
     SpinnerTopComponent,
     QuotationSearchComponent,
-    ProposalUpdateComponent
+    ProposalUpdateComponent,
+    QuotationReviseComponent
   ],
   imports: [
     BrowserModule,

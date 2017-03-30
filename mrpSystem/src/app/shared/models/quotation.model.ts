@@ -1,6 +1,7 @@
 export interface IQuotation {
     SeqId: number;
     QuotationNo: string;
+    BaseQuotationNo: string;
     RevisionNo: number;
     LifeAss1Name: string;
     LifeAss1Dob: string;
@@ -18,9 +19,10 @@ export interface IQuotation {
     CompanyBufferId: number;
     CurrentAwplr: number;
     AdditionalToAwplr: number;
-    TermOfFixederest: number;
+    TermOfFixedInterest: number;
     Discount: number;
     Premium: number;
+    PremiumWithPolicyFee: number;
     LoanTypeId: number;
     HnbaBranchCode: string;
     UserId: string;

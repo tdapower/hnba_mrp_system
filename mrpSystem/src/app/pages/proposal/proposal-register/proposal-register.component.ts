@@ -151,7 +151,7 @@ export class ProposalRegisterComponent implements OnInit {
     private toastrService: ToastrService,
     toastrConfig: ToastrConfig) {
 
-    toastrConfig.timeOut = 0;
+    toastrConfig.timeOut = 10000;
     toastrConfig.closeButton = true;
     toastrConfig.tapToDismiss = true;
   }
@@ -164,7 +164,6 @@ export class ProposalRegisterComponent implements OnInit {
     this.getLoanTypes();
     this.getNationalities();
     this.getProposalStatuses();
-    this.QuotationNo = '17MAMT00005';
   }
 
   showSuccess(message) {
@@ -285,12 +284,12 @@ export class ProposalRegisterComponent implements OnInit {
         this.LoanAmount = obj.LoanAmount;
         this.Interest = obj.FixedInterest;
         this.Term = obj.Term;
-        this.FullTermInMonths = obj.TermOfFixederest;
+        this.FullTermInMonths = obj.TermOfFixedInterest;
         this.GracePeriod = 0;
         this.CompanyBufferId = obj.CompanyBufferId;
         this.CurrentAwplr = obj.CurrentAwplr;
         this.AdditionToAwplr = obj.AdditionalToAwplr;
-        this.TermOfFixedInterest = obj.TermOfFixederest;
+        this.TermOfFixedInterest = obj.TermOfFixedInterest;
         this.BankId = 0;
         this.BranchId = 0;
         this.CurrencyId = 0;

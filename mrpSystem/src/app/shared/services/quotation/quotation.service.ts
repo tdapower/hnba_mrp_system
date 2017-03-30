@@ -21,7 +21,33 @@ export class QuotationService {
 
     return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/AddQuotation', body, postoptions)
       .map((response: Response) => response.json())
+      .timeout(60000)
       .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
+
+  reviseQuotation(params) {
+    let body = params;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let postoptions = new RequestOptions({ headers: headers });
+
+    return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/ReviseQuotation', body, postoptions)
+      .map((response: Response) => {
+        console.log('response ' + response);
+        console.log('response st ' + response.status);
+
+
+        return response;
+
+      })
+      .timeout(60000)
+      .catch((error: any) => {
+        console.log('s errrrrr');
+        
         this.handleError;
         return Observable.throw(new Error(error.status))
       });
@@ -45,6 +71,7 @@ export class QuotationService {
   }
 
   searchQuotationDetails(searchObject) {
+
     let body = searchObject;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
@@ -53,6 +80,7 @@ export class QuotationService {
 
     return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/SearchQuotations', body, options)
       .map((response: Response) => response.json())
+      .timeout(60000)
       .catch((error: any) => {
         this.handleError;
         return Observable.throw(new Error(error.status))
@@ -68,11 +96,29 @@ export class QuotationService {
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/Quotation/GetQuotationByQuotationNo?quotationNo=' + quotationNo, options)
       .map((response: Response) => JSON.stringify(response.json()))
+      .timeout(60000)
       .catch((error: any) => {
         this.handleError;
         return Observable.throw(new Error(error.status))
       });
   }
+
+
+  getMaxRevisionNo(baseQuotationNo) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Quotation/GetMaxRevisionNo?baseQuotationNo=' + baseQuotationNo, options)
+      .map((response: Response) => JSON.stringify(response.json()))
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
+
+
 
 
   getQuotationDocument(params) {
@@ -84,7 +130,7 @@ export class QuotationService {
     return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/GetQuotationDocument/' + params, body, postoptions)
       .map(
       (response: Response) => {
-        console.log('respone - '+response);
+        console.log('respone - ' + response);
         console.log('respone status- ' + response.status);
         console.log('came here service 1');
       }
@@ -94,12 +140,31 @@ export class QuotationService {
       .catch((error: any) => {
         console.log(error);
 
-        console.log('error status - '+error.status);
+        console.log('error status - ' + error.status);
         console.log('came here service error 1');
-       // this.handleError;
+        // this.handleError;
         return Observable.throw(new Error(error.status))
       });
   }
+
+
+  getQuotationBySeqId(SeqId) {
+    console.log('seq id  ' + SeqId);
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
+
+
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Quotation/Get/' + SeqId, options)
+      .map((response: Response) => JSON.stringify(response.json()))
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
+
 
   private handleError(error: Response) {
     console.error('Error occured - ', error);
