@@ -18,14 +18,14 @@ export interface IAssureDetail {
     WeightLbs: number;
     Bmi: number;
     HnbaRefNo: string;
-    RiRefNo: string;
-    PrevPolicyAmount: number;
+    ReInsuranceRefNo: string;
+    PreviousPolicyAmount: number;
     HealthExtraBasic: number;
     HealthExtraTpd: number;
-    OccuExtraBasic: number;
-    OccuExtraTpd: number;
-    OccuExtraPerMileBasic: number;
-    OccuExtraPerMileTpd: number;
+    OccupationExtraBasic: number;
+    OccupationExtraTpd: number;
+    OccupationExtraPerMileBasic: number;
+    OccupationExtraPerMileTpd: number;
     Discount: number;
     Loadings: number;
     IsAgeAdmitted: number;
@@ -33,5 +33,5 @@ export interface IAssureDetail {
     IsFemaleRebate: number;
     IsTpd: number;
     TpdOption: number;
-    SysDate: string;
+    RegisterDate: string;
 }

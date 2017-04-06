@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MomentModule } from 'angular2-moment';
 
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService, ToastrConfig } from 'toastr-ng2';
 
 import { CommonService } from '../../../shared/services/common/common.service';
@@ -12,14 +13,23 @@ import { ICompanyBuffer } from '../../../shared/models/companyBuffer.model';
 import { IQuotation } from '../../../shared/models/quotation.model';
 import { IQuotationCalculation } from '../../../shared/models/quotationCalculate.model';
 
+import { IBank } from '../../../shared/models/bank.model';
+import { IBankBranch } from '../../../shared/models/bankBranch.model';
+
 import { IUser } from '../../../shared/models/user/user.model';
 import { COMMON_VALUES } from '../../../shared/config/commonValues';
+
+import { URL_CONST } from '../../../shared/config/url.constants';
 declare var jQuery: any;
+
+
+
 @Component({
   selector: 'app-quotation-add',
   templateUrl: './quotation-add.component.html',
   styleUrls: ['./quotation-add.component.css']
 })
+
 export class QuotationAddComponent implements OnInit, AfterViewInit {
 
   isLoading: boolean;
@@ -44,7 +54,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   LifeAss2Gender: string = '';
   LifeAss2Nic: string = '';
   LoanAmount: number;
-  Term: number;
+  FullTermOfLoanMonthly: number;
   FixedInterest: number;
   CompanyBufferId: number;
   CompanyBufferValue: string = '';
@@ -54,6 +64,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   Discount: number;
   Premium: number;
   PremiumWithPolicyFee: number;
+  BankId: number;
+  BankBranchId: number;
 
   LoanTypeId: number;
   LoanTypeName: string = '';
@@ -73,7 +85,10 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   LoanTypeIdClass: string;
   BranchCodeClass: string;
   CompanyBufferClass: string;
+  BankIdClass: string;
+  BankBranchIdClass: string;
 
+  QuotationDocURL: any;
 
   isQuotationDetailsValid: boolean = false;
 
@@ -81,14 +96,24 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   loanTypeList: Array<ILoanType> = [];
   companyBufferList: Array<ICompanyBuffer> = [];
 
+  bankList: Array<IBank> = [];
+  bankBranchList: Array<IBankBranch> = [];
+
+
+  datepickerOpts = {
+    format: 'dd/mm/yyyy'
+  }
 
   constructor(private quotationService: QuotationService,
     private commonService: CommonService, moment: MomentModule,
     private toastrService: ToastrService,
-    toastrConfig: ToastrConfig) {
-    toastrConfig.timeOut = 0;
+    toastrConfig: ToastrConfig,
+    public sanitizer: DomSanitizer) {
+    toastrConfig.timeOut = 10000;
     toastrConfig.closeButton = true;
     toastrConfig.tapToDismiss = true;
+
+
   }
 
   ngOnInit() {
@@ -97,9 +122,10 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.getLoanTypes();
     this.getCompanyBuffer();
 
+    this.getBanks();
+
     this.User = JSON.parse(localStorage.getItem('currentMRPUser'));
-
-
+    this.mode = "new";
   }
 
   ngAfterViewInit() {
@@ -130,10 +156,10 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.SeqId = 0;
     this.QuotationNo = '';
     this.BaseQuotationNo = '';
-    
+
     this.RevisionNo = 0;
     this.LifeAss1Name = '';
-    this.LifeAss1Dob = '';
+    this.LifeAss1Dob ='';
     this.LifeAss1Age = null;
     this.LifeAss1Gender = '';
     this.LifeAss1Nic = '';
@@ -143,7 +169,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.LifeAss2Gender = '';
     this.LifeAss2Nic = '';
     this.LoanAmount = null;
-    this.Term = null;
+    this.FullTermOfLoanMonthly = null;
     this.FixedInterest = null;
     this.CompanyBufferId = null;
     this.CurrentAwplr = null;
@@ -153,8 +179,11 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.Premium = null;
     this.LoanTypeId = null;
     this.HnbaBranchCode = '';
+    this.BankId = null;
+    this.BankBranchId = null;
     this.UserId = '';
     this.Status = '';
+
     this.RegisterDate = '';
 
   }
@@ -205,8 +234,38 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       });
   }
 
+  getBanks() {
+    this.isLoading = true;
+    this.commonService.getBank()
+      .subscribe((data) => {
+        this.bankList = data
+        this.isLoading = false;
+      },
+      (err) => {
+        console.log(err);
 
+        this.isLoading = false;
+        this.showError("Error loading Banks");
 
+      });
+  }
+  onSelectOfBankId(bankId) {
+    this.BankId = bankId;
+    this.isLoading = true;
+    this.commonService.getBankBranchByBankId(bankId)
+      .subscribe((data) => {
+        this.bankBranchList = data;
+
+        this.isLoading = false;
+      },
+      (err) => {
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error loading Bank Branches");
+
+      });
+  }
   // onSelectOfLoanType(loanType) {
 
   //   console.log('onchange');
@@ -237,8 +296,24 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   public AddNewQuotation() {
     this.clearValues();
   }
-  public SaveQuotation() {
 
+
+
+
+  public SaveQuotation() {
+    console.log(this.mode);
+
+    if (this.mode == "new") {
+      this.saveNewQuotation();
+    } else if (this.mode == "saved") {
+      this.updateQuotation();
+    }
+
+
+  }
+
+
+  public saveNewQuotation() {
     this.validateFields();
     console.log(this.isQuotationDetailsValid);
     if (this.isQuotationDetailsValid) {
@@ -250,11 +325,11 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       if (this.LifeAss2Age == null || isNaN(this.LifeAss2Age)) {
         this.LifeAss2Age = 0;
       }
-      if (this.LoanAmount == null || isNaN(this.LifeAss2Age)) {
+      if (this.LoanAmount == null || isNaN(this.LoanAmount)) {
         this.LoanAmount = 0;
       }
-      if (this.Term == null || isNaN(this.LifeAss2Age)) {
-        this.Term = 0;
+      if (this.FullTermOfLoanMonthly == null || isNaN(this.FullTermOfLoanMonthly)) {
+        this.FullTermOfLoanMonthly = 0;
       }
       if (this.FixedInterest == null) {
         this.FixedInterest = 0;
@@ -262,24 +337,28 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       if (this.CompanyBufferId == null) {
         this.CompanyBufferId = 0;
       }
-      if (this.CurrentAwplr == null || isNaN(this.LifeAss2Age)) {
+      if (this.CurrentAwplr == null || isNaN(this.CurrentAwplr)) {
         this.CurrentAwplr = 0;
       }
-      if (this.AdditionalToAwplr == null || isNaN(this.LifeAss2Age)) {
+      if (this.AdditionalToAwplr == null || isNaN(this.AdditionalToAwplr)) {
         this.AdditionalToAwplr = 0;
       }
-      if (this.TermOfFixedInterest == null || isNaN(this.LifeAss2Age)) {
+      if (this.TermOfFixedInterest == null || isNaN(this.TermOfFixedInterest)) {
         this.TermOfFixedInterest = 0;
       }
-      if (this.Discount == null || isNaN(this.LifeAss2Age)) {
+      if (this.Discount == null || isNaN(this.Discount)) {
         this.Discount = 0;
       }
-      if (this.Premium == null || isNaN(this.LifeAss2Age)) {
-        this.Premium = 0;
-      }
-      if (this.LoanTypeId == null || isNaN(this.LifeAss2Age)) {
+
+      if (this.LoanTypeId == null || isNaN(this.LoanTypeId)) {
         this.LoanTypeId = 0;
       }
+
+      var moment = require('moment');
+
+      var formatted_dob_life1 = moment(this.LifeAss1Dob).format('DD/MM/YYYY');
+      var formatted_dob_life2 = moment(this.LifeAss2Dob).format('DD/MM/YYYY');
+
 
       let obj: IQuotation = {
         SeqId: 0,
@@ -287,17 +366,17 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         BaseQuotationNo: '',
         RevisionNo: 0,
         LifeAss1Name: this.LifeAss1Name,
-        LifeAss1Dob: new Date(this.LifeAss1Dob).toLocaleDateString("en-GB"),
+        LifeAss1Dob: formatted_dob_life1,
         LifeAss1Age: this.LifeAss1Age,
         LifeAss1Gender: this.LifeAss1Gender,
         LifeAss1Nic: this.LifeAss1Nic,
         LifeAss2Name: this.LifeAss2Name,
-        LifeAss2Dob: new Date(this.LifeAss2Dob).toLocaleDateString("en-GB"),
+        LifeAss2Dob: formatted_dob_life2,
         LifeAss2Age: this.LifeAss2Age,
         LifeAss2Gender: this.LifeAss2Gender,
         LifeAss2Nic: this.LifeAss2Nic,
         LoanAmount: this.LoanAmount,
-        Term: this.Term,
+        FullTermOfLoanMonthly: this.FullTermOfLoanMonthly,
         FixedInterest: this.FixedInterest,
         CompanyBufferId: this.CompanyBufferId,
         CurrentAwplr: this.CurrentAwplr,
@@ -310,16 +389,48 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         HnbaBranchCode: this.HnbaBranchCode,
         UserId: this.User.UserName,
         Status: COMMON_VALUES.QUOTATION_STATUS_INITIAL,
+        BankId: this.BankId,
+        BankBranchId: this.BankBranchId,
         RegisterDate: ''
 
       }
 
       console.log(obj);
-      console.log(JSON.stringify(obj));
+      // console.log(JSON.stringify(obj));
       this.quotationService.addQuotationDetails(obj).subscribe((data: any) => {
-        console.log(data);
-        this.showSuccess("Quotation Successfully Saved. Quotation Number - " + data);
+        // console.log('bbbbb  ' + data.toString().replace(/"/g, ''));
+        // console.log('bbbbbttttt  ' + data.text().toString().replace(/"/g, ''));
         this.isLoading = false;
+
+        if (data == "error") {
+          this.showError("Error saving quotation");
+
+        } else {
+          this.SeqId = data.toString().replace(/"/g, '');
+          this.showSuccess("Quotation Successfully Saved.");
+
+          this.mode = "saved";
+
+
+
+          this.quotationService.getQuotationNoBySeqId(this.SeqId).subscribe((data: any) => {
+            if (data != "error") {
+              this.QuotationNo = data.toString().replace(/"/g, '');
+            }
+          },
+            (err) => {
+
+              console.log(err);
+
+              // this.showError("Error saving quotation");
+            },
+            () => console.log('done'));
+
+
+          this.generateQuotationDocument();
+        }
+
+
       },
         (err) => {
           // alert(err);
@@ -333,6 +444,122 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     }
 
 
+  }
+
+
+  public generateQuotationDocument() {
+    this.quotationService.getQuotationDocument(this.SeqId).subscribe((data: any) => {
+
+    },
+      (error) => {
+        console.log("Error happened" + error);
+      }
+    );
+  }
+  public updateQuotation() {
+    this.validateFields();
+    console.log(this.isQuotationDetailsValid);
+    if (this.isQuotationDetailsValid) {
+      this.isLoading = true;
+
+      if (this.LifeAss1Age == null) {
+        this.LifeAss1Age = 0;
+      }
+      if (this.LifeAss2Age == null || isNaN(this.LifeAss2Age)) {
+        this.LifeAss2Age = 0;
+      }
+      if (this.LoanAmount == null || isNaN(this.LoanAmount)) {
+        this.LoanAmount = 0;
+      }
+      if (this.FullTermOfLoanMonthly == null || isNaN(this.FullTermOfLoanMonthly)) {
+        this.FullTermOfLoanMonthly = 0;
+      }
+      if (this.FixedInterest == null) {
+        this.FixedInterest = 0;
+      }
+      if (this.CompanyBufferId == null) {
+        this.CompanyBufferId = 0;
+      }
+      if (this.CurrentAwplr == null || isNaN(this.CurrentAwplr)) {
+        this.CurrentAwplr = 0;
+      }
+      if (this.AdditionalToAwplr == null || isNaN(this.AdditionalToAwplr)) {
+        this.AdditionalToAwplr = 0;
+      }
+      if (this.TermOfFixedInterest == null || isNaN(this.TermOfFixedInterest)) {
+        this.TermOfFixedInterest = 0;
+      }
+      if (this.Discount == null || isNaN(this.Discount)) {
+        this.Discount = 0;
+      }
+      if (this.LoanTypeId == null || isNaN(this.LoanTypeId)) {
+        this.LoanTypeId = 0;
+      }
+
+      var moment = require('moment');
+
+      var formatted_dob_life1 = moment(this.LifeAss1Dob).format('DD/MM/YYYY');
+      var formatted_dob_life2 = moment(this.LifeAss2Dob).format('DD/MM/YYYY');
+
+      let obj: IQuotation = {
+        SeqId: this.SeqId,
+        QuotationNo: this.QuotationNo,
+        BaseQuotationNo: this.QuotationNo,
+        RevisionNo: 0,
+        LifeAss1Name: this.LifeAss1Name,
+        LifeAss1Dob: formatted_dob_life1,
+        LifeAss1Age: this.LifeAss1Age,
+        LifeAss1Gender: this.LifeAss1Gender,
+        LifeAss1Nic: this.LifeAss1Nic,
+        LifeAss2Name: this.LifeAss2Name,
+        LifeAss2Dob: formatted_dob_life2,
+        LifeAss2Age: this.LifeAss2Age,
+        LifeAss2Gender: this.LifeAss2Gender,
+        LifeAss2Nic: this.LifeAss2Nic,
+        LoanAmount: this.LoanAmount,
+        FullTermOfLoanMonthly: this.FullTermOfLoanMonthly,
+        FixedInterest: this.FixedInterest,
+        CompanyBufferId: this.CompanyBufferId,
+        CurrentAwplr: this.CurrentAwplr,
+        AdditionalToAwplr: this.AdditionalToAwplr,
+        TermOfFixedInterest: this.TermOfFixedInterest,
+        Discount: 0,
+        Premium: this.Premium,
+        PremiumWithPolicyFee: this.PremiumWithPolicyFee,
+        LoanTypeId: this.LoanTypeId,
+        HnbaBranchCode: this.HnbaBranchCode,
+        UserId: this.User.UserName,
+        Status: COMMON_VALUES.QUOTATION_STATUS_INITIAL,
+        BankId: this.BankId,
+        BankBranchId: this.BankBranchId,
+        RegisterDate: ''
+
+      }
+
+      console.log(obj);
+      console.log(JSON.stringify(obj));
+      this.quotationService.updateQuotationDetails(obj).subscribe((data: any) => {
+        console.log(data);
+
+
+        if (data.status == 200) {
+          this.showSuccess("Quotation Successfully Updated. ");
+
+          this.mode = "saved";
+
+        }
+        this.isLoading = false;
+      },
+        (err) => {
+          // alert(err);
+          console.log(err);
+
+          this.isLoading = false;
+          this.showError("Error saving quotation");
+        },
+        () => console.log('done'));
+
+    }
 
   }
 
@@ -389,7 +616,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       this.LoanAmountClass = "form-group";
     }
 
-    if (this.Term == null || isNaN(this.Term)) {
+    if (this.FullTermOfLoanMonthly == null || isNaN(this.FullTermOfLoanMonthly)) {
       this.TermClass = "has-error";
       this.isQuotationDetailsValid = false;
     } else {
@@ -422,19 +649,36 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       this.CompanyBufferClass = "form-group";
     }
 
+    if (this.BankId == null || isNaN(this.BankId)) {
+      this.BankIdClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    } else {
+      this.BankIdClass = "form-group";
+    }
+    if (this.BankBranchId == null || isNaN(this.BankBranchId)) {
+      this.BankBranchIdClass = "has-error";
+      this.isQuotationDetailsValid = false;
+    } else {
+      this.BankBranchIdClass = "form-group";
+    }
+    if (this.LifeAss2Name == null || this.LifeAss2Name == "") { //if life 2 name is missing, then dob is reset
+      this.LifeAss2Dob = "01/01/1900" ;
+    }
+
     console.log('validated');
   }
 
   public calculateLife1Age(life1Dob: Date) {
 
+
     var moment = require('moment');
-    this.LifeAss1Age = moment().diff(moment(life1Dob, 'DD/DD/YYYY'), 'years');
+    this.LifeAss1Age = moment().diff(moment(life1Dob, 'DD/MM/YYYY'), 'years');
   }
 
   public calculateLife2Age(life2Dob: Date) {
 
     var moment = require('moment');
-    this.LifeAss2Age = moment().diff(moment(life2Dob, 'DD/DD/YYYY'), 'years');
+    this.LifeAss2Age = moment().diff(moment(life2Dob, 'DD/MM/YYYY'), 'years');
   }
 
   public Calculate() {
@@ -462,8 +706,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       if (this.LoanAmount == null) {
         this.LoanAmount = 0;
       }
-      if (this.Term == null) {
-        this.Term = 0;
+      if (this.FullTermOfLoanMonthly == null) {
+        this.FullTermOfLoanMonthly = 0;
       }
       if (this.FixedInterest == null) {
         this.FixedInterest = 0;
@@ -483,9 +727,6 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       if (this.Discount == null) {
         this.Discount = 0;
       }
-      if (this.Premium == null) {
-        this.Premium = 0;
-      }
 
       if (this.LoanTypeId == null) {
         this.LoanTypeId = 0;
@@ -494,8 +735,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
       var formatted_dob_life1 = moment(this.LifeAss1Dob).format('YYYY/MM/DD');
       var formatted_dob_life2;
-
-      if (this.LifeAss2Dob == null) {
+     
+      if (this.LifeAss2Dob == "01/01/1900") {
         formatted_dob_life2 = "N/A";
       } else {
         formatted_dob_life2 = moment(this.LifeAss2Dob).format('YYYY/MM/DD');
@@ -510,7 +751,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
       var obj = {
         username: this.User.UserName,
-        term: this.Term.toString(),
+        term: this.FullTermOfLoanMonthly.toString(),
         loan_interest: this.FixedInterest.toString(),
         loan_amount: this.LoanAmount.toString(),
         grace_period: 0,
@@ -547,11 +788,15 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         keyValPairString = keyValPairString + key + '=' + data[key] + '&';
         // alert(key + ' --> ' + data[key]);
       }
+
+
+      keyValPairString = keyValPairString.slice(0, -1);
+
       //console.log('http://mobileapps.hnbassurance.com/quotation_calculation/webservice/mrptest.php' + keyValPairString);
       //  console.log(keyValPairString);
       this.quotationService.calculateQuotation(keyValPairString).subscribe((data: any) => {
         console.log(data);
-        //  console.log('Premium = ' + data.data.premium);
+        console.log('Premium = ' + data.data.premium);
 
 
         this.Premium = data.data.premium;
@@ -571,38 +816,18 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       );
     }
   }
-  public PrintQuotation() {
-    this.isLoading = true;
-    console.log('is loading- ' + this.isLoading);
-
-    this.quotationService.getQuotationDocument(123).subscribe(
 
 
 
 
-      (response) => {
-        console.log("Success Response" + response);
-        console.log('came here 1');
-        console.log('status - ' + response);
+  public ViewQuotation() {
+    let url: any;
+    url = URL_CONST.URL_PREFIX + 'api/Quotation/GetQuotationDocument/' + this.SeqId;
+    console.log('url ---' + url);
 
+    this.QuotationDocURL = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
-
-        this.isLoading = false;
-        this.showError("Successfully loaded");
-
-      },
-      (error) => {
-        console.log("Error happened" + error);
-
-        this.isLoading = false;
-        this.showSuccess("Error loading quotation document");
-      },
-      () => {
-        console.log("the subscription is completed");
-        this.isLoading = false;
-      }
-    );
-
+    document.getElementById("openQuotationModalButton").click();
 
   }
 }

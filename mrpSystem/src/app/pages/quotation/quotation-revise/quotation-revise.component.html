@@ -1,7 +1,15 @@
 <div *ngIf="isLoading">
   <app-spinner-top></app-spinner-top>
 </div>
+<div class="row">
 
+  <modal #quotationModal>
+    <modal-content>
+      <iframe [src]="QuotationDocURL" style="zoom:0.60" frameborder="0" height="800" width="99.6%"></iframe>
+    </modal-content>
+
+  </modal>
+</div>
 <div *ngIf="!isEditable">
   <form class="form-horizontal" role="form">
 
@@ -145,7 +153,8 @@
         <div class="{{BranchCodeClass}}">
           <label for="BranchCode" class="col-lg-4 control-label">Branch</label>
           <div class="col-lg-4">
-            <select type="text" class="form-control input-sm" [(ngModel)]="HnbaBranchCode" name="HnbaBranchCode" id="HnbaBranchCode" disabled>
+            <select type="text" class="form-control input-sm" [(ngModel)]="HnbaBranchCode" name="HnbaBranchCode" id="HnbaBranchCode"
+              disabled>
 <option value="0">Select</option>
 <option *ngFor="let branch of hnbaBranchList" value={{branch.HnbaCode}}>{{branch.HnbaBranchName}}</option>
 </select>
@@ -159,9 +168,32 @@
 
 
 
+
     <div class="row">
-
-
+      <div class="col-md-6">
+        <div class="{{BankIdClass}}">
+          <label for="BankId" class="col-lg-4 control-label">Bank</label>
+          <div class="col-lg-6">
+            <select type="text" class="form-control input-sm" [(ngModel)]="BankId" name="BankId" id="BankId" (ngModelChange)="onSelectOfBankId($event)"
+              disabled>
+<option value="0">Select</option>
+<option *ngFor="let bank of bankList" value={{bank.BankId}}>{{bank.BankName}}</option>
+</select> </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="{{BankBranchIdClass}}">
+          <label for="BranchId" class="col-lg-5 control-label">Bank Branch</label>
+          <div class="col-lg-7">
+            <select type="text" class="form-control input-sm" [(ngModel)]="BankBranchId" name="BankBranchId" id="BankBranchId" disabled>
+<option value="0">Select</option>
+<option *ngFor="let bankBranch of bankBranchList" value={{bankBranch.BankBranchId}}>{{bankBranch.BankBranchName}}</option>
+</select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+      </div>
     </div>
 
 
@@ -170,7 +202,7 @@
         <div class="{{LoanTypeIdClass}}">
           <label for="LoanTypeId" class="col-lg-4 control-label">Loan Type</label>
           <div class="col-lg-6">
-            <select type="text" class="form-control input-sm" [(ngModel)]="LoanTypeId" name="LoanTypeId" id="LoanTypeId"  disabled>
+            <select type="text" class="form-control input-sm" [(ngModel)]="LoanTypeId" name="LoanTypeId" id="LoanTypeId" disabled>
 <option value="0">Select</option>
 <option *ngFor="let loanType of loanTypeList" value={{loanType.LoanTypeId}}>{{loanType.LoanTypeName}}</option>
 </select> </div>
@@ -194,7 +226,7 @@
         <div class="{{TermClass}}">
           <label for="Term" class="col-lg-4 control-label">Full Term of Loan</label>
           <div class="col-lg-6">
-            <span type="text" class="form-control  input-sm" type="number" min=0 required>{{Term}}</span>
+            <span type="text" class="form-control  input-sm" type="number" min=0 required>{{FullTermOfLoanMonthly}}</span>
           </div>
         </div>
       </div>
@@ -218,7 +250,8 @@
         <div class="{{CompanyBufferClass}}">
           <label for="CompanyBufferId" class="col-lg-4 control-label">Company Buffer</label>
           <div class="col-lg-6">
-            <select type="text" class="form-control input-sm" [(ngModel)]="CompanyBufferId" name="CompanyBufferId" id="CompanyBufferId" disabled>
+            <select type="text" class="form-control input-sm" [(ngModel)]="CompanyBufferId" name="CompanyBufferId" id="CompanyBufferId"
+              disabled>
 <option value="0">Select</option>
 <option *ngFor="let companyBuffer of companyBufferList" value={{companyBuffer.CompanyBufferId}}>{{companyBuffer.CompanyBufferName}}</option>
 </select>
@@ -321,8 +354,11 @@
 
       <div class="col-md-2">
 
-        <button class="btn btn-primary btn-block  btn-sm" (click)="PrintQuotation()" type="button">Print</button>
+        <button class="btn btn-primary btn-block  btn-sm" (click)="ViewQuotation()" type="button">View Quotation</button>
 
+      </div>
+      <div class="col-md-2" hidden>
+        <button class="btn btn-primary" (click)="quotationModal.open()" id="openQuotationModalButton">Show Quotation</button>
       </div>
 
     </div>
@@ -417,7 +453,7 @@
         <div class="{{LifeAss1DobClass}}">
           <label for="" class="col-lg-4 control-label">Date of Birth</label>
           <div class="col-lg-8">
-            <datetime name="LifeAss1Dob" id="LifeAss1Dob" [(ngModel)]="LifeAss1Dob" [timepicker]="false" (ngModelChange)="calculateLife1Age($event)"></datetime>
+            <datetime name="LifeAss1Dob" id="LifeAss1Dob"  [datepicker]="datepickerOpts" [(ngModel)]="LifeAss1Dob" [timepicker]="false" (ngModelChange)="calculateLife1Age($event)"></datetime>
 
           </div>
         </div>
@@ -425,7 +461,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <div class="col-lg-8">
-            <datetime name="LifeAss2Dob" id="LifeAss2Dob" [(ngModel)]="LifeAss2Dob" [timepicker]="false" (ngModelChange)="calculateLife2Age($event)"></datetime>
+            <datetime name="LifeAss2Dob" id="LifeAss2Dob"  [datepicker]="datepickerOpts"  [(ngModel)]="LifeAss2Dob" [timepicker]="false" (ngModelChange)="calculateLife2Age($event)"></datetime>
           </div>
         </div>
       </div>
@@ -494,9 +530,32 @@
 
 
 
+
     <div class="row">
-
-
+      <div class="col-md-6">
+        <div class="{{BankIdClass}}">
+          <label for="selectedBankId" class="col-lg-4 control-label">Bank</label>
+          <div class="col-lg-6">
+            <select type="text" class="form-control input-sm" [(ngModel)]="BankId" name="BankId" id="BankId"
+              (ngModelChange)="onSelectOfBankId($event)">
+<option value="0">Select</option>
+<option *ngFor="let bank of bankList" value={{bank.BankId}}>{{bank.BankName}}</option>
+</select> </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="{{BankBranchIdClass}}">
+          <label for="BranchId" class="col-lg-5 control-label">Bank Branch</label>
+          <div class="col-lg-7">
+            <select type="text" class="form-control input-sm" [(ngModel)]="BankBranchId" name="BankBranchId" id="BankBranchId">
+<option value="0">Select</option>
+<option *ngFor="let bankBranch of bankBranchList" value={{bankBranch.BankBranchId}}>{{bankBranch.BankBranchName}}</option>
+</select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+      </div>
     </div>
 
 
@@ -528,10 +587,10 @@
     <div class="row">
       <div class="col-md-6">
         <div class="{{TermClass}}">
-          <label for="Term" class="col-lg-4 control-label">Full Term of Loan</label>
+          <label for="Term" class="col-lg-4 control-label">Term of Loan(Monthly)</label>
           <div class="col-lg-6">
-            <input type="text" class="form-control  input-sm" placeholder="Full Term of Loan" [(ngModel)]="Term" name="Term" id="Term"
-              type="number" min=0 required>
+            <input type="text" class="form-control  input-sm" placeholder="Full Term of Loan" [(ngModel)]="FullTermOfLoanMonthly" name="FullTermOfLoanMonthly"
+              id="FullTermOfLoanMonthly" type="number" min=0 required>
           </div>
         </div>
       </div>
@@ -670,10 +729,12 @@
 
       <div class="col-md-2">
 
-        <button class="btn btn-primary btn-block  btn-sm" (click)="PrintQuotation()" type="button">Print</button>
+        <button class="btn btn-primary btn-block  btn-sm" (click)="ViewQuotation()" type="button">ViewQuotation</button>
 
       </div>
-
+      <div class="col-md-2" hidden>
+        <button class="btn btn-primary" (click)="quotationModal.open()" id="openQuotationModalButton">Show Quotation</button>
+      </div>
     </div>
 
 

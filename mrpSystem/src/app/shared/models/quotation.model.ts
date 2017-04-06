@@ -14,7 +14,7 @@ export interface IQuotation {
     LifeAss2Gender: string;
     LifeAss2Nic: string;
     LoanAmount: number;
-    Term: number;
+    FullTermOfLoanMonthly: number;
     FixedInterest: number;
     CompanyBufferId: number;
     CurrentAwplr: number;
@@ -25,6 +25,8 @@ export interface IQuotation {
     PremiumWithPolicyFee: number;
     LoanTypeId: number;
     HnbaBranchCode: string;
+    BankId: number;
+    BankBranchId: number;
     UserId: string;
     Status: string;
     RegisterDate: string;

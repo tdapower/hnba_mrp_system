@@ -25,8 +25,8 @@ export class UserLoginComponent implements OnInit {
   ngOnInit() {
     this.authenticationService.logout();
 
-    this.UserName = "tda";
-    this.Password = "tda";
+    // this.UserName = "tda";
+    // this.Password = "tda";
   }
 
 
@@ -47,7 +47,8 @@ export class UserLoginComponent implements OnInit {
           console.log(USER.USER_AUTH_TOKEN);
 
           localStorage.setItem("currentMRPUser", JSON.stringify(this.User));
-          this.router.navigate(['/', 'proposalUpdate']);
+          localStorage.setItem("currentMRPUserToken", USER.USER_AUTH_TOKEN);
+          this.router.navigate(['/', 'proposalReg']);
 
         } else {
           this.message = "Invalid User name or Password...";

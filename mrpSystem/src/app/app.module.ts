@@ -9,6 +9,7 @@ import { MomentModule } from 'angular2-moment';
 
 import { ToastrModule } from 'toastr-ng2';
 
+import { NgUploaderModule } from 'ngx-uploader';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { ModalModule } from "ng2-modal";
 import { Md2DatepickerModule } from 'md2-datepicker';
@@ -18,6 +19,7 @@ import { QuotationService } from './shared/services/quotation/quotation.service'
 import { CommonService } from './shared/services/common/common.service';
 import { ProposalUpdateService } from './shared/services/proposal-update/proposal-update.service';
 import { ProposalRegisterService } from './shared/services/proposal-register/proposal-register.service';
+import { AssureService } from './shared/services/assure/assure.service';
 
 
 import { QuotationAddComponent } from './pages/quotation/quotation-add/quotation-add.component';
@@ -32,6 +34,7 @@ import { SpinnerTopComponent } from './layout/spinner-top/spinner-top.component'
 import { QuotationSearchComponent } from './pages/quotation/quotation-search/quotation-search.component';
 import { ProposalUpdateComponent } from './pages/proposal/proposal-update/proposal-update.component';
 import { QuotationReviseComponent } from './pages/quotation/quotation-revise/quotation-revise.component';
+import { PendingProposalsComponent } from './pages/proposal/pending-proposals/pending-proposals.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import { QuotationReviseComponent } from './pages/quotation/quotation-revise/quo
     SpinnerTopComponent,
     QuotationSearchComponent,
     ProposalUpdateComponent,
-    QuotationReviseComponent
+    QuotationReviseComponent,
+    PendingProposalsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +61,8 @@ import { QuotationReviseComponent } from './pages/quotation/quotation-revise/quo
     ModalModule,
     Md2DatepickerModule.forRoot(),
     MomentModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgUploaderModule
     
   ],
   providers: [
@@ -67,7 +72,8 @@ import { QuotationReviseComponent } from './pages/quotation/quotation-revise/quo
     CommonService,
     ProposalRegisterService,
     ProposalUpdateService,
-    ProposalRegisterComponent],
+    ProposalRegisterComponent,
+    AssureService],
 
 
 

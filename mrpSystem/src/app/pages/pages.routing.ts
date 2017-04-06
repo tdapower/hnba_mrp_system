@@ -7,7 +7,7 @@ import { QuotationReviseComponent } from './quotation/quotation-revise/quotation
 
 import { ProposalRegisterComponent } from './proposal/proposal-register/proposal-register.component';
 import { ProposalUpdateComponent } from './proposal/proposal-update/proposal-update.component';
-
+import { PendingProposalsComponent } from './proposal/pending-proposals/pending-proposals.component';
 
 
 
@@ -29,8 +29,12 @@ export const PAGE_ROUTES: Routes = [
         component: ProposalRegisterComponent
     },
     {
-        path: 'proposalUpdate',
+        path: 'proposalUpdate/:SeqId',
         component: ProposalUpdateComponent
+    },
+    {
+        path: 'pendingProposals',
+        component: PendingProposalsComponent
     }
 
 

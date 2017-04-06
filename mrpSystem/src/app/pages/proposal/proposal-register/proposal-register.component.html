@@ -1,6 +1,69 @@
 <div *ngIf="isLoading">
   <app-spinner-top></app-spinner-top>
 </div>
+<div class="row">
+
+  <modal #docUploadModal>
+    <modal-header>
+      <h4>Upload</h4>
+    </modal-header>
+    <modal-content>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="DocTypeId" class="col-lg-4 control-label">Document Type</label>
+            <div class="col-lg-4">
+
+              <select type="text" class="form-control input-sm" [(ngModel)]="DocTypeId" name="DocTypeId" id="DocTypeId" (ngModelChange)="onSelectOfUploadDocTypeId($event)">
+<option value="0">Select</option>
+<option *ngFor="let uploadDocType of uploadDocTypeList" value={{uploadDocType.DocTypeId}}>{{uploadDocType.DocTypeName}}</option>
+</select>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-container">
+          <label class="upload-button is-pulled-left">
+    <input type="file"
+           class="hidden"
+           ngFileSelect
+           [options]="uploaderOptions"
+           [events]="inputUploadEvents"
+           (onUpload)="handleUpload($event)"
+           
+           (beforeUpload)="beforeUpload($event)">
+   <div class="btn btn-primary">Browse</div> 
+  </label>
+        </div>
+      </div>
+
+      <p>
+        Allowed extensions: <code><b>.pdf</b></code>
+      </p>
+
+
+
+      <div *ngIf="response">
+        <pre><code>{{ response | json }}</code></pre>
+      </div>
+
+      <div *ngIf="errorMessage">
+        <code>{{ errorMessage }}</code>
+      </div>
+      <div *ngIf="previewData && !response">
+        <img [src]="previewData">
+      </div>
+
+    </modal-content>
+    <modal-footer>
+
+      <button type="button" class="btn btn-info" (click)="startUpload()">Upload</button>
+
+
+      <button class="btn btn-primary" (click)="docUploadModal.close()">close</button>
+    </modal-footer>
+  </modal>
+</div>
 
 <div *ngIf="!isLoading">
   <form class="form-horizontal" role="form">
@@ -39,7 +102,8 @@
           <div class="form-group">
             <label for="JobNo" class="col-lg-2 control-label">Job No.</label>
             <div class="col-lg-4">
-              <input type="text" class="form-control input-sm" placeholder="Job No." [(ngModel)]="JobNo" name="JobNo" id="JobNo">
+              <span class="form-control  input-sm">{{JobNo}}</span>
+
             </div>
           </div>
         </div>
@@ -125,14 +189,14 @@
           <div class="{{LifeAss1DobClass}}">
             <label for="Life1Dob" class="col-lg-4 control-label">Date of Birth</label>
             <div class="col-lg-8">
-              <datetime name="Life1Dob" id="Life1Dob" [(ngModel)]="Life1Dob" [timepicker]="false"></datetime>
+              <datetime name="Life1Dob" id="Life1Dob" [datepicker]="datepickerOpts" [(ngModel)]="Life1Dob" [timepicker]="false"></datetime>
             </div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <div class="col-lg-8">
-              <datetime name="Life2Dob" id="Life2Dob" [(ngModel)]="Life2Dob" [timepicker]="false"></datetime>
+              <datetime name="Life2Dob" id="Life2Dob" [datepicker]="datepickerOpts" [(ngModel)]="Life2Dob" [timepicker]="false"></datetime>
             </div>
           </div>
         </div>
@@ -309,8 +373,7 @@
           <div class="{{BankIdClass}}">
             <label for="BankId" class="col-lg-4 control-label">Bank</label>
             <div class="col-lg-4">
-              <select type="text" class="form-control input-sm" [(ngModel)]="selectedBankId" name="selectedBankId" id="selectedBankId"
-                (ngModelChange)="onSelectOfBankId($event)">
+              <select type="text" class="form-control input-sm" [(ngModel)]="BankId" name="BankId" id="BankId" (ngModelChange)="onSelectOfBankId($event)">
 <option value="0">Select</option>
 <option *ngFor="let bank of bankList" value={{bank.BankId}}>{{bank.BankName}}</option>
 </select>
@@ -340,7 +403,7 @@
 <option value="0">Select</option>
 <option *ngFor="let loanType of loanTypeList" [ngValue]="loanType" value={{loanType.LoanTypeId}}>{{loanType.LoanTypeName}}</option>
 </select>
- </div>
+            </div>
           </div>
         </div>
         <div class="col-md-5">
@@ -349,6 +412,27 @@
             <div class="col-lg-7">
               <input type="text" class="form-control input-sm" placeholder="Loan Amount" [(ngModel)]="LoanAmount" name="LoanAmount" id="LoanAmount"
                 type="number" min=0 required>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="LoanTypeId" class="col-lg-4 control-label">Premium Amount</label>
+            <div class="col-lg-6">
+              <span class="form-control  input-sm">{{Premium}}</span></div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="LoanAmount" class="col-lg-5 control-label">With Policy Fee</label>
+            <div class="col-lg-7">
+              <span class="form-control  input-sm">{{PremiumWithPolicyFee}}</span>
             </div>
           </div>
         </div>
@@ -397,22 +481,29 @@
           <button class="btn btn-primary btn-block  btn-sm" (click)="AddNewQuotation()" type="button">Add New</button>
 
         </div>
+
+        <div class="col-md-2">
+          <button class="btn btn-primary btn-block btn-sm" (click)="docUploadModal.open()">Upload Docs</button>
+        </div>
+
         <div class="col-md-2">
 
           <button class="btn btn-primary btn-block  btn-sm" (click)="SaveProposal()" type="button">Save</button>
 
         </div>
 
-        <div class="col-md-2">
-          <button class="btn btn-primary btn-block  btn-sm" (click)="Calculate()" type="button">Calculate</button>
-        </div>
+
 
         <div class="col-md-2">
 
           <button class="btn btn-primary btn-block  btn-sm" (click)="PrintQuotation()" type="button">Print</button>
 
         </div>
+        <div class="col-md-2">
 
+          <button class="btn btn-primary btn-block  btn-sm" (click)="Test()" type="button">Test</button>
+
+        </div>
       </div>
 
 

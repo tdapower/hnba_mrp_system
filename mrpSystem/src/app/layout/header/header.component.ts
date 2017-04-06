@@ -18,13 +18,12 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
 
     this.User = JSON.parse(localStorage.getItem('currentMRPUser'));
-  //  this.UserDisplayName = this.User.UserDisplayName;
+    this.UserDisplayName = this.User.UserDisplayName;
   }
 
 
   public logout() {
     this.authenticationService.logout();
-    this.router.navigate(['add']);
   }
 
 

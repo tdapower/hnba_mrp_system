@@ -9,7 +9,7 @@ import { USER } from '../../config/user';
 export class AuthenticationService {
     public token: string;
     constructor(private http: Http) {
-        //  var currentMRPUser = JSON.parse(localStorage.getItem('currentMRPUser'));
+         var currentMRPUser = JSON.parse(localStorage.getItem('currentMRPUser'));
         // this.token = currentMRPUser && currentMRPUser.token;
     }
 
@@ -28,6 +28,7 @@ export class AuthenticationService {
 
         return this.http.get(URL_CONST.URL_PREFIX + 'api/UserAccount/checkAndLoadUser?userName=' + userName + '&password=' + password, options)
             .map((response: Response) => response.json())
+            .timeout(60000)
             .catch((error: any) => {
                 return Observable.throw(new Error(error.status))
             });

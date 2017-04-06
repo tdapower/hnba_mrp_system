@@ -20,7 +20,7 @@ export class QuotationService {
     let postoptions = new RequestOptions({ headers: headers });
 
     return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/AddQuotation', body, postoptions)
-      .map((response: Response) => response.json())
+      .map((response: Response) => JSON.stringify(response.json()))
       .timeout(60000)
       .catch((error: any) => {
         this.handleError;
@@ -28,6 +28,23 @@ export class QuotationService {
       });
   }
 
+
+  updateQuotationDetails(params) {
+    let body = params;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let postoptions = new RequestOptions({ headers: headers });
+
+    return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/UpdateQuotation', body, postoptions)
+      .map((response: Response) => {
+        return response;
+      })
+      .timeout(60000)
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
 
   reviseQuotation(params) {
     let body = params;
@@ -37,17 +54,11 @@ export class QuotationService {
 
     return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/ReviseQuotation', body, postoptions)
       .map((response: Response) => {
-        console.log('response ' + response);
-        console.log('response st ' + response.status);
-
-
         return response;
-
       })
       .timeout(60000)
       .catch((error: any) => {
-        console.log('s errrrrr');
-        
+
         this.handleError;
         return Observable.throw(new Error(error.status))
       });
@@ -87,6 +98,19 @@ export class QuotationService {
       });
   }
 
+  checkQuotationAlreadyProcessed(quotationNo) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Quotation/CheckQuotationAlreadyProcessed?quotationNo=' + quotationNo, options)
+      .map((response: Response) => JSON.stringify(response.json()))
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
 
   getQuotationByQuotationId(quotationNo) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -118,6 +142,19 @@ export class QuotationService {
   }
 
 
+  getQuotationNoBySeqId(seqId) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Quotation/GetQuotationNoBySeqId/' + seqId, options)
+      .map((response: Response) => JSON.stringify(response.json()))
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
 
 
 
@@ -125,17 +162,14 @@ export class QuotationService {
     let body = params;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    // headers.append('responseType', 'arraybuffer');
+
     let postoptions = new RequestOptions({ headers: headers });
 
-    return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/GetQuotationDocument/' + params, body, postoptions)
-      .map(
-      (response: Response) => {
-        console.log('respone - ' + response);
-        console.log('respone status- ' + response.status);
-        console.log('came here service 1');
-      }
-
-      )
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Quotation/GetQuotationDocument/' + params, postoptions)
+   .map((response: Response) => {
+        return response;
+      })
       .timeout(60000)
       .catch((error: any) => {
         console.log(error);
