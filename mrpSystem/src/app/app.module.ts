@@ -6,13 +6,12 @@ import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { MomentModule } from 'angular2-moment';
-
 import { ToastrModule } from 'toastr-ng2';
 
 import { NgUploaderModule } from 'ngx-uploader';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { ModalModule } from "ng2-modal";
-import { Md2DatepickerModule } from 'md2-datepicker';
+// import { Md2DatepickerModule } from 'md2-datepicker';
 
 import { routes } from './app.router';
 import { QuotationService } from './shared/services/quotation/quotation.service';
@@ -35,6 +34,8 @@ import { QuotationSearchComponent } from './pages/quotation/quotation-search/quo
 import { ProposalUpdateComponent } from './pages/proposal/proposal-update/proposal-update.component';
 import { QuotationReviseComponent } from './pages/quotation/quotation-revise/quotation-revise.component';
 import { PendingProposalsComponent } from './pages/proposal/pending-proposals/pending-proposals.component';
+import { MainDashboardComponent } from './pages/dashboards/main-dashboard/main-dashboard.component';
+import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { PendingProposalsComponent } from './pages/proposal/pending-proposals/pe
     QuotationSearchComponent,
     ProposalUpdateComponent,
     QuotationReviseComponent,
-    PendingProposalsComponent
+    PendingProposalsComponent,
+    MainDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -59,10 +61,10 @@ import { PendingProposalsComponent } from './pages/proposal/pending-proposals/pe
     NKDatetimeModule,
     Ng2PaginationModule,
     ModalModule,
-    Md2DatepickerModule.forRoot(),
     MomentModule,
     ToastrModule.forRoot(),
-    NgUploaderModule
+    NgUploaderModule,
+    Angular2FontawesomeModule 
     
   ],
   providers: [

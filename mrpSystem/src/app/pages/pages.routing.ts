@@ -9,6 +9,7 @@ import { ProposalRegisterComponent } from './proposal/proposal-register/proposal
 import { ProposalUpdateComponent } from './proposal/proposal-update/proposal-update.component';
 import { PendingProposalsComponent } from './proposal/pending-proposals/pending-proposals.component';
 
+import { MainDashboardComponent } from './dashboards/main-dashboard/main-dashboard.component';
 
 
 export const PAGE_ROUTES: Routes = [
@@ -35,7 +36,14 @@ export const PAGE_ROUTES: Routes = [
     {
         path: 'pendingProposals',
         component: PendingProposalsComponent
+    },
+    {
+        path: 'mainDashboard',
+        component: MainDashboardComponent
     }
+
+
+    
 
 
 ];

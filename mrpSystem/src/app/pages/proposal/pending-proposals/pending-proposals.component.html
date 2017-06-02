@@ -21,11 +21,11 @@
         </thead>
         <tbody>
 
-
-          <tr *ngFor="let searchResult of searchResults | paginate: {itemsPerPage:10 , currentPage:page, id: '1'}; let i = index" (click)="setClickedRow(i,searchResult.SeqId);">
+<tr *ngFor="let searchResult of searchResults | paginate: {itemsPerPage:10 , currentPage:page, id: '1'}; let i = index"
+  (click)="setClickedRow(i,searchResult.SeqId);">
+          <!--<tr *ngFor="let searchResult of searchResults | paginate: {itemsPerPage:10 , currentPage:page, id: '1'}; let i = index" (click)="setClickedRow(i,searchResult.SeqId);">-->
             <td>{{searchResult.SeqId}}</td>
-            <td>
-              {{searchResult.JobNo}}</td>
+            <td>{{searchResult.JobNo}}</td>
             <td>{{searchResult.QuotationNo}}</td>
             <td>{{searchResult.ProposalNo}}</td>
             <td>{{searchResult.LoanAmount}}</td>
@@ -35,8 +35,8 @@
 
         </tbody>
       </table>
-      <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
-      </pagination-controls>
+        <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+    </pagination-controls>
     </div>
   </div>
 </div>

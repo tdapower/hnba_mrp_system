@@ -58,6 +58,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   FixedInterest: number;
   CompanyBufferId: number;
   CompanyBufferValue: string = '';
+  CompanyBufferName: string = '';
   CurrentAwplr: number;
   AdditionalToAwplr: number;
   TermOfFixedInterest: number;
@@ -159,7 +160,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
     this.RevisionNo = 0;
     this.LifeAss1Name = '';
-    this.LifeAss1Dob ='';
+    this.LifeAss1Dob = '';
     this.LifeAss1Age = null;
     this.LifeAss1Gender = '';
     this.LifeAss1Nic = '';
@@ -177,6 +178,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.TermOfFixedInterest = null;
     this.Discount = null;
     this.Premium = null;
+    this.PremiumWithPolicyFee = null;
     this.LoanTypeId = null;
     this.HnbaBranchCode = '';
     this.BankId = null;
@@ -250,6 +252,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       });
   }
   onSelectOfBankId(bankId) {
+
+
     this.BankId = bankId;
     this.isLoading = true;
     this.commonService.getBankBranchByBankId(bankId)
@@ -642,12 +646,12 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     } else {
       this.BranchCodeClass = "form-group";
     }
-    if (this.CompanyBufferId == null || isNaN(this.CompanyBufferId)) {
-      this.CompanyBufferClass = "has-error";
-      this.isQuotationDetailsValid = false;
-    } else {
-      this.CompanyBufferClass = "form-group";
-    }
+    // if (this.CompanyBufferId == null || isNaN(this.CompanyBufferId)) {
+    //   this.CompanyBufferClass = "has-error";
+    //   this.isQuotationDetailsValid = false;
+    // } else {
+    //   this.CompanyBufferClass = "form-group";
+    // }
 
     if (this.BankId == null || isNaN(this.BankId)) {
       this.BankIdClass = "has-error";
@@ -662,7 +666,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       this.BankBranchIdClass = "form-group";
     }
     if (this.LifeAss2Name == null || this.LifeAss2Name == "") { //if life 2 name is missing, then dob is reset
-      this.LifeAss2Dob = "01/01/1900" ;
+      this.LifeAss2Dob = "01/01/1900";
     }
 
     console.log('validated');
@@ -689,7 +693,13 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       this.isLoading = true;
       this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == this.LoanTypeId)[0]['LoanTypeName'];
 
-      this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
+      console.log('CompanyBufferId   ' + this.CompanyBufferId);
+
+      if (this.CompanyBufferId > 0) {
+        console.log('tttttttttt');
+
+        this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
+      }
 
 
 
@@ -735,7 +745,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
       var formatted_dob_life1 = moment(this.LifeAss1Dob).format('YYYY/MM/DD');
       var formatted_dob_life2;
-     
+
       if (this.LifeAss2Dob == "01/01/1900") {
         formatted_dob_life2 = "N/A";
       } else {
@@ -747,11 +757,13 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         formattedLifeAss2Gender = "N/A";
       }
 
+      var FullTermOfLoanYearly = 0;
+      FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
 
 
       var obj = {
         username: this.User.UserName,
-        term: this.FullTermOfLoanMonthly.toString(),
+        term: FullTermOfLoanYearly.toString(),
         loan_interest: this.FixedInterest.toString(),
         loan_amount: this.LoanAmount.toString(),
         grace_period: 0,

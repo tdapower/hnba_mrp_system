@@ -12,26 +12,30 @@ import { IPendingProposal } from '../../../shared/models/pendingProposal.model';
 })
 export class PendingProposalsComponent implements OnInit {
 
-
+  isLoading: boolean;
 
   searchResults: Array<Object> = [];
-  constructor(private proposalUpdateService: ProposalUpdateService, private router: Router) { }
+  constructor(private proposalUpdateService: ProposalUpdateService, private router: Router) {
+    this.saerchPendingProposals();
+   }
 
   ngOnInit() {
-    this.saerchPendingProposals();
+  
   }
 
 
   saerchPendingProposals() {
 
-
+    this.isLoading = true;
 
     this.proposalUpdateService.searchPendingProposals().subscribe((data: any) => {
       console.log(data);
       this.searchResults = data;
+      this.isLoading = false;
     },
       (err) => {
         console.log(err);
+        this.isLoading = false;
       },
       () => console.log('done'));
 

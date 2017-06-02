@@ -63,6 +63,76 @@ export class ProposalRegisterService {
       });
   }
 
+
+
+  generateProposalNo(bankCode) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Main/GenerateProposalNo?bankCode=' + bankCode, options)
+      .map((response: Response) => JSON.stringify(response.json()))
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
+  saveProposalToMRP(params) {
+    console.log('saveeeeee');
+    
+    let body = params;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let postoptions = new RequestOptions({ headers: headers });
+
+    return this.http.post(URL_CONST.URL_PREFIX + 'api/Main/SaveProposalToMRP', body, postoptions)
+      .map((response: Response) => {
+        console.log('response from SaveProposalToMRP' + response);
+        
+        return response;
+      })
+      .timeout(60000)
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+  savePolicyInfoToMRP(params) {
+    let body = params;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let postoptions = new RequestOptions({ headers: headers });
+
+    return this.http.post(URL_CONST.URL_PREFIX + 'api/Main/SavePolicyInfoToMRP', body, postoptions)
+      .map((response: Response) => {
+
+        return response;
+      })
+      .timeout(60000)
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+  saveCustomerInfoToMRP(params) {
+    let body = params;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let postoptions = new RequestOptions({ headers: headers });
+
+    return this.http.post(URL_CONST.URL_PREFIX + 'api/Main/SaveCustomerInfoToMRP', body, postoptions)
+      .map((response: Response) => {
+        return response;
+      })
+      .timeout(60000)
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
+
   private handleError(error: Response) {
     console.error('Error occured - ', error);
     return Observable.throw(error.status || ' error');

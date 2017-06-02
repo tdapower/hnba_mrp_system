@@ -1,0 +1,46 @@
+export interface IMrpPolicyInfoSave {
+    PolicyNo: string;
+    DateOfComm: string;
+    PropNo: string;
+    DateOfProp: string;
+    PrevsPolcy1: string;
+    PrevsPolcy2: string;
+    BNKCode: string;
+    HeltLodBasic1: string;
+    HeltLodBasic2: string;
+    HeltLodTPD1: string;
+    HeltLodTPD2: string;
+    OccupLoadBasic1: string;
+    OccupLoadBasic2: string;
+    OccupLoadTPD1: string;
+    OccupLoadTPD2: string;
+    DicuntLoadLife1: string;
+    DicuntLoadLife2: string;
+    TPDDeclin: string;
+    IsAgeAdmited: string;
+    PremiumFee: string;
+    LfLoad1: string;
+    LfLoad2: string;
+    Smoker: string;
+    Debate: string;
+    Tpdlife1: string;
+    Tpdlife2: string;
+    Tpdoption1: string;
+    Tpdoption2: string;
+    Reinsu: string;
+    Exchangerate: string;
+    Currency: string;
+    Rptdate: string;
+    Premium: string;
+    Fullterm: string;
+    Graceterm: string;
+    Loantype: string;
+    Recompany: string;
+    Currencyformat: string;
+    OccupLoadBasicpermile1: string;
+    OccupLoadBasicpermile2: string;
+    OccupLoadTPDpermile1: string;
+    OccupLoadTPDpermile2: string;
+    Brockercode: string;
+
+}

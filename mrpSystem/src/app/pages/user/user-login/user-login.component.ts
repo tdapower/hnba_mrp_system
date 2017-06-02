@@ -29,6 +29,50 @@ export class UserLoginComponent implements OnInit {
     // this.Password = "tda";
   }
 
+  public loginWithWindowsUser() {
+    this.isLoading = true;
+    this.authenticationService.GetWindowsUserName()
+      .subscribe((data) => {
+        console.log('data   '+data);
+        
+
+        let windowsUserName: string = data;
+        this.isLoading = false;
+
+        this.authenticationService.checkAndLoadWindowsUser(windowsUserName)
+          .subscribe((data2) => {
+
+
+            this.isLoading = false;
+            console.log(data2);
+            this.User = data2
+            if (this.User.UserName != null) {
+              USER.USER_AUTH_TOKEN = 'Basic ' + btoa(this.User.UserName + ':' + this.User.Password);
+              console.log(USER.USER_AUTH_TOKEN);
+
+              localStorage.setItem("currentMRPUser", JSON.stringify(this.User));
+              localStorage.setItem("currentMRPUserToken", USER.USER_AUTH_TOKEN);
+              this.router.navigate(['/', 'mainDashboard']);
+
+            } else {
+              this.message = "Invalid User name or Password...";
+            }
+          }),
+          ((err) => {
+            console.log(err);
+            this.message = "Error while user login...";
+          });
+
+
+      }),
+      ((err) => {
+        console.log(err);
+        this.message = "Error while user login...";
+      });
+
+
+
+  }
 
   public validateUser() {
 
@@ -48,16 +92,11 @@ export class UserLoginComponent implements OnInit {
 
           localStorage.setItem("currentMRPUser", JSON.stringify(this.User));
           localStorage.setItem("currentMRPUserToken", USER.USER_AUTH_TOKEN);
-          this.router.navigate(['/', 'proposalReg']);
+          this.router.navigate(['/', 'mainDashboard']);
 
         } else {
           this.message = "Invalid User name or Password...";
         }
-
-
-
-
-        // console.log(localStorage.getItem('currentMRPUser'));
       }),
       ((err) => {
         console.log(err);

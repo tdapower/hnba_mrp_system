@@ -575,7 +575,7 @@
                   <label for="BranchId" class="col-lg-4  control-label">Bank Branch</label>
                   <div class="col-lg-3">
 
-                    <select type="text" class="form-control input-sm" [(ngModel)]="BranchId" name="BranchId" id="BranchId">
+                    <select type="text" class="form-control input-sm" [(ngModel)]="BranchId" name="BranchId" id="BranchId"  (ngModelChange)="onSelectOfBankBranchId($event)">
 <option value="0">Select</option>
 <option *ngFor="let bankBranch of bankBranchList" value={{bankBranch.BankBranchId}}>{{bankBranch.BankBranchName}}</option>
 </select>

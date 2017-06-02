@@ -64,6 +64,7 @@ export class ProposalRegisterComponent implements OnInit {
   AdditionToAwplr: number;
   TermOfFixedInterest: number;
   BankId: number;
+  BankCode: string;
   BranchId: number;
   CurrencyId: number;
   InterestRateType: string;
@@ -248,6 +249,8 @@ export class ProposalRegisterComponent implements OnInit {
 
     this.getUploadDocumentTypes();
     this.getBanks();
+
+    this.getBankBranches();
     this.getLoanTypes();
     this.getNationalities();
     this.getProposalStatuses();
@@ -331,7 +334,23 @@ export class ProposalRegisterComponent implements OnInit {
 
       });
   }
+  getBankBranches() {
+    this.isLoading = true;
+    this.commonService.getBankBranch()
+      .subscribe((data) => {
+        this.bankBranchList = data
+        this.isLoading = false;
 
+
+      },
+      (err) => {
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error loading Banks");
+
+      });
+  }
 
   getLoanTypes() {
     this.isLoading = true;
@@ -388,6 +407,7 @@ export class ProposalRegisterComponent implements OnInit {
     this.isLoading = true;
     this.commonService.getBankBranchByBankId(bankId)
       .subscribe((data) => {
+        
         this.bankBranchList = data;
 
         this.isLoading = false;
@@ -399,6 +419,14 @@ export class ProposalRegisterComponent implements OnInit {
         this.showError("Error loading Bank Branches");
 
       });
+  }
+
+
+  
+  onSelectOfBankBranchId(bankBranchId) {
+
+    this.BankCode = this.bankBranchList.filter(item => item.BankBranchId == bankBranchId)[0]['BankCode'];
+
   }
 
 
@@ -569,6 +597,7 @@ export class ProposalRegisterComponent implements OnInit {
         this.BranchId = obj.BankBranchId;
 
         this.onSelectOfBankId(this.BankId);
+        this.onSelectOfBankBranchId(this.BranchId);
         this.CurrencyId = 0;
         this.InterestRateType = '';
         this.HnbaBranchCode = obj.HnbaBranchCode;
@@ -670,8 +699,7 @@ export class ProposalRegisterComponent implements OnInit {
   }
 
   public Test() {
-    console.log(this.BankId);
-
+  
   }
 
 
@@ -693,78 +721,99 @@ export class ProposalRegisterComponent implements OnInit {
       console.log('bank   -' + this.BankId);
 
 
-      let obj: IMain = {
-        TempSeqId: this.TempSeqId,
-        SeqId: 0,
-        JobNo: '',
-        QuotationNo: this.QuotationNo,
-        RevisionNo: 0,
-        ProposalNo: this.ProposalNo,
-        MedicalType: '',
-        PolicyNo: '',
-        LoanAmount: this.LoanAmount,
-        Interest: this.Interest,
-        Term: this.Term,
-        FullTermInMonths: this.FullTermInMonths,
-        GracePeriod: 0,
-        CompanyBufferId: this.CompanyBufferId,
-        CurrentAwplr: this.CurrentAwplr,
-        AdditionToAwplr: this.AdditionToAwplr,
-        TermOfFixedInterest: this.TermOfFixedInterest,
-        BankId: this.BankId,
-        BranchId: this.BranchId,
-        CurrencyId: 0,
-        InterestRateType: '',
-        HnbaBranchCode: this.HnbaBranchCode,
-        BrokerCode: 0,
-        ChannelCode: 0,
-        IsReInsurance: 0,
-        LoanTypeId: this.LoanTypeId,
-        ReInsCompanyId: 0,
-        ExchangeRate: 0,
-        DateOfCommence: '01/01/1970',
-        DateOfProposal: '01/01/1970',
-        Premium: this.Premium,
-        PremiumWithPolicyFee: this.PremiumWithPolicyFee,
-        Status: this.Status,
-        UserId: this.User.UserName,
-        ProposalSendingMethod: this.ProposalSendingMethod,
-        RegisterDate: '01/01/1970',
-        IsValidated: 0
-      }
 
-      console.log(obj);
-      console.log(JSON.stringify(obj));
-      this.proposalRegisterService.saveProposalDetails(obj).subscribe((data: any) => {
+
+      this.proposalRegisterService.generateProposalNo(this.BankCode).subscribe((data: any) => {
         console.log(data);
-
-
-        let obj: IMainSaveReturn = JSON.parse(data);
-        this.SeqId = obj.SeqId;
-        this.JobNo = obj.JobNo;
-        console.log(' this.SeqId =' + this.SeqId);
-        this.isLoading = false;
-
-
-        this.showSuccess("Proposal Successfully Saved. Job  Number is " + this.JobNo);
+        this.ProposalNo = data.toString().replace(/"/g, '');
 
 
 
-        this.SaveAssureDetails1();
-        if (this.Life2Name != "" && this.Life2Nic != "") {
-
-          this.SaveAssureDetails2();
+        let obj: IMain = {
+          TempSeqId: this.TempSeqId,
+          SeqId: 0,
+          JobNo: '',
+          QuotationNo: this.QuotationNo,
+          RevisionNo: 0,
+          ProposalNo: this.ProposalNo,
+          MedicalType: '',
+          PolicyNo: '',
+          LoanAmount: this.LoanAmount,
+          Interest: this.Interest,
+          Term: this.Term,
+          FullTermInMonths: this.FullTermInMonths,
+          GracePeriod: 0,
+          CompanyBufferId: this.CompanyBufferId,
+          CurrentAwplr: this.CurrentAwplr,
+          AdditionToAwplr: this.AdditionToAwplr,
+          TermOfFixedInterest: this.TermOfFixedInterest,
+          BankId: this.BankId,
+          BranchId: this.BranchId,
+          CurrencyId: 0,
+          InterestRateType: '',
+          HnbaBranchCode: this.HnbaBranchCode,
+          BrokerCode: 0,
+          ChannelCode: 0,
+          IsReInsurance: 0,
+          LoanTypeId: this.LoanTypeId,
+          ReInsCompanyId: 0,
+          ExchangeRate: 0,
+          DateOfCommence: '01/01/1970',
+          DateOfProposal: '01/01/1970',
+          Premium: this.Premium,
+          PremiumWithPolicyFee: this.PremiumWithPolicyFee,
+          Status: this.Status,
+          UserId: this.User.UserName,
+          ProposalSendingMethod: this.ProposalSendingMethod,
+          RegisterDate: '01/01/1970',
+          IsValidated: 0,
+          IsVIP: 0
         }
 
+        console.log(obj);
+        console.log(JSON.stringify(obj));
+        this.proposalRegisterService.saveProposalDetails(obj).subscribe((data: any) => {
+          console.log(data);
+
+
+          let obj: IMainSaveReturn = JSON.parse(data);
+          this.SeqId = obj.SeqId;
+          this.JobNo = obj.JobNo;
+          console.log(' this.SeqId =' + this.SeqId);
+          this.isLoading = false;
+
+
+          this.showSuccess("Proposal Successfully Saved. Job  Number is " + this.JobNo);
+
+
+          this.SaveAssureDetails1();
+          if (this.Life2Name != "" && this.Life2Nic != "") {
+
+            this.SaveAssureDetails2();
+          }
+
+        },
+          (err) => {
+            // alert(err);
+            console.log(err);
+
+            this.isLoading = false;
+            this.showError("Error while saving Proposal.");
+          },
+          () => console.log('done'));
       },
         (err) => {
-          // alert(err);
           console.log(err);
-
           this.isLoading = false;
-          this.showError("Error while saving Proposal.");
+          this.showError("Error while generating proposal No");
         },
         () => console.log('done'));
+
+
+
+
+
+  
 
     }
 

@@ -36,4 +36,5 @@ export interface IMain {
     ProposalSendingMethod: string;
     RegisterDate: string;
     IsValidated: number;
+    IsVIP: number;
 }

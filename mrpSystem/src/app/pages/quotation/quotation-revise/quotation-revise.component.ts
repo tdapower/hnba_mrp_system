@@ -54,6 +54,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
   FixedInterest: number;
   CompanyBufferId: number;
   CompanyBufferValue: string = '';
+  CompanyBufferName: string = '';
   CurrentAwplr: number;
   AdditionalToAwplr: number;
   TermOfFixedInterest: number;
@@ -340,7 +341,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
       if (this.Discount == null || isNaN(this.Discount)) {
         this.Discount = 0;
       }
-    
+
       if (this.LoanTypeId == null || isNaN(this.LoanTypeId)) {
         this.LoanTypeId = 0;
       }
@@ -547,7 +548,13 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
       this.isLoading = true;
       this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == this.LoanTypeId)[0]['LoanTypeName'];
 
-      this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
+      console.log('CompanyBufferId   ' + this.CompanyBufferId);
+
+      if (this.CompanyBufferId > 0) {
+        console.log('tttttttttt');
+
+        this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
+      }
 
 
 
@@ -605,11 +612,13 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         formattedLifeAss2Gender = "N/A";
       }
 
+      var FullTermOfLoanYearly = 0;
+      FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
 
 
       var obj = {
         username: this.User.UserName,
-        term: this.FullTermOfLoanMonthly.toString(),
+        term: FullTermOfLoanYearly.toString(),
         loan_interest: this.FixedInterest.toString(),
         loan_amount: this.LoanAmount.toString(),
         grace_period: 0,
