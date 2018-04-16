@@ -3,6 +3,24 @@
 </div>
 <div class="row">
 
+  <modal #proposalNoModal>
+    <modal-content>
+      <div class="modal-body">
+        <h1>
+          <p class="text-success" style="text-align:left;"> Proposal No</p>
+        </h1>
+        <h1>
+          <p class="text-info" style="text-align:center;"> {{ProposalNo}}</p>
+        </h1>
+      </div>
+
+
+    </modal-content>
+
+  </modal>
+</div>
+<div class="row">
+
   <modal #docUploadModal>
     <modal-header>
       <h4>Upload</h4>
@@ -333,7 +351,7 @@
             <label for="LifeAss1HeightCm" class="col-lg-4 control-label">Height</label>
             <div class="col-lg-3">
               <input type="text" class="form-control input-sm" placeholder="cm" [(ngModel)]="LifeAss1HeightCm" name="LifeAss1HeightCm"
-                id="LifeAss1HeightCm">
+                id="LifeAss1HeightCm" (ngModelChange)="valueChangeHeightCm1($event)">
             </div>
           </div>
         </div>
@@ -341,7 +359,7 @@
           <div class="form-group">
             <div class="col-lg-3">
               <input type="text" class="form-control input-sm" placeholder="cm" [(ngModel)]="LifeAss2HeightCm" name="LifeAss2HeightCm"
-                id="LifeAss2HeightCm">
+                id="LifeAss2HeightCm" (ngModelChange)="valueChangeHeightCm2($event)">
             </div>
           </div>
         </div>
@@ -353,7 +371,7 @@
             <label for="LifeAss1WeightKg" class="col-lg-4 control-label">Weight</label>
             <div class="col-lg-3">
               <input type="text" class="form-control input-sm" placeholder="kg" [(ngModel)]="LifeAss1WeightKg" name="LifeAss1WeightKg"
-                id="LifeAss1WeightKg">
+                id="LifeAss1WeightKg" (ngModelChange)="valueChangeWeightKg1($event)">
             </div>
           </div>
         </div>
@@ -361,13 +379,44 @@
           <div class="form-group">
             <div class="col-lg-3">
               <input type="text" class="form-control input-sm" placeholder="kg" [(ngModel)]="LifeAss2WeightKg" name="LifeAss2WeightKg"
-                id="LifeAss2WeightKg">
+                id="LifeAss2WeightKg" (ngModelChange)="valueChangeWeightKg2($event)">
             </div>
           </div>
         </div>
 
       </div>
+      <div class="row">
 
+        <label for="bmi" class="col-md-2  control-label">BMI</label>
+
+        <div class="col-md-4">
+
+          <div class="form-group">
+
+            <div class="col-lg-6">
+              <span class="form-control input-sm">{{Life1Bmi}}</span>
+            </div>
+            <div class="col-lg-6">
+              {{Life1BmiResult}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="col-lg-6">
+              <span class="form-control input-sm">{{Life2Bmi}}</span>
+            </div>
+            <div class="col-lg-6">
+              {{Life2BmiResult}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+
+
+        </div>
+      </div>
 
       <div class="row">
         <div class="col-md-6">
@@ -477,7 +526,7 @@
 
 
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
 
           <button class="btn btn-primary btn-block  btn-sm" (click)="AddNewQuotation()" type="button">Add New</button>
 
@@ -495,13 +544,16 @@
 
 
 
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
 
-          <button class="btn btn-primary btn-block  btn-sm" (click)="PrintQuotation()" type="button">Print</button>
+          <button hidden class="btn btn-primary btn-block  btn-sm" (click)="PrintQuotation()" type="button">Print</button>
 
         </div>
 
-
+        <div class="col-md-2" hidden>
+          <button class="btn btn-primary" (click)="proposalNoModal.open()" id="openProposalNoModalButton">Show</button>
+        </div>
+   
 
         <!--<div class="col-md-2">
 
@@ -518,7 +570,7 @@
     <div class="row">
     </div>
   </form>
-<!--</div>
+  <!--</div>
 
 
 <div *ngIf="!isEditable">

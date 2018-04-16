@@ -19,7 +19,11 @@
       "mobile": false,
       "styles": [
         "styles.css",
-        "../node_modules/toastr-ng2/toastr.css"
+        "./assets/css/theme.css",
+        "../node_modules/toastr-ng2/toastr.css",
+          "../node_modules/font-awesome/css/font-awesome.css",
+        "../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.css",
+          "../node_modules/bootstrap-timepicker/css/bootstrap-timepicker.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
@@ -33,7 +37,7 @@
     }
     }
   ],
-  "addons": [],
+  "addons": ["../node_modules/font-awesome/fonts/*.+(otf|eot|svg|ttf|woff|woff2)"],
   "packages": [],
   "e2e": {
     "protractor": {

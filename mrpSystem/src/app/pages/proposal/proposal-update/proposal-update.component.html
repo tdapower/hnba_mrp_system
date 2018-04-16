@@ -12,6 +12,8 @@
         <li class="active"><a href="#general" data-toggle="tab" aria-expanded="true">General</a></li>
         <li class=""><a href="#loan" data-toggle="tab" aria-expanded="false">Loan</a></li>
         <li class=""><a href="#policy" data-toggle="tab" aria-expanded="false">Policy</a></li>
+        <li class=""><a href="#documents" data-toggle="tab" aria-expanded="false">Documents</a></li>
+
       </ul>
 
       <!--outer tab body-->
@@ -79,8 +81,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <div class="col-lg-6">
-                    <input type="text" maxlength="15" class="form-control input-sm" id="Life2Nic" name="Life2Nic"  [(ngModel)]="Life2Nic"
-                      placeholder="NIC">
+                    <input type="text" maxlength="15" class="form-control input-sm" id="Life2Nic" name="Life2Nic" [(ngModel)]="Life2Nic" placeholder="NIC">
 
 
                   </div>
@@ -108,7 +109,7 @@
                 <div class="form-group">
                   <div class="col-lg-6">
 
-                    <input type="text" class="form-control input-sm" id="Life2Occupation" name="Life2Occupation"  [(ngModel)]="Life2Occupation"
+                    <input type="text" class="form-control input-sm" id="Life2Occupation" name="Life2Occupation" [(ngModel)]="Life2Occupation"
                       placeholder="Occupation">
 
 
@@ -160,7 +161,7 @@
                 <div class="form-group">
                   <div class="col-lg-6">
 
-                    <input type="number" class="form-control input-sm" id="Life2Age" name="Life2Age"  [(ngModel)]="Life2Age" placeholder="Life 2">
+                    <input type="number" class="form-control input-sm" id="Life2Age" name="Life2Age" [(ngModel)]="Life2Age" placeholder="Life 2">
 
                   </div>
                 </div>
@@ -187,7 +188,7 @@
                 <div class="form-group">
                   <div class="col-lg-6">
 
-                    <select class="form-control input-sm" id="Life2Gender" name="Life2Gender"  [(ngModel)]="Life2Gender">
+                    <select class="form-control input-sm" id="Life2Gender" name="Life2Gender" [(ngModel)]="Life2Gender">
                                   <option value="0">Gender</option>
 <option value="M">Male</option><option value="F">
   Female</option>
@@ -360,8 +361,7 @@
               <div class="col-md-6">
 
                 <div class="col-lg-4">
-                  <input type="text" class="form-control input-sm" id="Life2ContactNo" name="Life2ContactNo"  [(ngModel)]="Life2ContactNo"
-                    placeholder="Life Assurance 2">
+                  <input type="text" class="form-control input-sm" id="Life2ContactNo" name="Life2ContactNo" [(ngModel)]="Life2ContactNo" placeholder="Life Assurance 2">
                 </div>
               </div>
             </div>
@@ -379,7 +379,7 @@
               </div>
               <div class="col-md-6">
                 <div class="col-lg-4">
-                  <input type="email" class="form-control input-sm" id="Life2Email" name="Life2Email"  [(ngModel)]="Life2Email" placeholder="Life Assurance 2">
+                  <input type="email" class="form-control input-sm" id="Life2Email" name="Life2Email" [(ngModel)]="Life2Email" placeholder="Life Assurance 2">
                 </div>
               </div>
             </div>
@@ -575,7 +575,7 @@
                   <label for="BranchId" class="col-lg-4  control-label">Bank Branch</label>
                   <div class="col-lg-3">
 
-                    <select type="text" class="form-control input-sm" [(ngModel)]="BranchId" name="BranchId" id="BranchId"  (ngModelChange)="onSelectOfBankBranchId($event)">
+                    <select type="text" class="form-control input-sm" [(ngModel)]="BranchId" name="BranchId" id="BranchId" (ngModelChange)="onSelectOfBankBranchId($event)">
 <option value="0">Select</option>
 <option *ngFor="let bankBranch of bankBranchList" value={{bankBranch.BankBranchId}}>{{bankBranch.BankBranchName}}</option>
 </select>
@@ -691,8 +691,7 @@
                 <div class="form-group">
                   <div class="col-lg-4">
 
-                    <input type="text" class="form-control input-sm" id="Life2HnbaRefNo" name="Life2HnbaRefNo"  [(ngModel)]="Life2HnbaRefNo"
-                      placeholder="Life Assurance 02">
+                    <input type="text" class="form-control input-sm" id="Life2HnbaRefNo" name="Life2HnbaRefNo" [(ngModel)]="Life2HnbaRefNo" placeholder="Life Assurance 02">
                   </div>
                 </div>
               </div>
@@ -714,8 +713,7 @@
 
                 <div class="form-group">
                   <div class="col-lg-4">
-                    <input type="text" class="form-control input-sm" id="Life2RiRefNo" name="Life2RiRefNo"  [(ngModel)]="Life2RiRefNo"
-                      placeholder="Life Assurance 02">
+                    <input type="text" class="form-control input-sm" id="Life2RiRefNo" name="Life2RiRefNo" [(ngModel)]="Life2RiRefNo" placeholder="Life Assurance 02">
                   </div>
                 </div>
               </div>
@@ -1138,6 +1136,43 @@
           </div>
         </div>
 
+
+
+        <!-- documents tab-->
+
+        <div class="tab-pane fade" id="documents">
+          <div class="panel-body">
+
+            <div class="row">
+              <div class="col-lg-1">
+              </div>
+              <div class="col-lg-10">
+                <table class="table table-striped table-hover ">
+                  <thead>
+                    <tr>
+                      <th>Document Type</th>
+                      <th>View</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let uploadedDocView of uploadedDocViewList | paginate: {itemsPerPage:10 , currentPage:page, id: '1'}; let i = index"
+                      (click)="setDocumentPath(i,uploadedDocView.DocumentURL);">
+                      <td>{{uploadedDocView.DocType}}</td>
+                      <td> <button type="button" id="openDocument" class="btn btn-default" (click)="documentsViewModal.open()">View</button></td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+                </pagination-controls>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
         <!--end of the panel inside-->
 
 
@@ -1172,4 +1207,11 @@
       </div>
     </div>
   </form>
+  
+
+
 </div>
+
+
+
+

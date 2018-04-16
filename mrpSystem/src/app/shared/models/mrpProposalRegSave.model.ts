@@ -14,4 +14,8 @@ export interface IMrpProposalRegSave {
     Status: string;
     HnbaBranchCode: string;
     VIP: string;
+    PremiumFee : number;
+    Premium: number;
+    Fullterm: number;
+    Loantype : string;
 }

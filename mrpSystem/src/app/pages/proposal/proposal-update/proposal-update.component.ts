@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MomentModule } from 'angular2-moment';
 import { ToastrService, ToastrConfig } from 'toastr-ng2';
-
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CommonService } from '../../../shared/services/common/common.service';
 
+import { URL_CONST } from '../../../shared/config/url.constants';
 import { AssureService } from '../../../shared/services/assure/assure.service';
 import { QuotationService } from '../../../shared/services/quotation/quotation.service';
 
@@ -27,6 +28,9 @@ import { ITPDOption } from '../../../shared/models/tpdOption.model';
 
 
 import { IMain } from '../../../shared/models/main.model';
+
+import { IUploadedDocView } from '../../../shared/models/uploadDocView.model';
+
 
 
 import { IMrpPolicyInfoSave } from '../../../shared/models/mrpPolicyInfoSave.model';
@@ -225,6 +229,8 @@ export class ProposalUpdateComponent implements OnInit {
   tpd1Class: string = '';
   tpdOption1Class: string = '';
 
+  SelectedDocumentViewPath: SafeUrl;
+
   nationalityList: Array<INationality> = [];
   bankList: Array<IBank> = [];
   bankBranchList: Array<IBankBranch> = [];
@@ -240,7 +246,7 @@ export class ProposalUpdateComponent implements OnInit {
   companyBufferList: Array<ICompanyBuffer> = [];
   tpdOptionList: Array<ITPDOption> = [];
   medicallTypeList: Array<IMedicalType> = [];
-
+  uploadedDocViewList: Array<IUploadedDocView> = [];
 
 
   isProposalDetailsValid: boolean = false;
@@ -282,7 +288,6 @@ export class ProposalUpdateComponent implements OnInit {
     this.getCompanyBuffer();
     this.getTPDOptions();
     this.getMedicalTypes();
-
 
 
     this.revisionNoClass = "form-group";
@@ -433,7 +438,6 @@ export class ProposalUpdateComponent implements OnInit {
         this.bankBranchList = data
         this.isLoading = false;
 
-        console.log('pccccc1');
 
       },
       (err) => {
@@ -563,6 +567,23 @@ export class ProposalUpdateComponent implements OnInit {
 
       });
   }
+
+
+
+
+  getUploadedDocViewList(MainSeqId) {
+    console.log('seq id from doc view' + MainSeqId);
+
+    this.proposalRegisterService.getUploadedDocViewListByMainSeqId(MainSeqId)
+      .subscribe((data) => {
+        console.log('uploaded docs' + data);
+
+        this.uploadedDocViewList = data
+
+      },
+      (err) => console.log(err));
+  }
+
 
 
   onSelectOfBankId(bankId) {
@@ -807,6 +828,9 @@ export class ProposalUpdateComponent implements OnInit {
 
         this.loadLife1Details();
         this.loadLife2Details();
+
+
+        this.getUploadedDocViewList(this.SeqId);
       },
       (err) => console.log(err));
 
@@ -1529,6 +1553,10 @@ export class ProposalUpdateComponent implements OnInit {
       Status: "1",
       HnbaBranchCode: this.HnbaBranchCode,
       VIP: "NO",
+      PremiumFee: this.PremiumWithPolicyFee,
+      Premium: this.Premium,
+      Fullterm: this.FullTermInMonths,
+      Loantype: this.LoanTypeName
     }
 
     console.log(obj);
@@ -1789,5 +1817,16 @@ export class ProposalUpdateComponent implements OnInit {
       },
       () => console.log('done'));
   }
+
+
+
+
+  setDocumentPath = function (index, DocPath) {
+
+
+    window.open(URL_CONST.HOSTED_URL_PREFIX + DocPath);
+
+  }
+
 
 }

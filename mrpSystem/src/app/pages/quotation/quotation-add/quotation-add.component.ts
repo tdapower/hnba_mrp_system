@@ -12,7 +12,9 @@ import { ILoanType } from '../../../shared/models/loanType.model';
 import { ICompanyBuffer } from '../../../shared/models/companyBuffer.model';
 import { IQuotation } from '../../../shared/models/quotation.model';
 import { IQuotationCalculation } from '../../../shared/models/quotationCalculate.model';
+import { INICExtractedData } from '../../../shared/models/nICExtractedData.model';
 
+import { IQuotationEmailSend } from '../../../shared/models/quotationEmailSend.model';
 import { IBank } from '../../../shared/models/bank.model';
 import { IBankBranch } from '../../../shared/models/bankBranch.model';
 
@@ -100,6 +102,11 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   bankList: Array<IBank> = [];
   bankBranchList: Array<IBankBranch> = [];
 
+  NIC1ExtractedData: INICExtractedData = null;
+  NIC2ExtractedData: INICExtractedData = null;
+
+
+  emailReceivers: string = '';
 
   datepickerOpts = {
     format: 'dd/mm/yyyy'
@@ -400,56 +407,77 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       }
 
       console.log(obj);
-      // console.log(JSON.stringify(obj));
-      this.quotationService.addQuotationDetails(obj).subscribe((data: any) => {
-        // console.log('bbbbb  ' + data.toString().replace(/"/g, ''));
-        // console.log('bbbbbttttt  ' + data.text().toString().replace(/"/g, ''));
-        this.isLoading = false;
-
-        if (data == "error") {
-          this.showError("Error saving quotation");
-
-        } else {
-          this.SeqId = data.toString().replace(/"/g, '');
-          this.showSuccess("Quotation Successfully Saved.");
-
-          this.mode = "saved";
+      console.log(JSON.stringify(obj));
 
 
 
-          this.quotationService.getQuotationNoBySeqId(this.SeqId).subscribe((data: any) => {
-            if (data != "error") {
-              this.QuotationNo = data.toString().replace(/"/g, '');
-            }
-          },
-            (err) => {
+      this.saveQuotationDetails(obj).then((data) => {
+        this.SeqId = Number(data.toString().replace(/"/g, ''));
+        this.showSuccess("Quotation Successfully Saved.");
 
-              console.log(err);
-
-              // this.showError("Error saving quotation");
-            },
-            () => console.log('done'));
+        this.mode = "saved";
 
 
-          this.generateQuotationDocument();
-        }
 
-
-      },
-        (err) => {
-          // alert(err);
-          console.log(err);
-
-          this.isLoading = false;
-          this.showError("Error saving quotation");
+        this.quotationService.getQuotationNoBySeqId(this.SeqId).subscribe((data: any) => {
+          if (data != "error") {
+            this.QuotationNo = data.toString().replace(/"/g, '');
+          }
         },
-        () => console.log('done'));
+          (err) => {
+
+            console.log(err);
+
+          },
+          () => console.log('done'));
+
+
+        this.generateQuotationDocument();
+      }, (err) => {
+        this.showError("Error saving quotation");
+
+      });
+
+
 
     }
 
 
   }
 
+
+
+  saveQuotationDetails(obj) {
+    return new Promise((resolve, reject) => {
+
+
+      try {
+
+
+        this.quotationService.addQuotationDetails(obj).subscribe((data: any) => {
+          this.isLoading = false;
+          resolve(data);
+        },
+          (err) => {
+            // alert(err);
+            console.log(err);
+
+            this.isLoading = false;
+            this.showError("Error saving quotation");
+          },
+          () => console.log('done'));
+      } catch (e) {
+
+        this.showError("Error saving quotation");
+        reject(e)
+      }
+      // resolve(sum);
+      // return num1+ num2;
+
+    });
+
+
+  }
 
   public generateQuotationDocument() {
     this.quotationService.getQuotationDocument(this.SeqId).subscribe((data: any) => {
@@ -672,17 +700,19 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     console.log('validated');
   }
 
-  public calculateLife1Age(life1Dob: Date) {
-
-
+  public calculateLife1Age() {
     var moment = require('moment');
-    this.LifeAss1Age = moment().diff(moment(life1Dob, 'DD/MM/YYYY'), 'years');
+    this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
+
   }
 
-  public calculateLife2Age(life2Dob: Date) {
+
+
+
+  public calculateLife2Age() {
 
     var moment = require('moment');
-    this.LifeAss2Age = moment().diff(moment(life2Dob, 'DD/MM/YYYY'), 'years');
+    this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
   }
 
   public Calculate() {
@@ -760,6 +790,20 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       var FullTermOfLoanYearly = 0;
       FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
 
+      var quotationCalcServiceLoanType = "";
+      if (this.LoanTypeName == "MRP STD (Home Loans)") {
+        quotationCalcServiceLoanType = "type1";
+      } else if (this.LoanTypeName == "CAR/Education Loans") {
+        quotationCalcServiceLoanType = "type2";
+      }
+      else if (this.LoanTypeName == "Business Loan") {
+        quotationCalcServiceLoanType = "type3";
+      }
+      else if (this.LoanTypeName == "Personal Loan/Commercial Vehicle") {
+        quotationCalcServiceLoanType = "type4";
+      }
+
+
 
       var obj = {
         username: this.User.UserName,
@@ -769,7 +813,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         grace_period: 0,
         dob_life1: formatted_dob_life1,
         dob_life2: formatted_dob_life2,
-        loan_type: this.LoanTypeName,
+        loan_type: quotationCalcServiceLoanType,
         gender_life1: this.LifeAss1Gender,
         gender_life2: formattedLifeAss2Gender,
         Company_Buffer: this.CompanyBufferId,
@@ -785,7 +829,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         basic_healthExtraPermile_life2: 0,
         tpd_healthExtraPermile_life1: 0,
         tpd_healthExtraPermile_life2: 0,
-        term_fixed_interest: 0
+        term_fixed_interest: this.TermOfFixedInterest
 
       };
 
@@ -805,7 +849,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       keyValPairString = keyValPairString.slice(0, -1);
 
       //console.log('http://mobileapps.hnbassurance.com/quotation_calculation/webservice/mrptest.php' + keyValPairString);
-      //  console.log(keyValPairString);
+      console.log(' key pair --- ' + keyValPairString);
       this.quotationService.calculateQuotation(keyValPairString).subscribe((data: any) => {
         console.log(data);
         console.log('Premium = ' + data.data.premium);
@@ -818,6 +862,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
 
 
+        this.showInfo("Premium: " + data.data.premium_with_policy_fee);
       },
         (err) => {
 
@@ -840,6 +885,95 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.QuotationDocURL = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
     document.getElementById("openQuotationModalButton").click();
+
+  }
+
+  public ExtractDataFromNIC1() {
+    if (this.LifeAss1Nic != "" && this.LifeAss1Nic != null) {
+
+      try {
+
+
+        this.NIC1ExtractedData = this.commonService.extractDataFromNIC(this.LifeAss1Nic);
+        var moment = require('moment');
+
+        if (this.NIC1ExtractedData.DOB != null) {
+
+          var momentDateLife1Dob = moment(this.NIC1ExtractedData.DOB.substr(0, 10), 'DD/MM/YYYY').toDate();
+
+          this.LifeAss1Dob = momentDateLife1Dob;
+          this.LifeAss1Gender = this.NIC1ExtractedData.Gender;
+          this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
+
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  public ExtractDataFromNIC2() {
+
+    if (this.LifeAss2Nic != "" && this.LifeAss2Nic != null) {
+
+      try {
+
+        this.NIC2ExtractedData = this.commonService.extractDataFromNIC(this.LifeAss2Nic);
+        var moment = require('moment');
+        if (this.NIC2ExtractedData.DOB != null) {
+
+          var momentDateLife2Dob = moment(this.NIC2ExtractedData.DOB.substr(0, 10), 'DD/MM/YYYY').toDate();
+
+          this.LifeAss2Dob = momentDateLife2Dob;
+          this.LifeAss2Gender = this.NIC2ExtractedData.Gender;
+          this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  public SendMail() {
+    console.log('rrrr');
+    console.log('seeee ' + this.SeqId);
+
+
+
+    let obj: IQuotationEmailSend = {
+      SenderUserCode: this.User.UserName,
+      SeqId: this.SeqId,
+      EmailAddresses: this.emailReceivers
+
+    }
+
+    if (this.emailReceivers != '') {
+
+      this.isLoading = true;
+
+      this.quotationService.sendQuotationAsEmail(obj).subscribe((data: any) => {
+        console.log(data);
+
+
+        if (data.status == 200) {
+          this.showSuccess("Quotation Successfully E-mailed. ");
+        }
+        this.isLoading = false;
+      },
+        (err) => {
+          console.log(err);
+
+          this.isLoading = false;
+          this.showError("Error sending quotation");
+        },
+        () => console.log('done'));
+    } else {
+
+      this.showWarning("Enter customer e-mail address");
+    }
+
+
+
 
   }
 }

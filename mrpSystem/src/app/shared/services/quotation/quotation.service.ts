@@ -26,6 +26,7 @@ export class QuotationService {
         this.handleError;
         return Observable.throw(new Error(error.status))
       });
+      
   }
 
 
@@ -111,7 +112,18 @@ export class QuotationService {
       });
   }
 
+  checkIsLoanTypeMRPStandard(quotationNo) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
 
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Quotation/CheckIsLoanTypeMRPStandard?quotationNo=' + quotationNo, options)
+      .map((response: Response) => JSON.stringify(response.json()))
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
   getQuotationByQuotationId(quotationNo) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
@@ -167,7 +179,7 @@ export class QuotationService {
     let postoptions = new RequestOptions({ headers: headers });
 
     return this.http.get(URL_CONST.URL_PREFIX + 'api/Quotation/GetQuotationDocument/' + params, postoptions)
-   .map((response: Response) => {
+      .map((response: Response) => {
         return response;
       })
       .timeout(60000)
@@ -198,6 +210,21 @@ export class QuotationService {
       });
   }
 
+  sendQuotationAsEmail(params) {
+    let body = params;
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let postoptions = new RequestOptions({ headers: headers });
+
+    return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/SendQuotationAsEmail', body, postoptions)
+      .map(res => res)
+      .timeout(60000)
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
 
 
   private handleError(error: Response) {

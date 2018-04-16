@@ -14,7 +14,9 @@ import { ILoanType } from '../../../shared/models/loanType.model';
 import { ICompanyBuffer } from '../../../shared/models/companyBuffer.model';
 import { IQuotation } from '../../../shared/models/quotation.model';
 import { IQuotationCalculation } from '../../../shared/models/quotationCalculate.model';
+import { INICExtractedData } from '../../../shared/models/nICExtractedData.model';
 
+import { IQuotationEmailSend } from '../../../shared/models/quotationEmailSend.model';
 import { IBank } from '../../../shared/models/bank.model';
 import { IBankBranch } from '../../../shared/models/bankBranch.model';
 import { IUser } from '../../../shared/models/user/user.model';
@@ -98,6 +100,11 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
 
   bankList: Array<IBank> = [];
   bankBranchList: Array<IBankBranch> = [];
+
+
+  NIC1ExtractedData: INICExtractedData = null;
+  NIC2ExtractedData: INICExtractedData = null;
+  emailReceivers: string = '';
 
   datepickerOpts = {
     format: 'dd/mm/yyyy'
@@ -531,13 +538,13 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
   public calculateLife1Age(life1Dob: Date) {
 
     var moment = require('moment');
-    this.LifeAss1Age = moment().diff(moment(life1Dob, 'DD/MM/YYYY'), 'years');
+    this.LifeAss1Age =Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
   }
 
   public calculateLife2Age(life2Dob: Date) {
 
     var moment = require('moment');
-    this.LifeAss2Age = moment().diff(moment(life2Dob, 'DD/MM/YYYY'), 'years');
+    this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
   }
 
   public Calculate() {
@@ -615,6 +622,19 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
       var FullTermOfLoanYearly = 0;
       FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
 
+      var quotationCalcServiceLoanType = "";
+      if (this.LoanTypeName == "MRP STD (Home Loans)") {
+        quotationCalcServiceLoanType = "type1";
+      } else if (this.LoanTypeName == "CAR/Education Loans") {
+        quotationCalcServiceLoanType = "type2";
+      }
+      else if (this.LoanTypeName == "Business Loan") {
+        quotationCalcServiceLoanType = "type3";
+      }
+      else if (this.LoanTypeName == "Personal Loan/Commercial Vehicle") {
+        quotationCalcServiceLoanType = "type4";
+      }
+
 
       var obj = {
         username: this.User.UserName,
@@ -624,7 +644,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         grace_period: 0,
         dob_life1: formatted_dob_life1,
         dob_life2: formatted_dob_life2,
-        loan_type: this.LoanTypeName,
+        loan_type: quotationCalcServiceLoanType,
         gender_life1: this.LifeAss1Gender,
         gender_life2: formattedLifeAss2Gender,
         Company_Buffer: this.CompanyBufferId,
@@ -640,7 +660,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         basic_healthExtraPermile_life2: 0,
         tpd_healthExtraPermile_life1: 0,
         tpd_healthExtraPermile_life2: 0,
-        term_fixed_interest: 0
+        term_fixed_interest: this.TermOfFixedInterest
 
       };
 
@@ -794,15 +814,87 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
 
 
 
-
-
-
-
   }
 
+ public ExtractDataFromNIC1() {
+    if (this.LifeAss1Nic != "" && this.LifeAss1Nic != null) {
 
-  public zeroPad(num, places) {
-    var zero = places - num.toString().length + 1;
-    return Array(+(zero > 0 && zero)).join("0") + num;
+
+      this.NIC1ExtractedData = this.commonService.extractDataFromNIC(this.LifeAss1Nic);
+      var moment = require('moment');
+      var momentDateLife1Dob = moment(this.NIC1ExtractedData.DOB.substr(0, 10), 'DD/MM/YYYY').toDate();
+
+      this.LifeAss1Dob = momentDateLife1Dob;
+      this.LifeAss1Gender = this.NIC1ExtractedData.Gender;
+      this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
+    }
   }
+
+  public ExtractDataFromNIC2() {
+    
+    if (this.LifeAss2Nic != "" && this.LifeAss2Nic != null) {
+
+
+
+      this.NIC2ExtractedData = this.commonService.extractDataFromNIC(this.LifeAss2Nic);
+      var moment = require('moment');
+      var momentDateLife2Dob = moment(this.NIC2ExtractedData.DOB.substr(0, 10), 'DD/MM/YYYY').toDate();
+
+      this.LifeAss2Dob = momentDateLife2Dob;
+      this.LifeAss2Gender = this.NIC2ExtractedData.Gender;
+      this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
+    }
+ }
+
+ public zeroPad(num, places) {
+   var zero = places - num.toString().length + 1;
+   return Array(+(zero > 0 && zero)).join("0") + num;
+ }
+
+
+
+ public SendMail() {
+   console.log('rrrr');
+   console.log('seeee ' + this.SeqId);
+
+
+
+   let obj: IQuotationEmailSend = {
+    SenderUserCode:this.User.UserName,
+     SeqId: this.SeqId,
+     EmailAddresses: this.emailReceivers
+
+   }
+
+   if (this.emailReceivers != '') {
+
+     this.isLoading = true;
+
+     this.quotationService.sendQuotationAsEmail(obj).subscribe((data: any) => {
+       console.log(data);
+
+
+       if (data.status == 200) {
+         this.showSuccess("Quotation Successfully E-mailed. ");
+       }
+       this.isLoading = false;
+     },
+       (err) => {
+         console.log(err);
+
+         this.isLoading = false;
+         this.showError("Error sending quotation");
+       },
+       () => console.log('done'));
+   } else {
+
+     this.showWarning("Enter customer e-mail address");
+   }
+
+
+
+
+ }
+
+
 }

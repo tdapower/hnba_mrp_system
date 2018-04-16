@@ -6,7 +6,28 @@
   <modal #quotationModal>
     <modal-content>
       <iframe [src]="QuotationDocURL" style="zoom:0.60" frameborder="0" height="800" width="99.6%"></iframe>
+      
+      <div class="modal-footer">
+   
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Customer e-mail</label>
+
+          <div class="col-lg-8">
+            <input type="text" class="form-control  input-sm" placeholder="Customer e-mail" type="email" [(ngModel)]="emailReceivers"
+              name="emailReceivers" id="emailReceivers">
+          </div>
+          <div class="col-lg-2">
+            <button type="button" class="btn btn-primary btn-block btn-sm" (click)="SendMail()">Send E-mail</button>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
     </modal-content>
+
 
   </modal>
 </div>
@@ -53,8 +74,14 @@
       <div class="col-md-6">
         <div class="{{LifeAss1NicClass}}">
           <label for="LifeAss1Nic" class="col-lg-4 control-label">NIC</label>
-          <div class="col-lg-8">
+          <div class="col-lg-7">
             <span type="text" class="form-control  input-sm">{{LifeAss1Nic}}</span>
+          </div>
+          <div class="col-lg-1">
+
+            <button type="button" class="btn btn-info  btn-sm" (click)="ExtractDataFromNIC1()">
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
           </div>
         </div>
       </div>
@@ -322,7 +349,7 @@
     <div class="row" hidden>
       <div class="col-md-6">
         <div class="form-group">
-          <label for="LifeAss1Nic" class="col-lg-4 control-label">Need printed quotation?</label>
+          <label for="" class="col-lg-4 control-label">Need printed quotation?</label>
           <div class="col-lg-4">
             <label class="tgl" style="font-size:20px">  
     <input type="checkbox" checked />
@@ -416,14 +443,21 @@
           <label for="LifeAss1Nic" class="col-lg-4 control-label">NIC</label>
           <div class="col-lg-8">
             <input type="text" class="form-control  input-sm" placeholder="NIC" required [(ngModel)]="LifeAss1Nic" name="LifeAss1Nic"
-              id="LifeAss1Nic">
+              id="LifeAss1Nic"  (blur)="ExtractDataFromNIC1()">
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <div class="col-lg-8">
-            <input type="text" class="form-control input-sm" placeholder="NIC" [(ngModel)]="LifeAss2Nic" name="LifeAss2Nic" id="LifeAss2Nic">
+          <div class="col-lg-7">
+            <input type="text" class="form-control input-sm" placeholder="NIC" [(ngModel)]="LifeAss2Nic" name="LifeAss2Nic" id="LifeAss2Nic" 
+            (blur)="ExtractDataFromNIC2()">
+          </div>
+          <div class="col-lg-1">
+
+            <button type="button" class="btn btn-info  btn-sm" (click)="ExtractDataFromNIC2()">
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
           </div>
         </div>
       </div>
@@ -453,7 +487,8 @@
         <div class="{{LifeAss1DobClass}}">
           <label for="" class="col-lg-4 control-label">Date of Birth</label>
           <div class="col-lg-8">
-            <datetime name="LifeAss1Dob" id="LifeAss1Dob"  [datepicker]="datepickerOpts" [(ngModel)]="LifeAss1Dob" [timepicker]="false" (ngModelChange)="calculateLife1Age($event)"></datetime>
+            <datetime name="LifeAss1Dob" id="LifeAss1Dob" [datepicker]="datepickerOpts" [(ngModel)]="LifeAss1Dob" [timepicker]="false"
+              (ngModelChange)="calculateLife1Age($event)"></datetime>
 
           </div>
         </div>
@@ -461,7 +496,8 @@
       <div class="col-md-6">
         <div class="form-group">
           <div class="col-lg-8">
-            <datetime name="LifeAss2Dob" id="LifeAss2Dob"  [datepicker]="datepickerOpts"  [(ngModel)]="LifeAss2Dob" [timepicker]="false" (ngModelChange)="calculateLife2Age($event)"></datetime>
+            <datetime name="LifeAss2Dob" id="LifeAss2Dob" [datepicker]="datepickerOpts" [(ngModel)]="LifeAss2Dob" [timepicker]="false"
+              (ngModelChange)="calculateLife2Age($event)"></datetime>
           </div>
         </div>
       </div>
@@ -504,8 +540,8 @@
           <div class="col-lg-4">
             <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss2Gender" name="LifeAss2Gender" id="LifeAss2Gender">
 <option value="0">Gender</option>
-<option value="Male">Male</option>
-<option value="Female">Female</option>
+<option value="M">Male</option>
+<option value="F">Female</option>
 </select>
           </div>
         </div>
@@ -536,8 +572,7 @@
         <div class="{{BankIdClass}}">
           <label for="selectedBankId" class="col-lg-4 control-label">Bank</label>
           <div class="col-lg-6">
-            <select type="text" class="form-control input-sm" [(ngModel)]="BankId" name="BankId" id="BankId"
-              (ngModelChange)="onSelectOfBankId($event)">
+            <select type="text" class="form-control input-sm" [(ngModel)]="BankId" name="BankId" id="BankId" (ngModelChange)="onSelectOfBankId($event)">
 <option value="0">Select</option>
 <option *ngFor="let bank of bankList" value={{bank.BankId}}>{{bank.BankName}}</option>
 </select> </div>

@@ -5,35 +5,28 @@ import { MomentModule } from 'angular2-moment';
 import { UUID } from 'angular2-uuid';
 import { NgUploaderOptions, UploadedFile, UploadRejected } from 'ngx-uploader';
 import { CommonService } from '../../../shared/services/common/common.service';
-
 import { QuotationService } from '../../../shared/services/quotation/quotation.service';
-
 import { ProposalRegisterService } from '../../../shared/services/proposal-register/proposal-register.service';
-
 import { AssureService } from '../../../shared/services/assure/assure.service';
-
 import { ToastrService, ToastrConfig } from 'toastr-ng2';
 import { INationality } from '../../../shared/models/nationality.model';
 import { IBank } from '../../../shared/models/bank.model';
 import { IBankBranch } from '../../../shared/models/bankBranch.model';
 import { IProposalStatus } from '../../../shared/models/proposalStatus.model';
-
 import { IQuotation } from '../../../shared/models/quotation.model';
 import { IMain } from '../../../shared/models/main.model';
 import { IMainSaveReturn } from '../../../shared/models/mainSaveRturn.model';
-
 import { IAssureDetail } from '../../../shared/models/assureDetail.model';
-
-
+import { IMrpProposalRegSave } from '../../../shared/models/mrpProposalRegSave.model';
 import { IUploadDocType } from '../../../shared/models/uploadDocType.model';
-
 import { ILoanType } from '../../../shared/models/loanType.model';
 import { IUser } from '../../../shared/models/user/user.model';
 import { COMMON_VALUES } from '../../../shared/config/commonValues';
-
 import { URL_CONST } from '../../../shared/config/url.constants';
+import { IProposalEmailSend } from '../../../shared/models/proposalEmailSend.model';
 
-
+import { IMrpCustomerInfoSave } from '../../../shared/models/mrpCustomerInfoSave.model';
+declare var $: any;
 @Component({
   selector: 'app-proposal-register',
   templateUrl: './proposal-register.component.html',
@@ -116,6 +109,8 @@ export class ProposalRegisterComponent implements OnInit {
   Life1IsFemaleRebate: number;
   Life1IsTpd: number;
   Life1TpdOption: number;
+  Life1BmiResult: string = '';
+
 
   Life2MainSeqId: number;
   Life2AssureType: string = 'Life2';
@@ -150,6 +145,14 @@ export class ProposalRegisterComponent implements OnInit {
   Life2IsFemaleRebate: number;
   Life2IsTpd: number;
   Life2TpdOption: number;
+  Life2BmiResult: string = '';
+
+  private loading: Object = {
+    loading1: true,
+    loading2: true,
+    loading3: true,
+    loading4: true
+  }
 
   TempSeqId: string;
   UploadDocTypeId: number;
@@ -293,6 +296,7 @@ export class ProposalRegisterComponent implements OnInit {
       .subscribe((data) => {
         this.uploadDocTypeList = data
         this.isLoading = false;
+
       },
       (err) => {
         console.log(err);
@@ -377,7 +381,8 @@ export class ProposalRegisterComponent implements OnInit {
 
 
     // this.DocUploadUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL_CONST.URL_PREFIX + 'api/Main/UploadDocument');
-    this.DocUploadUrl = 'http://localhost:46817/api/Main/UploadDocument?sTempSeqId=' + this.TempSeqId;
+    // this.DocUploadUrl = 'http://localhost:46817/api/Main/UploadDocument?sTempSeqId=' + this.TempSeqId;
+    this.DocUploadUrl = URL_CONST.URL_PREFIX + 'api/Main/UploadDocument?sTempSeqId=' + this.TempSeqId;
 
 
 
@@ -407,7 +412,7 @@ export class ProposalRegisterComponent implements OnInit {
     this.isLoading = true;
     this.commonService.getBankBranchByBankId(bankId)
       .subscribe((data) => {
-        
+
         this.bankBranchList = data;
 
         this.isLoading = false;
@@ -422,7 +427,7 @@ export class ProposalRegisterComponent implements OnInit {
   }
 
 
-  
+
   onSelectOfBankBranchId(bankBranchId) {
 
     this.BankCode = this.bankBranchList.filter(item => item.BankBranchId == bankBranchId)[0]['BankCode'];
@@ -435,7 +440,7 @@ export class ProposalRegisterComponent implements OnInit {
     this.JobNo = '';
     //this.QuotationNo= '';
     this.RevisionNo = 0;
-    this.ProposalNo = '';
+    // this.ProposalNo = '';
     this.MedicalType = '';
     this.PolicyNo = '';
     this.LoanAmount = 0;
@@ -496,6 +501,8 @@ export class ProposalRegisterComponent implements OnInit {
     this.Life1IsFemaleRebate = 0;
     this.Life1IsTpd = 0;
     this.Life1TpdOption = 0;
+    this.Life1BmiResult = '';
+
     this.Life2MainSeqId = 0;
     this.Life2AssureType = COMMON_VALUES.LIFE_ASSURE_TYPE_2;
     this.Life2Name = '';
@@ -529,7 +536,7 @@ export class ProposalRegisterComponent implements OnInit {
     this.Life2IsFemaleRebate = 0;
     this.Life2IsTpd = 0;
     this.Life2TpdOption = 0;
-
+    this.Life2BmiResult = '';
 
 
 
@@ -537,6 +544,11 @@ export class ProposalRegisterComponent implements OnInit {
   }
 
   public LoadFromQuotationNo() {
+
+    this.clearFields();
+    this.ProposalNo = '';
+
+
     if (this.QuotationNo != null && this.QuotationNo != "") {
       this.checkAndLoadQuotationDetailsFromQuotationNo(this.QuotationNo);
     } else {
@@ -550,14 +562,13 @@ export class ProposalRegisterComponent implements OnInit {
 
     this.clearFields();
     this.isLoading = true;
-    this.quotationService.checkQuotationAlreadyProcessed(quotationNo)
+
+    this.quotationService.checkIsLoanTypeMRPStandard(quotationNo)
       .subscribe((data) => {
         if (data == "false") {
-
-          this.loadQuotationDetailsFromQuotationNo(quotationNo);
+          this.showError("Only MRP STD (Home Loans) allowed here");
         } else {
-
-          this.showError("This quotation no already processed");
+          this.validateAndLoadDetails(quotationNo);
 
         }
 
@@ -571,6 +582,39 @@ export class ProposalRegisterComponent implements OnInit {
         this.showError("Error loading quotation details");
 
       });
+    
+
+  
+
+
+
+      
+
+  }
+
+
+  validateAndLoadDetails(quotationNo){
+    this.quotationService.checkQuotationAlreadyProcessed(quotationNo)
+    .subscribe((data) => {
+      if (data == "false") {
+
+        this.loadQuotationDetailsFromQuotationNo(quotationNo);
+      } else {
+
+        this.showError("This quotation no already processed");
+
+      }
+
+
+      this.isLoading = false;
+    },
+    (err) => {
+      console.log(err);
+
+      this.isLoading = false;
+      this.showError("Error loading quotation details");
+
+    });
 
   }
 
@@ -632,6 +676,7 @@ export class ProposalRegisterComponent implements OnInit {
         this.PremiumWithPolicyFee = obj.PremiumWithPolicyFee;
 
         this.isLoading = false;
+
       },
       (err) => {
         console.log(err);
@@ -699,7 +744,7 @@ export class ProposalRegisterComponent implements OnInit {
   }
 
   public Test() {
-  
+
   }
 
 
@@ -721,13 +766,19 @@ export class ProposalRegisterComponent implements OnInit {
       console.log('bank   -' + this.BankId);
 
 
+      console.log('bank code   - ' + this.BankCode);
 
 
+      console.log('pro no 0 - ' + this.ProposalNo);
+
+      document.getElementById('openProposalNoModalButton').click();
       this.proposalRegisterService.generateProposalNo(this.BankCode).subscribe((data: any) => {
+
         console.log(data);
         this.ProposalNo = data.toString().replace(/"/g, '');
 
 
+        console.log('pro no - ' + this.ProposalNo);
 
         let obj: IMain = {
           TempSeqId: this.TempSeqId,
@@ -775,12 +826,14 @@ export class ProposalRegisterComponent implements OnInit {
         this.proposalRegisterService.saveProposalDetails(obj).subscribe((data: any) => {
           console.log(data);
 
+          this.loading['loading1'] = false;
+          this.loadingComplete();
 
           let obj: IMainSaveReturn = JSON.parse(data);
           this.SeqId = obj.SeqId;
           this.JobNo = obj.JobNo;
           console.log(' this.SeqId =' + this.SeqId);
-          this.isLoading = false;
+
 
 
           this.showSuccess("Proposal Successfully Saved. Job  Number is " + this.JobNo);
@@ -791,6 +844,9 @@ export class ProposalRegisterComponent implements OnInit {
 
             this.SaveAssureDetails2();
           }
+
+
+          this.SaveDataToMRP();
 
         },
           (err) => {
@@ -813,7 +869,7 @@ export class ProposalRegisterComponent implements OnInit {
 
 
 
-  
+
 
     }
 
@@ -874,8 +930,9 @@ export class ProposalRegisterComponent implements OnInit {
     this.assureService.saveAssureDetails(obj).subscribe((data: any) => {
       console.log(data);
 
-      this.isLoading = false;
 
+      this.loading['loading2'] = false;
+      this.loadingComplete();
 
       if (data.status == 200) {
 
@@ -950,8 +1007,6 @@ export class ProposalRegisterComponent implements OnInit {
     this.assureService.saveAssureDetails(obj).subscribe((data: any) => {
       console.log(data);
 
-      this.isLoading = false;
-
 
       if (data.status == 200) {
         this.showError("Error while saving Assure 2 Details.");
@@ -972,6 +1027,320 @@ export class ProposalRegisterComponent implements OnInit {
 
 
   }
+
+  private valueChangeHeightCm1(height) {
+    if (this.LifeAss1HeightCm != null && this.LifeAss1WeightKg != null) {
+
+      this.LifeAss1HeightInch = Number((height * 0.3937008).toFixed(2));
+      this.Life1Bmi = this.calculateBMI(this.LifeAss1HeightCm, this.LifeAss1WeightKg);
+
+      if (this.Life1Bmi > 0) {
+        if (this.Life1Bmi <= 18) {
+          this.Life1BmiResult = "Under Weight";
+        } else if (this.Life1Bmi > 18 && this.Life1Bmi <= 30) {
+          this.Life1BmiResult = "STD";
+        } else if (this.Life1Bmi > 30) {
+          this.Life1BmiResult = "Over Weight";
+        }
+      }
+    }
+
+  }
+  private valueChangeWeightKg1(weight) {
+    if (this.LifeAss1HeightCm != null && this.LifeAss1WeightKg != null) {
+
+      this.LifeAss1WeightLbs = Number((weight * 2.20462).toFixed(2));
+      this.Life1Bmi = this.calculateBMI(this.LifeAss1HeightCm, this.LifeAss1WeightKg);
+
+      if (this.Life1Bmi > 0) {
+        if (this.Life1Bmi <= 18) {
+          this.Life1BmiResult = "Under Weight";
+        } else if (this.Life1Bmi > 18 && this.Life1Bmi <= 30) {
+          this.Life1BmiResult = "STD";
+        } else if (this.Life1Bmi > 30) {
+          this.Life1BmiResult = "Over Weight";
+        }
+      }
+    }
+  }
+
+  private valueChangeHeightCm2(height) {
+    if (this.LifeAss2HeightCm != null && this.LifeAss2WeightKg != null) {
+      this.LifeAss2HeightInch = Number((height * 0.3937008).toFixed(2));
+      this.Life2Bmi = this.calculateBMI(this.LifeAss2HeightCm, this.LifeAss2WeightKg);
+
+      if (this.Life2Bmi > 0) {
+        if (this.Life2Bmi <= 18) {
+          this.Life2BmiResult = "Under Weight";
+        } else if (this.Life2Bmi > 18 && this.Life2Bmi <= 30) {
+          this.Life2BmiResult = "STD";
+        } else if (this.Life2Bmi > 30) {
+          this.Life2BmiResult = "Over Weight";
+        }
+      }
+
+    }
+  }
+
+  private valueChangeWeightKg2(weight) {
+    if (this.LifeAss2HeightCm != null && this.LifeAss2WeightKg != null) {
+      this.LifeAss2HeightInch = Number((weight * 2.20462).toFixed(2));
+      this.Life2Bmi = this.calculateBMI(this.LifeAss2HeightCm, this.LifeAss2WeightKg);
+      if (this.Life2Bmi > 0) {
+        if (this.Life2Bmi <= 18) {
+          this.Life2BmiResult = "Under Weight";
+        } else if (this.Life2Bmi > 18 && this.Life2Bmi <= 30) {
+          this.Life2BmiResult = "STD";
+        } else if (this.Life2Bmi > 30) {
+          this.Life2BmiResult = "Over Weight";
+        }
+      }
+    }
+  }
+
+  private calculateBMI(height, weight): any {
+
+    // console.log('height = ' + height);
+    // console.log('weight = ' + weight);
+    var finalBmi = weight / (height / 100 * height / 100)
+    // console.log('BMI = ' + finalBmi.toFixed(2));
+
+    return finalBmi.toFixed(2);
+
+  }
+
+
+
+
+
+  public SaveDataToMRP() {
+
+    let BankName = this.bankList.filter(item => item.BankId == this.BankId)[0]['BankName'];
+    let BankBranchName = this.bankBranchList.filter(item => item.BankBranchId == this.BranchId)[0]['BankBranchName'];
+
+    let obj: IMrpProposalRegSave = {
+      ProposalNo: this.ProposalNo,
+      Assure1Nic: this.Life1Nic,
+      Assure2Nic: this.Life2Nic,
+      BankCode: this.BankCode,
+      PolicyNo: this.PolicyNo,
+      Description: "",
+      BankName: BankName,
+      Assure1Name: this.Life1Name,
+      Assure2Name: this.Life2Name,
+      BankBranchName: BankBranchName,
+      OtherBankName: BankName,
+      RptDate: "",
+      Status: "1",
+      HnbaBranchCode: this.HnbaBranchCode,
+      VIP: "NO",
+      PremiumFee: this.PremiumWithPolicyFee,
+      Premium: this.Premium,
+      Fullterm: this.FullTermInMonths,
+      Loantype: this.LoanTypeName
+    }
+
+    console.log(obj);
+    console.log(JSON.stringify(obj));
+    this.proposalRegisterService.updateProposalToMRP(obj).subscribe((data: any) => {
+
+      console.log("updateProposalToMRP Done");
+
+
+      this.loading['loading3'] = false;
+
+      this.loadingComplete();
+
+
+      if (data.status == 200) {
+
+        this.showSuccess("Data Successfully Saved to MRP.");
+        this.SaveCustomerDataToMRP();
+
+
+      } else {
+
+        this.showError("Error while saving data to MRP.");
+      }
+
+    },
+      (err) => {
+        // alert(err);
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error while saving");
+      },
+      () => console.log('done'));
+  }
+
+  public SaveCustomerDataToMRP() {
+
+    let BankName = this.bankList.filter(item => item.BankId == this.BankId)[0]['BankName'];
+    let BankBranchName = this.bankBranchList.filter(item => item.BankBranchId == this.BranchId)[0]['BankBranchName'];
+
+    let Life1Nationality = "";
+    let Life2Nationality = "";
+
+    if (this.LifeAss1NationalityId > 0) {
+      Life1Nationality = this.nationalityList.filter(item => item.Id == this.LifeAss1NationalityId)[0]['Adjective'];
+    }
+    if (this.LifeAss2NationalityId > 0) {
+      Life2Nationality = this.nationalityList.filter(item => item.Id == this.LifeAss2NationalityId)[0]['Adjective'];
+    }
+
+
+
+
+
+
+    let obj: IMrpCustomerInfoSave = {
+      NIC1: this.Life1Nic,
+      NIC2: this.Life2Nic,
+      Life1: this.Life1Name,
+      Life2: this.Life2Name,
+      LifeDOB1: this.Life1Dob,
+      LifeDOB2: this.Life2Dob,
+      addrs: this.LifeAss1Address,
+      Height1: this.LifeAss1HeightCm.toString(),
+      Height2: this.LifeAss2HeightCm.toString(),
+      Weight1: this.LifeAss1WeightKg.toString(),
+      Weight2: this.LifeAss2WeightKg.toString(),
+      Sex1: this.Life1Gender,
+      Sex2: this.Life2Gender,
+      Occupt1: this.LifeAss1Occupation,
+      Occupt2: this.LifeAss2Occupation,
+      PropNo: this.ProposalNo,
+      LoanAmt1: this.LoanAmount.toString(),
+      LoanAmt2: "0",
+      LoanAmt3: "0",
+      Inst1: this.Interest.toString(),
+      Inst2: "0",
+      Inst3: "0",
+      Term1: this.Term.toString(),
+      Term2: "0",
+      Term3: "0",
+      Age1: this.Life1Age.toString(),
+      Age2: this.Life2Age.toString(),
+      HeightIn1: this.LifeAss1HeightInch.toString(),
+      HeightIn2: this.LifeAss2HeightInch.toString(),
+      WeightLbs1: this.LifeAss1WeightLbs.toString(),
+      WeightLbs2: this.LifeAss2WeightLbs.toString(),
+      DecisionLife1: "",
+      DecisionLife2: "",
+      Premium: this.PremiumWithPolicyFee.toString(),
+      Rptdate: "",
+      Channelcode: "",
+      Contactno1: this.LifeAss1ContactNo,
+      Contactno2: this.LifeAss2ContactNo,
+      Email1: this.LifeAss1Email,
+      Email2: this.LifeAss2Email,
+      Nationality1: Life1Nationality,
+      Nationality2: Life2Nationality,
+      Hnbarefno1: "",
+      Hnbarefno2: "",
+      Rirefno1: "",
+      Rirefno2: "",
+      Combuffer: "0",
+      Curawplr: this.CurrentAwplr.toString(),
+      Addawplr: this.AdditionToAwplr.toString(),
+      Termfixedrate: this.TermOfFixedInterest.toString(),
+      Intoption: this.InterestRateType
+
+    }
+
+    console.log(obj);
+    console.log(JSON.stringify(obj));
+    this.proposalRegisterService.saveCustomerInfoToMRP(obj).subscribe((data: any) => {
+      console.log("saveCustomerInfoToMRP Done");
+
+      this.SendMail();
+      this.loading['loading4'] = false;
+
+      this.loadingComplete();
+
+      this.clearFields();
+
+      this.QuotationNo = '';
+    },
+      (err) => {
+        // alert(err);
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error while saving");
+      },
+      () => console.log('done'));
+
+
+  }
+
+  public test() {
+    // $("#proposalNoModal").modal('show');
+
+    // $("#proposalNoModal").open();
+    // document.getElementById("openProposalNoModalButton").click();
+
+    document.getElementById('openProposalNoModalButton').click();
+  }
+
+  public SendMail() {
+    console.log('rrrr');
+    console.log('seeee ' + this.SeqId);
+
+    let BankName = this.bankList.filter(item => item.BankId == this.BankId)[0]['BankName'];
+    let BankBranchName = this.bankBranchList.filter(item => item.BankBranchId == this.BranchId)[0]['BankBranchName'];
+
+
+    let obj: IProposalEmailSend = {
+
+
+      SeqId: this.SeqId,
+      LifeAss1Name: this.Life1Name,
+      LifeAss2Name: this.Life2Name,
+      LifeAss1Nic: this.Life1Nic,
+      LifeAss2Nic: this.Life2Nic,
+      BankName: BankName,
+      BankBranch: BankBranchName,
+      ProposalNo: this.ProposalNo,
+      EmailAddresses: COMMON_VALUES.CUSTOMER_CARE_EMAIL,
+      SenderUserCode:this.User.UserName
+    }
+
+
+
+    this.isLoading = true;
+
+    this.proposalRegisterService.SendProposalAsEmail(obj).subscribe((data: any) => {
+      console.log(data);
+
+
+      if (data.status == 200) {
+        this.showSuccess("Proposal Successfully E-mailed. ");
+      }
+      this.isLoading = false;
+    },
+      (err) => {
+        console.log(err);
+
+        this.isLoading = false;
+        this.showError("Error sending proposal");
+      },
+      () => console.log('done'));
+
+  }
+
+  loadingComplete() {
+
+    if (!this.loading['loading1'] && !this.loading['loading2'] && !this.loading['loading3'] && !this.loading['loading4']) {
+
+      this.isLoading = false;
+    }
+
+  }
+
+
+
 
 }
 

@@ -5,8 +5,33 @@
 
   <modal #quotationModal>
     <modal-content>
-      <iframe [src]="QuotationDocURL" style="zoom:0.60" frameborder="0" height="800" width="99.6%"></iframe>
+
+      <div class="modal-body">
+        <iframe [src]="QuotationDocURL" style="zoom:0.60" frameborder="0" height="800" width="99.6%"></iframe>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Customer e-mail</label>
+
+          <div class="col-lg-8">
+            <input type="text" class="form-control  input-sm" placeholder="Customer e-mail" type="email" [(ngModel)]="emailReceivers"
+              name="emailReceivers" id="emailReceivers">
+          </div>
+          <div class="col-lg-2">
+            <button type="button" class="btn btn-primary btn-block btn-sm" (click)="SendMail()">Send E-mail</button>
+          </div>
+
+        </div>
+
+
+
+
+
+
+      </div>
+
     </modal-content>
+
   </modal>
 </div>
 <div *ngIf="!isLoading">
@@ -47,16 +72,31 @@
         <div class="col-md-6">
           <div class="{{LifeAss1NicClass}}">
             <label for="LifeAss1Nic" class="col-lg-4 control-label">NIC</label>
-            <div class="col-lg-8">
+            <div class="col-lg-7">
               <input type="text" class="form-control  input-sm" placeholder="NIC" required [(ngModel)]="LifeAss1Nic" name="LifeAss1Nic"
-                id="LifeAss1Nic">
+                id="LifeAss1Nic" (blur)="ExtractDataFromNIC1()">
+
+            </div>
+
+            <div class="col-lg-1">
+
+              <button type="button" class="btn btn-info  btn-sm" (click)="ExtractDataFromNIC1()">
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
             </div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <div class="col-lg-8">
-              <input type="text" class="form-control input-sm" placeholder="NIC" [(ngModel)]="LifeAss2Nic" name="LifeAss2Nic" id="LifeAss2Nic">
+            <div class="col-lg-7">
+              <input type="text" class="form-control input-sm" placeholder="NIC" [(ngModel)]="LifeAss2Nic" name="LifeAss2Nic" id="LifeAss2Nic"
+                (blur)="ExtractDataFromNIC2()">
+            </div>
+            <div class="col-lg-1">
+
+              <button type="button" class="btn btn-info  btn-sm" (click)="ExtractDataFromNIC2()">
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
             </div>
           </div>
         </div>
@@ -85,18 +125,34 @@
         <div class="col-md-6">
           <div class="{{LifeAss1DobClass}}">
             <label for="" class="col-lg-4 control-label">Date of Birth</label>
-            <div class="col-lg-8">
-              <datetime name="LifeAss1Dob" id="LifeAss1Dob"  [datepicker]="datepickerOpts"  [(ngModel)]="LifeAss1Dob" [timepicker]="false"  (ngModelChange)="calculateLife1Age($event)" ></datetime>
-      
+            <div class="col-lg-7">
+              <datetime name="LifeAss1Dob" id="LifeAss1Dob" [datepicker]="datepickerOpts" [(ngModel)]="LifeAss1Dob" [timepicker]="false"></datetime>
+
+            </div>
+
+            <div class="col-lg-1">
+
+              <button type="button" class="btn btn-info  btn-sm" (click)="calculateLife1Age()">
+                                          <span class="glyphicon glyphicon-ok"></span>
+              </button>
             </div>
           </div>
+
         </div>
+
         <div class="col-md-6">
           <div class="form-group">
-            <div class="col-lg-8">
-              <datetime name="LifeAss2Dob" id="LifeAss2Dob"  [datepicker]="datepickerOpts"  [(ngModel)]="LifeAss2Dob" [timepicker]="false"  (ngModelChange)="calculateLife2Age($event)"></datetime>
+            <div class="col-lg-7">
+              <datetime name="LifeAss2Dob" id="LifeAss2Dob" [datepicker]="datepickerOpts" [(ngModel)]="LifeAss2Dob" [timepicker]="false"></datetime>
+            </div>
+            <div class="col-lg-1">
+
+              <button type="button" class="btn btn-info  btn-sm" (click)="calculateLife2Age()">
+                                                      <span class="glyphicon glyphicon-ok"></span>
+                                                    </button>
             </div>
           </div>
+
         </div>
       </div>
       <div class="row">
@@ -137,8 +193,8 @@
             <div class="col-lg-4">
               <select type="text" class="form-control input-sm" [(ngModel)]="LifeAss2Gender" name="LifeAss2Gender" id="LifeAss2Gender">
 <option value="0">Gender</option>
-<option value="Male">Male</option>
-<option value="Female">Female</option>
+<option value="M">Male</option>
+<option value="F">Female</option>
 </select>
             </div>
           </div>
@@ -168,8 +224,7 @@
           <div class="{{BankIdClass}}">
             <label for="selectedBankId" class="col-lg-4 control-label">Bank</label>
             <div class="col-lg-6">
-          <select type="text" class="form-control input-sm" [(ngModel)]="BankId" name="BankId" id="BankId"
-                (ngModelChange)="onSelectOfBankId($event)">
+              <select type="text" class="form-control input-sm" [(ngModel)]="BankId" name="BankId" id="BankId" (ngModelChange)="onSelectOfBankId($event)">
 <option value="0">Select</option>
 <option *ngFor="let bank of bankList" value={{bank.BankId}}>{{bank.BankName}}</option>
 </select> </div>
@@ -179,7 +234,7 @@
           <div class="{{BankBranchIdClass}}">
             <label for="BranchId" class="col-lg-5 control-label">Bank Branch</label>
             <div class="col-lg-7">
-             <select type="text" class="form-control input-sm" [(ngModel)]="BankBranchId" name="BankBranchId" id="BankBranchId">
+              <select type="text" class="form-control input-sm" [(ngModel)]="BankBranchId" name="BankBranchId" id="BankBranchId">
 <option value="0">Select</option>
 <option *ngFor="let bankBranch of bankBranchList" value={{bankBranch.BankBranchId}}>{{bankBranch.BankBranchName}}</option>
 </select>
@@ -276,7 +331,7 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label for="AdditionalToAwplr" class="col-lg-4 control-label">Additionto AWPLR</label>
+            <label for="AdditionalToAwplr" class="col-lg-4 control-label">Addition to AWPLR</label>
             <div class="col-lg-6">
               <input type="text" class="form-control  input-sm" placeholder="Additionto AWPLR" [(ngModel)]="AdditionalToAwplr" name="AdditionalToAwplr"
                 id="AdditionalToAwplr" type="number" min=0>
@@ -369,9 +424,14 @@
 
         </div>
 
+        <!--<div class="col-md-2" hidden>
+          <button class="btn btn-primary" (click)="quotationModal.open()" id="openQuotationModalButton">Show Quotation</button>
+        </div>-->
+
         <div class="col-md-2" hidden>
           <button class="btn btn-primary" (click)="quotationModal.open()" id="openQuotationModalButton">Show Quotation</button>
         </div>
+
       </div>
 
 
