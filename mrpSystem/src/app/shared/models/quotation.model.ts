@@ -20,7 +20,8 @@ export interface IQuotation {
     CurrentAwplr: number;
     AdditionalToAwplr: number;
     TermOfFixedInterest: number;
-    Discount: number;
+    DiscountRate: number;
+    DiscountRemark: string;
     Premium: number;
     PremiumWithPolicyFee: number;
     LoanTypeId: number;

@@ -6,10 +6,21 @@ import { QuotationSearchComponent } from './quotation/quotation-search/quotation
 import { QuotationReviseComponent } from './quotation/quotation-revise/quotation-revise.component';
 
 import { ProposalRegisterComponent } from './proposal/proposal-register/proposal-register.component';
+import { ProposalSearchComponent } from './proposal/proposal-search/proposal-search.component';
+
+import { ProposalViewComponent } from './proposal/proposal-view/proposal-view.component';
+
+
 import { ProposalUpdateComponent } from './proposal/proposal-update/proposal-update.component';
 import { PendingProposalsComponent } from './proposal/pending-proposals/pending-proposals.component';
 
+
 import { MainDashboardComponent } from './dashboards/main-dashboard/main-dashboard.component';
+
+
+import { PasswordChangeComponent } from './user/password-change/password-change.component';
+
+
 
 
 export const PAGE_ROUTES: Routes = [
@@ -40,10 +51,30 @@ export const PAGE_ROUTES: Routes = [
     {
         path: 'mainDashboard',
         component: MainDashboardComponent
+    },
+
+    {
+        path: 'proposalSearch',
+        component: ProposalSearchComponent
+    },
+
+    {
+        path: 'proposalView/:SeqId',
+        component: ProposalViewComponent
+    }
+
+    ,
+
+    {
+        path: 'passwordChange',
+        component: PasswordChangeComponent
     }
 
 
-    
-
 
 ];
+
+
+
+
+

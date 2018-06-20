@@ -229,6 +229,10 @@ export class ProposalUpdateComponent implements OnInit {
   tpd1Class: string = '';
   tpdOption1Class: string = '';
 
+
+  DiscountRate: string = '0';
+  DiscountRemark: string = '';
+
   SelectedDocumentViewPath: SafeUrl;
 
   nationalityList: Array<INationality> = [];
@@ -1556,8 +1560,15 @@ export class ProposalUpdateComponent implements OnInit {
       PremiumFee: this.PremiumWithPolicyFee,
       Premium: this.Premium,
       Fullterm: this.FullTermInMonths,
-      Loantype: this.LoanTypeName
+      Loantype: this.LoanTypeName,
+      DiscountRate:this.DiscountRate
     }
+
+console.log('----------------------------------');
+
+    console.log(' obj lt '+obj.Loantype);
+    
+console.log(' this lt '+this.LoanTypeName);
 
     console.log(obj);
     console.log(JSON.stringify(obj));

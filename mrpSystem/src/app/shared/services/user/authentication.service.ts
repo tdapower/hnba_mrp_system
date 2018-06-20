@@ -8,6 +8,8 @@ import { USER } from '../../config/user';
 @Injectable()
 export class AuthenticationService {
     public token: string;
+
+    options: RequestOptions;
     constructor(private http: Http) {
         var currentMRPUser = JSON.parse(localStorage.getItem('currentMRPUser'));
         // this.token = currentMRPUser && currentMRPUser.token;
@@ -59,6 +61,9 @@ export class AuthenticationService {
                 return Observable.throw(new Error(error.status))
             });
     }
+
+
+
 
 
 

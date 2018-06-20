@@ -350,9 +350,10 @@ export class CommonService {
         }
       }
 
+
       if (Day.toString().length == 3) {
 
-        Day = Number(Day.toString().substring(2, 3));
+        Day = Number(Day.toString().substring(1, 3));
 
       }
       NICExtractedData.DOB = this.padLeft(Day, 2, '0') + "/" + Month + "/19" + Year;
@@ -450,10 +451,21 @@ export class CommonService {
 
 
 
+  public CalculateAge(DOB, CurDate) {
+    var dob = new Date(DOB);
+    var cur_date = new Date(CurDate);
+
+    var diffInDays = ((cur_date.getTime() - dob.getTime()) / 1000) / (60 * 60 * 24);
+    var diffInYears = diffInDays / 365;
+
+    return diffInYears;
 
 
 
- public Days360(StartDate, EndDate) {
+  }
+
+
+  public Days360(StartDate, EndDate) {
 
     var moment = require('moment');
 

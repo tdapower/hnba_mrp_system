@@ -349,6 +349,29 @@
         </div>
       </div>
 
+
+      <div class="row"  *ngIf="isUserBranchHDO">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="DiscountRate" class="col-lg-4 control-label">Discount Rate</label>
+            <div class="col-lg-6">
+              <input type="text" class="form-control  input-sm" placeholder="Discount Rate" [(ngModel)]="DiscountRate" name="DiscountRate"
+                id="DiscountRate" type="number" min=0 max=100>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="{{DiscountRemarkClass}}">
+            <label for="DiscountRemark" class="col-lg-5 control-label">Discount Remark</label>
+            <div class="col-lg-7">
+              <input type="text" class="form-control  input-sm" placeholder="Discount Remark" [(ngModel)]="DiscountRemark"
+                name="DiscountRemark" id="DiscountRemark">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
@@ -356,7 +379,7 @@
             <div class="col-lg-6">
 
 
-              <span class="form-control  input-sm">{{Premium}}</span>
+              <span class="form-control  input-sm">{{Premium| number: '1.2-2'}}</span>
 
 
             </div>
@@ -367,7 +390,7 @@
           <div class="form-group">
             <label for="PremiumWithPolicyFee" class="col-lg-4 control-label">With Policy Fee</label>
             <div class="col-lg-6">
-              <span class="form-control  input-sm">{{PremiumWithPolicyFee}}</span>
+              <span class="form-control  input-sm">{{PremiumWithPolicyFee| number: '1.2-2'}}</span>
 
 
             </div>

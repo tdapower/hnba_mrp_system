@@ -5,20 +5,41 @@
 
 
 <form role="form">
-
   <div class="row">
 
     <div class="col-lg-4 col-lg-offset-1">
       <div class="form-group">
-        <label for="QuotationNo" class="col-lg-6 control-label">Quotation No.</label>
+        <label for="QuotationNo" class="col-lg-6 control-label">Proposal No.</label>
         <div class="col-lg-6">
-          <input type="text" class="form-control input-sm" id="QuotationNo" name="QuotationNo" [(ngModel)]="QuotationNo" placeholder="Quotation No.">
+          <input type="text" class="form-control input-sm" id="ProposalNo" name="ProposalNo" [(ngModel)]="ProposalNo" placeholder="Proposal No.">
         </div>
       </div>
     </div>
     <div class="col-lg-4 col-lg-offset-1">
       <div class="form-group">
-        <label for="BranchCode" class="col-lg-4 control-label">Branch</label>
+        <label for="QuotationNo" class="col-lg-4 control-label">Quotation No.</label>
+        <div class="col-lg-6">
+          <input type="text" class="form-control input-sm" id="QuotationNo" name="QuotationNo" [(ngModel)]="QuotationNo" placeholder="Quotation No.">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-lg-4 col-lg-offset-1">
+      <div class="form-group">
+        <label for="QuotationNo" class="col-lg-6 control-label">Bank</label>
+        <div class="col-lg-6">
+          <select type="text" class="form-control input-sm" [(ngModel)]="Bank" name="Bank" id="Bank">
+            <option value="0">Select</option>
+            <option *ngFor="let bank of bankList" value={{bank.BankId}}>{{bank.BankName}}</option>
+            </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-lg-offset-1">
+      <div class="form-group">
+        <label for="BranchCode" class="col-lg-4 control-label">HNBA Branch</label>
         <div class="col-lg-6">
           <select type="text" class="form-control input-sm" [(ngModel)]="BranchCode" name="BranchCode" id="BranchCode">
 <option value="0">Select</option>
@@ -28,13 +49,17 @@
       </div>
     </div>
   </div>
+
+
+
+
   <div class="row">
     <div class="col-lg-4 col-lg-offset-1">
       <div class="form-group">
-        <label for="LifeAssName" class="col-lg-6 control-label">Customer Name</label>
+        <label for="LifeAss1Name" class="col-lg-6 control-label">Customer 1 Name</label>
         <div class="col-lg-6">
-          <input type="text" class="form-control input-sm" placeholder="Customer Name" [(ngModel)]="LifeAssName" name="LifeAssName"
-            id="LifeAssName">
+          <input type="text" class="form-control input-sm" placeholder="Customer Name" [(ngModel)]="LifeAss1Name" name="LifeAss1Name"
+            id="LifeAss1Name">
         </div>
       </div>
     </div>
@@ -42,12 +67,12 @@
       <div class="form-group">
         <label for="LifeAss1Nic" class="col-lg-4 control-label">NIC</label>
         <div class="col-lg-6">
-          <input type="text" class="form-control  input-sm" placeholder="NIC" [(ngModel)]="LifeAssNic" name="LifeAssNic" id="LifeAssNic">
+          <input type="text" class="form-control  input-sm" placeholder="NIC" [(ngModel)]="LifeAss1Nic" name="LifeAss1Nic" id="LifeAss1Nic">
         </div>
       </div>
     </div>
   </div>
-  <!-- <div class="row" hidden>
+  <div class="row">
     <div class="col-lg-4 col-lg-offset-1">
       <div class="form-group">
         <label for="LifeAss2Name" class="col-lg-6 control-label">Customer 2 Name</label>
@@ -65,7 +90,7 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
   <div class="row">
     <div class="col-lg-4 col-lg-offset-1">
       <div class="form-group">
@@ -81,7 +106,7 @@
 
     <div class="col-lg-2 col-lg-offset-1">
       <div class="form-group">
-        <button class="btn btn-primary btn-block" type="button" (click)="searchQuotations()">Search</button>
+        <button class="btn btn-primary btn-block" type="button" (click)="searchProposals()">Search</button>
       </div>
     </div>
   </div>
@@ -94,30 +119,29 @@
       <thead>
         <tr>
           <th>No</th>
+          <th>Proposal No</th>
           <th>Quotation No</th>
-          <th>Revision No</th>
           <th>Customer 1 Name</th>
           <th>Customer 1 NIC</th>
           <th>Customer 2 Name</th>
           <th>Customer 2 NIC</th>
-          <th>Premium</th>
-          <th>User</th>
-          <th>Date</th>
+          <th>Bank</th>
+          <th>HNBA Branch</th>
         </tr>
       </thead>
       <tbody>
 
         <tr *ngFor="let searchResult of searchResults | paginate: {itemsPerPage:10 , currentPage:page, id: '1'}; let i = index" (click)="setClickedRow(i,searchResult.SeqId);">
           <td>{{searchResult.SeqId}}</td>
+          <td>{{searchResult.ProposalNo}}</td>
           <td>{{searchResult.QuotationNo}}</td>
-          <td>{{searchResult.RevisionNo}}</td>
           <td>{{searchResult.LifeAss1Name}}</td>
           <td>{{searchResult.LifeAss1Nic}}</td>
           <td>{{searchResult.LifeAss2Name}}</td>
           <td>{{searchResult.LifeAss2Nic}}</td>
-          <td>{{searchResult.Premium}}</td>
-          <td>{{searchResult.UserName}}</td>
-          <td>{{searchResult.QuotationDate}}</td>
+          <td>{{searchResult.Bank}}</td>
+          <td>{{searchResult.HNBABranchCode}}</td>
+
         </tr>
 
       </tbody>

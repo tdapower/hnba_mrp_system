@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MomentModule } from 'angular2-moment';
 
+import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService, ToastrConfig } from 'toastr-ng2';
 
@@ -40,6 +41,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   mode: string;
 
   User: IUser;
+  isUserBranchHDO: boolean = false;
 
   SeqId: number = 0;
   QuotationNo: string = '';
@@ -64,11 +66,12 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   CurrentAwplr: number;
   AdditionalToAwplr: number;
   TermOfFixedInterest: number;
-  Discount: number;
   Premium: number;
   PremiumWithPolicyFee: number;
   BankId: number;
   BankBranchId: number;
+  DiscountRate: number = 0;
+  DiscountRemark: string = '';
 
   LoanTypeId: number;
   LoanTypeName: string = '';
@@ -90,10 +93,14 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   CompanyBufferClass: string;
   BankIdClass: string;
   BankBranchIdClass: string;
+  DiscountRemarkClass: string;
 
   QuotationDocURL: any;
 
   isQuotationDetailsValid: boolean = false;
+
+  isQuotationCalculated: boolean = false;
+  isQuotationSaved: boolean = false;
 
   hnbaBranchList: Array<IHnbaBranch> = [];
   loanTypeList: Array<ILoanType> = [];
@@ -116,15 +123,20 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     private commonService: CommonService, moment: MomentModule,
     private toastrService: ToastrService,
     toastrConfig: ToastrConfig,
-    public sanitizer: DomSanitizer) {
+    public sanitizer: DomSanitizer, private router: Router) {
     toastrConfig.timeOut = 10000;
     toastrConfig.closeButton = true;
     toastrConfig.tapToDismiss = true;
 
 
+
   }
 
   ngOnInit() {
+
+
+
+
 
     this.getHnbaBranches();
     this.getLoanTypes();
@@ -134,6 +146,20 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
     this.User = JSON.parse(localStorage.getItem('currentMRPUser'));
     this.mode = "new";
+
+    if (this.User.BranchCode == 'HDO') {
+      this.isUserBranchHDO = true;
+    } else {
+      this.isUserBranchHDO = false;
+    }
+
+
+    if (this.User.Password == COMMON_VALUES.COMMON_PWD) {
+      this.router.navigate(['/', 'passwordChange']);
+    }
+
+
+
   }
 
   ngAfterViewInit() {
@@ -183,7 +209,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.CurrentAwplr = null;
     this.AdditionalToAwplr = null;
     this.TermOfFixedInterest = null;
-    this.Discount = null;
+    this.DiscountRate = null;
+    this.DiscountRemark = '';
     this.Premium = null;
     this.PremiumWithPolicyFee = null;
     this.LoanTypeId = null;
@@ -312,8 +339,14 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
 
   public SaveQuotation() {
-    console.log(this.mode);
 
+    if (!this.isQuotationCalculated) {
+      this.showWarning("Please calculate before saving quotation");
+      return;
+    }
+
+    this.isQuotationSaved = false;
+    
     if (this.mode == "new") {
       this.saveNewQuotation();
     } else if (this.mode == "saved") {
@@ -357,8 +390,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       if (this.TermOfFixedInterest == null || isNaN(this.TermOfFixedInterest)) {
         this.TermOfFixedInterest = 0;
       }
-      if (this.Discount == null || isNaN(this.Discount)) {
-        this.Discount = 0;
+      if (this.DiscountRate == null || isNaN(this.DiscountRate)) {
+        this.DiscountRate = 0;
       }
 
       if (this.LoanTypeId == null || isNaN(this.LoanTypeId)) {
@@ -393,7 +426,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         CurrentAwplr: this.CurrentAwplr,
         AdditionalToAwplr: this.AdditionalToAwplr,
         TermOfFixedInterest: this.TermOfFixedInterest,
-        Discount: 0,
+        DiscountRate: this.DiscountRate,
+        DiscountRemark: this.DiscountRemark,
         Premium: this.Premium,
         PremiumWithPolicyFee: this.PremiumWithPolicyFee,
         LoanTypeId: this.LoanTypeId,
@@ -417,7 +451,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
         this.mode = "saved";
 
-
+        this.isQuotationSaved = true;
 
         this.quotationService.getQuotationNoBySeqId(this.SeqId).subscribe((data: any) => {
           if (data != "error") {
@@ -521,8 +555,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       if (this.TermOfFixedInterest == null || isNaN(this.TermOfFixedInterest)) {
         this.TermOfFixedInterest = 0;
       }
-      if (this.Discount == null || isNaN(this.Discount)) {
-        this.Discount = 0;
+      if (this.DiscountRate == null || isNaN(this.DiscountRate)) {
+        this.DiscountRate = 0;
       }
       if (this.LoanTypeId == null || isNaN(this.LoanTypeId)) {
         this.LoanTypeId = 0;
@@ -555,7 +589,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         CurrentAwplr: this.CurrentAwplr,
         AdditionalToAwplr: this.AdditionalToAwplr,
         TermOfFixedInterest: this.TermOfFixedInterest,
-        Discount: 0,
+        DiscountRate: this.DiscountRate,
+        DiscountRemark: this.DiscountRemark,
         Premium: this.Premium,
         PremiumWithPolicyFee: this.PremiumWithPolicyFee,
         LoanTypeId: this.LoanTypeId,
@@ -578,7 +613,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
           this.showSuccess("Quotation Successfully Updated. ");
 
           this.mode = "saved";
-
+          this.isQuotationSaved = true;
         }
         this.isLoading = false;
       },
@@ -697,13 +732,26 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       this.LifeAss2Dob = "01/01/1900";
     }
 
+
+    if (this.DiscountRate > 0) {
+      if (this.DiscountRemark == "") {
+        this.DiscountRemarkClass = "has-error";
+        this.isQuotationDetailsValid = false;
+
+
+        this.showWarning("Remark for Discount is mandatory if discount is given");
+      } else {
+        this.DiscountRemarkClass = "form-group";
+      }
+    }
+
     console.log('validated');
   }
 
   public calculateLife1Age() {
     var moment = require('moment');
-    this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
-
+    //this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
+    this.LifeAss1Age = Math.round(this.commonService.CalculateAge(this.LifeAss1Dob, moment()));
   }
 
 
@@ -712,7 +760,10 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   public calculateLife2Age() {
 
     var moment = require('moment');
-    this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
+    //  this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
+    this.LifeAss2Age = Math.round(this.commonService.CalculateAge(this.LifeAss2Dob, moment()));
+
+
   }
 
   public Calculate() {
@@ -721,163 +772,351 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.validateFields();
     if (this.isQuotationDetailsValid) {
       this.isLoading = true;
-      this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == this.LoanTypeId)[0]['LoanTypeName'];
 
-      console.log('CompanyBufferId   ' + this.CompanyBufferId);
+      this.isQuotationCalculated = false;
 
-      if (this.CompanyBufferId > 0) {
-        console.log('tttttttttt');
-
-        this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
-      }
-
-
-
-
-      var moment = require('moment');
-
-
-      if (this.LifeAss1Age == null) {
-        this.LifeAss1Age = 0;
-      }
-      if (this.LifeAss2Age == null) {
-        this.LifeAss2Age = 0;
-      }
-      if (this.LoanAmount == null) {
-        this.LoanAmount = 0;
-      }
-      if (this.FullTermOfLoanMonthly == null) {
-        this.FullTermOfLoanMonthly = 0;
-      }
-      if (this.FixedInterest == null) {
-        this.FixedInterest = 0;
-      }
-      if (this.CompanyBufferId == null) {
-        this.CompanyBufferId = 0;
-      }
-      if (this.CurrentAwplr == null) {
-        this.CurrentAwplr = 0;
-      }
-      if (this.AdditionalToAwplr == null) {
-        this.AdditionalToAwplr = 0;
-      }
-      if (this.TermOfFixedInterest == null) {
-        this.TermOfFixedInterest = 0;
-      }
-      if (this.Discount == null) {
-        this.Discount = 0;
-      }
-
-      if (this.LoanTypeId == null) {
-        this.LoanTypeId = 0;
-      }
-
-
-      var formatted_dob_life1 = moment(this.LifeAss1Dob).format('YYYY/MM/DD');
-      var formatted_dob_life2;
-
-      if (this.LifeAss2Dob == "01/01/1900") {
-        formatted_dob_life2 = "N/A";
+      if (this.BankId == COMMON_VALUES.HNB_BANK_CODE) {
+        this.calculatePremiumWithOldCalculation();
       } else {
-        formatted_dob_life2 = moment(this.LifeAss2Dob).format('YYYY/MM/DD');
-      }
-
-      var formattedLifeAss2Gender;
-      if (this.LifeAss2Gender == null) {
-        formattedLifeAss2Gender = "N/A";
-      }
-
-      var FullTermOfLoanYearly = 0;
-      FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
-
-      var quotationCalcServiceLoanType = "";
-      if (this.LoanTypeName == "MRP STD (Home Loans)") {
-        quotationCalcServiceLoanType = "type1";
-      } else if (this.LoanTypeName == "CAR/Education Loans") {
-        quotationCalcServiceLoanType = "type2";
-      }
-      else if (this.LoanTypeName == "Business Loan") {
-        quotationCalcServiceLoanType = "type3";
-      }
-      else if (this.LoanTypeName == "Personal Loan/Commercial Vehicle") {
-        quotationCalcServiceLoanType = "type4";
+        this.calculatePremiumWithNewCalculation();
       }
 
 
-
-      var obj = {
-        username: this.User.UserName,
-        term: FullTermOfLoanYearly.toString(),
-        loan_interest: this.FixedInterest.toString(),
-        loan_amount: this.LoanAmount.toString(),
-        grace_period: 0,
-        dob_life1: formatted_dob_life1,
-        dob_life2: formatted_dob_life2,
-        loan_type: quotationCalcServiceLoanType,
-        gender_life1: this.LifeAss1Gender,
-        gender_life2: formattedLifeAss2Gender,
-        Company_Buffer: this.CompanyBufferId,
-        Current_AWPLR: this.CurrentAwplr.toString(),
-        Addition_to_AWPLR: this.AdditionalToAwplr.toString(),
-        life1_discount: 0,
-        life2_discount: 0,
-        basic_healthExtraPecentage_life1: 0,
-        basic_healthExtraPecentage_life2: 0,
-        tpd_healthExtraPecentage_life1: 0,
-        tpd_healthExtraPecentage_life2: 0,
-        basic_healthExtraPermile_life1: 0,
-        basic_healthExtraPermile_life2: 0,
-        tpd_healthExtraPermile_life1: 0,
-        tpd_healthExtraPermile_life2: 0,
-        term_fixed_interest: this.TermOfFixedInterest
-
-      };
-
-
-      //   console.log(obj);
-      //  console.log(JSON.stringify(obj));
-
-      var data = obj;
-      var keyValPairString = "?";
-      for (var key in data) {
-        //   console.log(key + ' : ' + data[key]);
-        keyValPairString = keyValPairString + key + '=' + data[key] + '&';
-        // alert(key + ' --> ' + data[key]);
-      }
-
-
-      keyValPairString = keyValPairString.slice(0, -1);
-
-      //console.log('http://mobileapps.hnbassurance.com/quotation_calculation/webservice/mrptest.php' + keyValPairString);
-      console.log(' key pair --- ' + keyValPairString);
-      this.quotationService.calculateQuotation(keyValPairString).subscribe((data: any) => {
-        console.log(data);
-        console.log('Premium = ' + data.data.premium);
-
-
-        this.Premium = data.data.premium;
-        this.PremiumWithPolicyFee = data.data.premium_with_policy_fee;
-
-
-        this.isLoading = false;
-
-
-        this.showInfo("Premium: " + data.data.premium_with_policy_fee);
-      },
-        (err) => {
-
-          this.isLoading = false;
-          this.showError("Error calculating premium");
-        },
-        () => console.log('done')
-      );
     }
   }
 
 
+  public calculatePremiumWithOldCalculation() {
 
+
+    this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == this.LoanTypeId)[0]['LoanTypeName'];
+
+
+    if (this.CompanyBufferId > 0) {
+      this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
+    }
+
+
+
+
+    var moment = require('moment');
+
+
+    if (this.LifeAss1Age == null) {
+      this.LifeAss1Age = 0;
+    }
+    if (this.LifeAss2Age == null) {
+      this.LifeAss2Age = 0;
+    }
+    if (this.LoanAmount == null) {
+      this.LoanAmount = 0;
+    }
+    if (this.FullTermOfLoanMonthly == null) {
+      this.FullTermOfLoanMonthly = 0;
+    }
+    if (this.FixedInterest == null) {
+      this.FixedInterest = 0;
+    }
+    if (this.CompanyBufferId == null) {
+      this.CompanyBufferId = 0;
+    }
+    if (this.CurrentAwplr == null) {
+      this.CurrentAwplr = 0;
+    }
+    if (this.AdditionalToAwplr == null) {
+      this.AdditionalToAwplr = 0;
+    }
+    if (this.TermOfFixedInterest == null) {
+      this.TermOfFixedInterest = 0;
+    }
+    if (this.DiscountRate == null) {
+      this.DiscountRate = 0;
+    }
+
+    if (this.LoanTypeId == null) {
+      this.LoanTypeId = 0;
+    }
+
+
+    var formatted_dob_life1 = moment(this.LifeAss1Dob).format('YYYY/MM/DD');
+    var formatted_dob_life2;
+
+    if (this.LifeAss2Dob == "01/01/1900") {
+      formatted_dob_life2 = "N/A";
+    } else {
+      formatted_dob_life2 = moment(this.LifeAss2Dob).format('YYYY/MM/DD');
+    }
+
+    var formattedLifeAss2Gender;
+    if (this.LifeAss2Gender == null || this.LifeAss2Gender == "") {
+      formattedLifeAss2Gender = "N/A";
+    } else {
+      formattedLifeAss2Gender = this.LifeAss2Gender;
+    }
+
+    var FullTermOfLoanYearly = 0;
+    FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
+
+    var quotationCalcServiceLoanType = "";
+    if (this.LoanTypeName == "MRP STD (Home Loans)") {
+      quotationCalcServiceLoanType = "type1";
+    } else if (this.LoanTypeName == "CAR/Education Loans") {
+      quotationCalcServiceLoanType = "type2";
+    }
+    else if (this.LoanTypeName == "Business Loan") {
+      quotationCalcServiceLoanType = "type3";
+    }
+    else if (this.LoanTypeName == "Personal Loan/Commercial Vehicle") {
+      quotationCalcServiceLoanType = "type4";
+    }
+
+
+
+    var obj = {
+      username: this.User.UserName,
+      term: FullTermOfLoanYearly.toString(),
+      loan_interest: this.FixedInterest.toString(),
+      loan_amount: this.LoanAmount.toString(),
+      grace_period: 0,
+      dob_life1: formatted_dob_life1,
+      dob_life2: formatted_dob_life2,
+      loan_type: quotationCalcServiceLoanType,
+      gender_life1: this.LifeAss1Gender,
+      gender_life2: formattedLifeAss2Gender,
+      Company_Buffer: this.CompanyBufferId,
+      Current_AWPLR: this.CurrentAwplr.toString(),
+      Addition_to_AWPLR: this.AdditionalToAwplr.toString(),
+      life1_discount: 0,
+      life2_discount: 0,
+      basic_healthExtraPecentage_life1: 0,
+      basic_healthExtraPecentage_life2: 0,
+      tpd_healthExtraPecentage_life1: 0,
+      tpd_healthExtraPecentage_life2: 0,
+      basic_healthExtraPermile_life1: 0,
+      basic_healthExtraPermile_life2: 0,
+      tpd_healthExtraPermile_life1: 0,
+      tpd_healthExtraPermile_life2: 0,
+      term_fixed_interest: this.TermOfFixedInterest
+
+    };
+
+
+    //   console.log(obj);
+    //  console.log(JSON.stringify(obj));
+
+    var data = obj;
+    var keyValPairString = "?";
+    for (var key in data) {
+      //   console.log(key + ' : ' + data[key]);
+      keyValPairString = keyValPairString + key + '=' + data[key] + '&';
+      // alert(key + ' --> ' + data[key]);
+    }
+
+
+    keyValPairString = keyValPairString.slice(0, -1);
+
+    //console.log('http://mobileapps.hnbassurance.com/quotation_calculation/webservice/mrptest.php' + keyValPairString);
+    console.log(' key pair --- ' + keyValPairString);
+    this.quotationService.calculateQuotation(keyValPairString).subscribe((data: any) => {
+      if (data.data.premium != 'N/A') {
+
+        this.isQuotationCalculated = true;
+
+        this.Premium = data.data.premium.replace(/,/g, '');
+        this.PremiumWithPolicyFee = data.data.premium_with_policy_fee.replace(/,/g, '');
+
+
+        if (this.DiscountRate > 0) {
+
+          var premiumWithDiscount = 0;
+          premiumWithDiscount = Math.ceil(Number(data.data.premium.toString().replace(/,/g, '')) * ((100 - this.DiscountRate) / 100));
+
+
+          this.Premium = premiumWithDiscount;
+          this.PremiumWithPolicyFee = premiumWithDiscount + COMMON_VALUES.POLICY_FEE;
+
+        }
+      } else {
+        this.Premium = 0.00;
+        this.PremiumWithPolicyFee = 0.00;
+
+      }
+      this.isLoading = false;
+
+
+      this.showInfo("Premium: " + this.PremiumWithPolicyFee);
+    },
+      (err) => {
+
+        this.isLoading = false;
+        this.showError("Error calculating premium");
+      },
+      () => console.log('done')
+    );
+  }
+
+  public calculatePremiumWithNewCalculation() {
+    var moment = require('moment');
+
+
+
+    this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == this.LoanTypeId)[0]['LoanTypeName'];
+
+
+    if (this.CompanyBufferId > 0) {
+      this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
+    } else {
+      this.CompanyBufferValue = "0";
+    }
+
+
+    if (this.LifeAss1Age == null) {
+      this.LifeAss1Age = 0;
+    }
+    if (this.LifeAss2Age == null) {
+      this.LifeAss2Age = 0;
+    }
+    if (this.LoanAmount == null) {
+      this.LoanAmount = 0;
+    }
+    if (this.FullTermOfLoanMonthly == null) {
+      this.FullTermOfLoanMonthly = 0;
+    }
+    if (this.FixedInterest == null) {
+      this.FixedInterest = 0;
+    }
+    if (this.CompanyBufferId == null) {
+      this.CompanyBufferId = 0;
+    }
+    if (this.CurrentAwplr == null) {
+      this.CurrentAwplr = 0;
+    }
+    if (this.AdditionalToAwplr == null) {
+      this.AdditionalToAwplr = 0;
+    }
+    if (this.TermOfFixedInterest == null) {
+      this.TermOfFixedInterest = 0;
+    }
+    if (this.DiscountRate == null) {
+      this.DiscountRate = 0;
+    }
+
+    if (this.LoanTypeId == null) {
+      this.LoanTypeId = 0;
+    }
+
+
+    console.log('this.LifeAss2Gender   =' + this.LifeAss2Gender);
+
+    var formatted_dob_life1 = moment(this.LifeAss1Dob).format('YYYY/MM/DD');
+    var formatted_dob_life2;
+
+    if (this.LifeAss2Dob == "01/01/1900") {
+      formatted_dob_life2 = "";
+    } else {
+      formatted_dob_life2 = moment(this.LifeAss2Dob).format('YYYY/MM/DD');
+    }
+
+    var formattedLifeAss2Gender;
+    if (this.LifeAss2Gender == null || this.LifeAss2Gender == "") {
+      formattedLifeAss2Gender = "";
+    } else {
+      formattedLifeAss2Gender = this.LifeAss2Gender;
+    }
+
+    // var FullTermOfLoanYearly = 0;
+    // FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
+
+
+
+    var obj = {
+
+      Term: this.FullTermOfLoanMonthly,
+      FixedInterestTerm: this.TermOfFixedInterest,
+      CommencementDate: moment().format('YYYY/MM/DD'),
+      DOBL1: formatted_dob_life1,
+      DOBL2: formatted_dob_life2,
+      Currency: "LKR",
+      ExchangeRate: 1,
+      LoanAmount: this.LoanAmount.toString(),
+      FixedInterest: this.FixedInterest.toString(),
+      AWPLR: this.CurrentAwplr.toString(),
+      AdditionToAWPLR: this.AdditionalToAwplr.toString(),
+      CompanyBuffer: this.CompanyBufferValue,
+      GracePeriod: 0,
+      LoanType: this.LoanTypeName,
+      GenderL1: this.LifeAss1Gender,
+      GenderL2: formattedLifeAss2Gender,
+      TPDDeclineL1: "N",
+      TPDDeclineL2: "N",
+      RIComapny: COMMON_VALUES.DEFAULT_RI_COMPANY,
+      IncludeSV: "Yes",
+      ExpenseAssumption: "Normal",
+      HealthExtraDeathL1: 0,
+      HealthExtraDeathL2: 0,
+      HealthExtraTPDL1: 0,
+      HealthExtraTPDL2: 0,
+      OccupationExtraDeathL1: 0,
+      OccupationExtraDeathL2: 0,
+      OccupationExtraTPDL1: 0,
+      OccupationExtraTPDL2: 0,
+      OtherLoadingDeathL1: 0,
+      OtherLoadingDeathL2: 0,
+      OtherLoadingTPDL1: 0,
+      OtherLoadingTPDL2: 0,
+      RILoadDeathL1: 0,
+      RILoadDeathL2: 0,
+      RILoadTPDL1: 0,
+      RILoadTPDL2: 0
+    };
+    console.log(obj);
+    console.log("------------------");
+
+    console.log(JSON.stringify(obj));
+
+
+    this.quotationService.calculateQuotationUsingNewCalculation(obj).subscribe((data: any) => {
+
+      console.log(data.toString().replace(/"/g, ''));
+      this.isQuotationCalculated = true;
+      this.Premium = data.toString().replace(/"/g, '');
+      this.PremiumWithPolicyFee = Number(this.Premium) + Number(COMMON_VALUES.POLICY_FEE);
+
+
+      if (this.DiscountRate > 0) {
+
+        var premiumWithDiscount = 0;
+        premiumWithDiscount = Math.ceil(Number(this.Premium.toString().replace(/,/g, '')) * ((100 - this.DiscountRate) / 100));
+
+
+        this.Premium = premiumWithDiscount;
+        this.PremiumWithPolicyFee = premiumWithDiscount + COMMON_VALUES.POLICY_FEE;
+
+      }
+
+      this.isLoading = false;
+
+
+      this.showInfo("Premium: " + this.PremiumWithPolicyFee);
+    },
+      (err) => {
+
+        this.isLoading = false;
+        this.showError("Error calculating premium");
+      },
+      () => console.log('done')
+    );
+
+
+
+  }
 
   public ViewQuotation() {
+    if (!this.isQuotationSaved) {
+      this.showWarning("Please save before view quotation");
+      return;
+    }
+
     let url: any;
     url = URL_CONST.URL_PREFIX + 'api/Quotation/GetQuotationDocument/' + this.SeqId;
     console.log('url ---' + url);
@@ -903,8 +1142,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
           this.LifeAss1Dob = momentDateLife1Dob;
           this.LifeAss1Gender = this.NIC1ExtractedData.Gender;
-          this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
-
+          // this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
+          this.LifeAss1Age = Math.round(this.commonService.CalculateAge(this.LifeAss1Dob, moment()));
         }
       } catch (err) {
         console.log(err);
@@ -926,7 +1165,10 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
           this.LifeAss2Dob = momentDateLife2Dob;
           this.LifeAss2Gender = this.NIC2ExtractedData.Gender;
-          this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
+          // this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
+          this.LifeAss2Age = Math.round(this.commonService.CalculateAge(this.LifeAss2Dob, moment()));
+
+
         }
       } catch (err) {
         console.log(err);

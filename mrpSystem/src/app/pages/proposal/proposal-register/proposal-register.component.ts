@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone, Inject, EventEmitter } from '@angular/core';
 
+import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MomentModule } from 'angular2-moment';
 import { UUID } from 'angular2-uuid';
@@ -65,6 +66,10 @@ export class ProposalRegisterComponent implements OnInit {
   BrokerCode: number;
   ChannelCode: number;
   LoanTypeId: number;
+
+
+  DiscountRate: number = 0;
+  DiscountRemark: string = '';
 
   LoanTypeName: string = '';
   selectedLoanTypeId: number;
@@ -185,7 +190,7 @@ export class ProposalRegisterComponent implements OnInit {
     private toastrService: ToastrService,
     toastrConfig: ToastrConfig,
     @Inject(NgZone) private zone: NgZone,
-    public sanitizer: DomSanitizer) {
+    public sanitizer: DomSanitizer, private router: Router) {
 
     toastrConfig.timeOut = 10000;
     toastrConfig.closeButton = true;
@@ -249,6 +254,10 @@ export class ProposalRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.User = JSON.parse(localStorage.getItem('currentMRPUser'));
+    if (this.User.Password == COMMON_VALUES.COMMON_PWD) {
+      this.router.navigate(['/', 'passwordChange']);
+    } 
+
 
     this.getUploadDocumentTypes();
     this.getBanks();
@@ -672,6 +681,9 @@ export class ProposalRegisterComponent implements OnInit {
         this.Life2Age = obj.LifeAss2Age;
         this.Life2Gender = obj.LifeAss2Gender;
         this.Life2Nic = obj.LifeAss2Nic;
+        this.DiscountRate = obj.DiscountRate;
+        this.DiscountRemark = obj.DiscountRemark;
+
         this.Premium = obj.Premium;
         this.PremiumWithPolicyFee = obj.PremiumWithPolicyFee;
 
@@ -777,86 +789,96 @@ export class ProposalRegisterComponent implements OnInit {
         console.log(data);
         this.ProposalNo = data.toString().replace(/"/g, '');
 
+        if(this.ProposalNo=='' || this.ProposalNo==null){
 
-        console.log('pro no - ' + this.ProposalNo);
 
-        let obj: IMain = {
-          TempSeqId: this.TempSeqId,
-          SeqId: 0,
-          JobNo: '',
-          QuotationNo: this.QuotationNo,
-          RevisionNo: 0,
-          ProposalNo: this.ProposalNo,
-          MedicalType: '',
-          PolicyNo: '',
-          LoanAmount: this.LoanAmount,
-          Interest: this.Interest,
-          Term: this.Term,
-          FullTermInMonths: this.FullTermInMonths,
-          GracePeriod: 0,
-          CompanyBufferId: this.CompanyBufferId,
-          CurrentAwplr: this.CurrentAwplr,
-          AdditionToAwplr: this.AdditionToAwplr,
-          TermOfFixedInterest: this.TermOfFixedInterest,
-          BankId: this.BankId,
-          BranchId: this.BranchId,
-          CurrencyId: 0,
-          InterestRateType: '',
-          HnbaBranchCode: this.HnbaBranchCode,
-          BrokerCode: 0,
-          ChannelCode: 0,
-          IsReInsurance: 0,
-          LoanTypeId: this.LoanTypeId,
-          ReInsCompanyId: 0,
-          ExchangeRate: 0,
-          DateOfCommence: '01/01/1970',
-          DateOfProposal: '01/01/1970',
-          Premium: this.Premium,
-          PremiumWithPolicyFee: this.PremiumWithPolicyFee,
-          Status: this.Status,
-          UserId: this.User.UserName,
-          ProposalSendingMethod: this.ProposalSendingMethod,
-          RegisterDate: '01/01/1970',
-          IsValidated: 0,
-          IsVIP: 0
+          this.showError("Error while generating proposal No");
+          return;
+
+
+        }else{
+          console.log('pro no - ' + this.ProposalNo);
+          
+                  let obj: IMain = {
+                    TempSeqId: this.TempSeqId,
+                    SeqId: 0,
+                    JobNo: '',
+                    QuotationNo: this.QuotationNo,
+                    RevisionNo: 0,
+                    ProposalNo: this.ProposalNo,
+                    MedicalType: '',
+                    PolicyNo: '',
+                    LoanAmount: this.LoanAmount,
+                    Interest: this.Interest,
+                    Term: this.Term,
+                    FullTermInMonths: this.FullTermInMonths,
+                    GracePeriod: 0,
+                    CompanyBufferId: this.CompanyBufferId,
+                    CurrentAwplr: this.CurrentAwplr,
+                    AdditionToAwplr: this.AdditionToAwplr,
+                    TermOfFixedInterest: this.TermOfFixedInterest,
+                    BankId: this.BankId,
+                    BranchId: this.BranchId,
+                    CurrencyId: 0,
+                    InterestRateType: '',
+                    HnbaBranchCode: this.HnbaBranchCode,
+                    BrokerCode: 0,
+                    ChannelCode: 0,
+                    IsReInsurance: 0,
+                    LoanTypeId: this.LoanTypeId,
+                    ReInsCompanyId: 0,
+                    ExchangeRate: 0,
+                    DateOfCommence: '01/01/1970',
+                    DateOfProposal: '01/01/1970',
+                    Premium: this.Premium,
+                    PremiumWithPolicyFee: this.PremiumWithPolicyFee,
+                    Status: this.Status,
+                    UserId: this.User.UserName,
+                    ProposalSendingMethod: this.ProposalSendingMethod,
+                    RegisterDate: '01/01/1970',
+                    IsValidated: 0,
+                    IsVIP: 0
+                  }
+          
+                  console.log(obj);
+                  console.log(JSON.stringify(obj));
+                  this.proposalRegisterService.saveProposalDetails(obj).subscribe((data: any) => {
+                    console.log(data);
+          
+                    this.loading['loading1'] = false;
+                    this.loadingComplete();
+          
+                    let obj: IMainSaveReturn = JSON.parse(data);
+                    this.SeqId = obj.SeqId;
+                    this.JobNo = obj.JobNo;
+                    console.log(' this.SeqId =' + this.SeqId);
+          
+          
+          
+                    this.showSuccess("Proposal Successfully Saved. Job  Number is " + this.JobNo);
+          
+          
+                    this.SaveAssureDetails1();
+                    if (this.Life2Name != "" && this.Life2Nic != "") {
+          
+                      this.SaveAssureDetails2();
+                    }
+          
+          
+                    this.SaveDataToMRP();
+          
+                  },
+                    (err) => {
+                      // alert(err);
+                      console.log(err);
+          
+                      this.isLoading = false;
+                      this.showError("Error while saving Proposal.");
+                    },
+                    () => console.log('done'));
         }
 
-        console.log(obj);
-        console.log(JSON.stringify(obj));
-        this.proposalRegisterService.saveProposalDetails(obj).subscribe((data: any) => {
-          console.log(data);
-
-          this.loading['loading1'] = false;
-          this.loadingComplete();
-
-          let obj: IMainSaveReturn = JSON.parse(data);
-          this.SeqId = obj.SeqId;
-          this.JobNo = obj.JobNo;
-          console.log(' this.SeqId =' + this.SeqId);
-
-
-
-          this.showSuccess("Proposal Successfully Saved. Job  Number is " + this.JobNo);
-
-
-          this.SaveAssureDetails1();
-          if (this.Life2Name != "" && this.Life2Nic != "") {
-
-            this.SaveAssureDetails2();
-          }
-
-
-          this.SaveDataToMRP();
-
-        },
-          (err) => {
-            // alert(err);
-            console.log(err);
-
-            this.isLoading = false;
-            this.showError("Error while saving Proposal.");
-          },
-          () => console.log('done'));
+   
       },
         (err) => {
           console.log(err);
@@ -1137,7 +1159,8 @@ export class ProposalRegisterComponent implements OnInit {
       PremiumFee: this.PremiumWithPolicyFee,
       Premium: this.Premium,
       Fullterm: this.FullTermInMonths,
-      Loantype: this.LoanTypeName
+      Loantype: this.LoanTypeName,
+      DiscountRate:this.DiscountRate.toString()
     }
 
     console.log(obj);

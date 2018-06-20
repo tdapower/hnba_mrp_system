@@ -469,6 +469,27 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="DiscountRate" class="col-lg-4 control-label">Discount Rate</label>
+            <div class="col-lg-6">
+              <input type="text" class="form-control  input-sm" placeholder="Discount Rate" [(ngModel)]="DiscountRate" name="DiscountRate"
+                id="DiscountRate" type="number" min=0 max=100 readonly>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="{{DiscountRemarkClass}}">
+            <label for="DiscountRemark" class="col-lg-5 control-label">Discount Remark</label>
+            <div class="col-lg-7">
+              <input type="text" class="form-control  input-sm" placeholder="Discount Remark" [(ngModel)]="DiscountRemark"
+                name="DiscountRemark" id="DiscountRemark" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <div class="row">
         <div class="col-md-6">

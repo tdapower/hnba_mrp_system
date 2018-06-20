@@ -54,9 +54,7 @@ export class QuotationService {
     let postoptions = new RequestOptions({ headers: headers });
 
     return this.http.post(URL_CONST.URL_PREFIX + 'api/Quotation/ReviseQuotation', body, postoptions)
-      .map((response: Response) => {
-        return response;
-      })
+      .map((response: Response) => JSON.stringify(response.json()))
       .timeout(60000)
       .catch((error: any) => {
 
@@ -65,7 +63,21 @@ export class QuotationService {
       });
   }
 
+  calculateQuotationUsingNewCalculation(params) {
+    let body = params;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let postoptions = new RequestOptions({ headers: headers });
 
+    return this.http.post(URL_CONST.NEW_CALCULATION_URL , body, postoptions)
+    .map((response: Response) => JSON.stringify(response.json()))
+      .timeout(60000)
+      .catch((error: any) => {
+
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
 
   calculateQuotation(params) {
     let body = params.toString();

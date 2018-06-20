@@ -20,18 +20,24 @@ export class QuotationSearchComponent implements OnInit {
   hnbaBranchList: Array<IHnbaBranch> = [];
   loanTypeList: Array<ILoanType> = [];
 
+  page: null;
 
   searchResults: Array<Object> = [];
 
   SeqId: number = 0;
   QuotationNo: string = '';
   RevisionNo: number = 0;
-  LifeAss1Name: string = '';
-  LifeAss1Nic: string = '';
-  LifeAss2Name: string = '';
-  LifeAss2Nic: string = '';
+  LifeAssName: string = '';
+  LifeAssNic: string = '';
+  // LifeAss2Name: string = '';
+  // LifeAss2Nic: string = '';
   LoanTypeId: number = 0;
   BranchCode: string = '';
+
+  UserName: string = '';
+  QuotationDate: string = '';
+
+
 
   LoanTypeName: string = '';
 
@@ -41,6 +47,10 @@ export class QuotationSearchComponent implements OnInit {
   ngOnInit() {
     this.getHnbaBranches();
     this.getLoanTypes();
+
+
+
+
   }
 
   getHnbaBranches() {
@@ -78,13 +88,17 @@ export class QuotationSearchComponent implements OnInit {
     let objSearchQuotations: ISearchQuotations = {
       QuotationNo: this.QuotationNo,
       RevisionNo: Number(this.RevisionNo),
-      LifeAss1Name: this.LifeAss1Name,
-      LifeAss1Nic: this.LifeAss1Nic,
-      LifeAss2Name: this.LifeAss2Name,
-      LifeAss2Nic: this.LifeAss2Nic,
+      LifeAss1Name: this.LifeAssName,
+      LifeAss1Nic: this.LifeAssNic,
+      LifeAss2Name: '',
+      LifeAss2Nic: '',
       LoanTypeId: Number(this.LoanTypeId),
-      BranchCode: this.BranchCode
+      BranchCode: this.BranchCode,
+      UserName:this.UserName,
+      QuotationDate:this.QuotationDate
     }
+
+
     console.log(JSON.stringify(objSearchQuotations));
     this.quotationService.searchQuotationDetails(objSearchQuotations).subscribe((data: any) => {
       console.log(data);

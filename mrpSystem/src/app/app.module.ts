@@ -22,6 +22,7 @@ import { ProposalUpdateService } from './shared/services/proposal-update/proposa
 import { ProposalRegisterService } from './shared/services/proposal-register/proposal-register.service';
 import { AssureService } from './shared/services/assure/assure.service';
 import { MainDashboardService } from './shared/services/main-dashboard/main-dashboard.service';
+import { UserAdminService } from './shared/services/userAdmin/user-admin.service';
 
 
 
@@ -41,6 +42,9 @@ import { PendingProposalsComponent } from './pages/proposal/pending-proposals/pe
 import { MainDashboardComponent } from './pages/dashboards/main-dashboard/main-dashboard.component';
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
 import { ChartsModule } from 'ng2-charts';
+import { ProposalSearchComponent } from './pages/proposal/proposal-search/proposal-search.component';
+import { ProposalViewComponent } from './pages/proposal/proposal-view/proposal-view.component';
+import { PasswordChangeComponent } from './pages/user/password-change/password-change.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,10 @@ import { ChartsModule } from 'ng2-charts';
     ProposalUpdateComponent,
     QuotationReviseComponent,
     PendingProposalsComponent,
-    MainDashboardComponent
+    MainDashboardComponent,
+    ProposalSearchComponent,
+    ProposalViewComponent,
+    PasswordChangeComponent
   ],
   imports: [
     BrowserModule,
@@ -83,6 +90,7 @@ import { ChartsModule } from 'ng2-charts';
     ProposalRegisterComponent,
     AssureService,
     MainDashboardService,
+    UserAdminService,
     { provide: LocationStrategy, useClass: HashLocationStrategy }
 
   ],

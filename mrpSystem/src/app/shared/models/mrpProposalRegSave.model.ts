@@ -18,4 +18,5 @@ export interface IMrpProposalRegSave {
     Premium: number;
     Fullterm: number;
     Loantype : string;
+    DiscountRate:string;
 }

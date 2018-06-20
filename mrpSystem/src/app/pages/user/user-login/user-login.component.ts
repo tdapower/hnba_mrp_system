@@ -5,6 +5,7 @@ import { IUser } from '../../../shared/models/user/user.model';
 
 import { USER } from '../../../shared/config/user';
 
+import { COMMON_VALUES } from '../../../shared/config/commonValues';
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
@@ -33,8 +34,8 @@ export class UserLoginComponent implements OnInit {
     this.isLoading = true;
     this.authenticationService.GetWindowsUserName()
       .subscribe((data) => {
-        console.log('data   '+data);
-        
+        console.log('data   ' + data);
+
 
         let windowsUserName: string = data;
         this.isLoading = false;
@@ -52,7 +53,15 @@ export class UserLoginComponent implements OnInit {
 
               localStorage.setItem("currentMRPUser", JSON.stringify(this.User));
               localStorage.setItem("currentMRPUserToken", USER.USER_AUTH_TOKEN);
-              this.router.navigate(['/', 'mainDashboard']);
+
+
+              if (this.User.Password == COMMON_VALUES.COMMON_PWD) {
+                this.router.navigate(['/', 'passwordChange']);
+              } else {
+                this.router.navigate(['/', 'mainDashboard']);
+              }
+
+
 
             } else {
               this.message = "Invalid User name or Password...";
@@ -92,7 +101,12 @@ export class UserLoginComponent implements OnInit {
 
           localStorage.setItem("currentMRPUser", JSON.stringify(this.User));
           localStorage.setItem("currentMRPUserToken", USER.USER_AUTH_TOKEN);
-          this.router.navigate(['/', 'mainDashboard']);
+      
+          if (this.User.Password == COMMON_VALUES.COMMON_PWD) {
+            this.router.navigate(['/', 'passwordChange']);
+          } else {
+            this.router.navigate(['/', 'mainDashboard']);
+          }
 
         } else {
           this.message = "Invalid User name or Password...";

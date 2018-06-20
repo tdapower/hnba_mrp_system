@@ -1,0 +1,607 @@
+<div *ngIf="isLoading">
+  <app-spinner-top></app-spinner-top>
+</div>
+
+
+<div *ngIf="!isLoading">
+  <form class="form-horizontal" role="form">
+
+    <div class="panel-body">
+
+      <!-- Tab headers-->
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#general" data-toggle="tab" aria-expanded="true">General</a></li>
+        <li class=""><a href="#documents" data-toggle="tab" aria-expanded="false">Documents</a></li>
+
+      </ul>
+
+      <!--outer tab body-->
+      <div id="myTabContent" class="tab-content">
+
+        <!--In General Tab-->
+        <div class="tab-pane fade active in" id="general">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="QuotationNo" class="col-lg-4 control-label">Quotation No.</label>
+                  <div class="col-lg-4">
+
+
+                    <span type="text" class="form-control  input-sm">{{QuotationNo}}</span>
+                  </div>
+                  <div class="col-lg-4">
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="ProposalNo" class="col-lg-6 control-label">Proposal No.</label>
+                  <div class="col-lg-6">
+
+                    <span type="text" class="form-control  input-sm">{{ProposalNo}}</span>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label for="JobNo" class="col-lg-2 control-label">Job No.</label>
+                  <div class="col-lg-4">
+                    <span class="form-control  input-sm">{{JobNo}}</span>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-4">
+                  </div>
+                  <div class="col-lg-8">
+                    <label for="inputEmail" class="control-label">Life 1</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-8">
+                    <label for="inputEmail" class="control-label">Life 2</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="{{LifeAss1NameClass}}">
+                  <label for="Life1Name" class="col-lg-4 control-label">Customer Name</label>
+                  <div class="col-lg-8">
+
+                    <span type="text" class="form-control  input-sm">{{Life1Name}}</span>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-8">
+                    <span type="text" class="form-control  input-sm">{{Life2Name}}</span>
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="{{LifeAss1NicClass}}">
+                  <label for="Life1Nic" class="col-lg-4 control-label">NIC</label>
+                  <div class="col-lg-8">
+
+                    <span type="text" class="form-control  input-sm">{{Life1Nic}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-8">
+                    <span type="text" class="form-control  input-sm">{{Life2Nic}}</span>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="LifeAss1Occupation" class="col-lg-4 control-label">Occupation</label>
+                  <div class="col-lg-8">
+
+                    <span type="text" class="form-control  input-sm">{{Life1Occupation}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-8">
+
+
+                    <span type="text" class="form-control  input-sm">{{Life2Occupation}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="{{LifeAss1DobClass}}">
+                  <label for="Life1Dob" class="col-lg-4 control-label">Date of Birth</label>
+                  <div class="col-lg-8">
+
+                    <span type="text" class="form-control  input-sm">{{Life1Dob}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-8">
+
+                    <span type="text" class="form-control  input-sm">{{Life2Dob}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="{{LifeAss1GenderClass}}">
+                  <label for="Life1Gender" class="col-lg-4 control-label">Gender</label>
+                  <div class="col-lg-4">
+
+
+
+                    <span type="text" class="form-control  input-sm">{{Life1Gender}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-4">
+
+
+
+                    <span type="text" class="form-control  input-sm">{{Life2Gender}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" hidden>
+              <div class="col-md-6">
+                <div class="{{LifeAss1NationalityIdClass}}">
+                  <label for="LifeAss1NationalityId" class="col-lg-4 control-label">Nationality</label>
+                  <div class="col-lg-4">
+
+
+
+
+
+                    <span type="text" class="form-control  input-sm">{{LifeAss1NationalityId}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-4">
+
+
+                    <span type="text" class="form-control  input-sm">{{LifeAss2NationalityId}}</span>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="LifeAss1ContactNo" class="col-lg-4 control-label">Contact No</label>
+                  <div class="col-lg-8">
+
+
+                    <span type="text" class="form-control  input-sm">{{Life1ContactNo}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-8">
+
+
+                    <span type="text" class="form-control  input-sm">{{Life2ContactNo}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="LifeAss1Email" class="col-lg-4 control-label">E-mail</label>
+                  <div class="col-lg-8">
+
+                    <span type="text" class="form-control  input-sm">{{Life1Email}}</span>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-8">
+
+                    <span type="text" class="form-control  input-sm">{{Life2Email}}</span>
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="LifeAss1Address" class="col-lg-4 control-label">Address</label>
+                  <div class="col-lg-8">
+
+
+
+                    <span type="text" class="form-control  input-sm" style="    height: 50px;">{{Life1Address}}</span>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+
+            </div>
+
+            <div class="row" hidden>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="Status" class="col-lg-4 control-label">Status</label>
+                  <div class="col-lg-8">
+
+
+                    <span type="text" class="form-control  input-sm">{{proposalStatus}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="LifeAss1HeightCm" class="col-lg-4 control-label">Height</label>
+                  <div class="col-lg-3">
+
+                    <span type="text" class="form-control  input-sm">{{Life1HeightCm}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-3">
+
+
+
+                    <span type="text" class="form-control  input-sm">{{Life2HeightCm}}</span>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="LifeAss1WeightKg" class="col-lg-4 control-label">Weight</label>
+                  <div class="col-lg-3">
+
+
+                    <span type="text" class="form-control  input-sm">{{Life1WeightKg}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-lg-3">
+
+
+                    <span type="text" class="form-control  input-sm">{{Life2WeightKg}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+
+              <label for="bmi" class="col-md-2  control-label">BMI</label>
+
+              <div class="col-md-4">
+
+                <div class="form-group">
+
+                  <div class="col-lg-6">
+                    <span class="form-control input-sm">{{Life1Bmi}}</span>
+                  </div>
+                  <div class="col-lg-6">
+                    {{Life1BmiResult}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="col-lg-6">
+                    <span class="form-control input-sm">{{Life2Bmi}}</span>
+                  </div>
+                  <div class="col-lg-6">
+                    {{Life2BmiResult}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="{{BankIdClass}}">
+                  <label for="BankId" class="col-lg-4 control-label">HNBA Branch</label>
+                  <div class="col-lg-4">
+
+
+
+                    <span type="text" class="form-control  input-sm">{{BankBranchName}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="{{BankIdClass}}">
+                  <label for="BankId" class="col-lg-4 control-label">Bank</label>
+                  <div class="col-lg-4">
+
+
+
+                    <span type="text" class="form-control  input-sm">{{BankName}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="{{BranchIdClass}}">
+                  <label for="BranchId" class="col-lg-4 control-label">Branch</label>
+                  <div class="col-lg-4">
+
+
+
+                    <span type="text" class="form-control  input-sm">{{BankBranchName}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="{{LoanTypeIdClass}}">
+                  <label for="LoanTypeId" class="col-lg-4 control-label">Loan Type</label>
+                  <div class="col-lg-6">
+
+
+
+                    <span type="text" class="form-control  input-sm">{{LoanType}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="{{LoanAmountClass}}">
+                  <label for="LoanAmount" class="col-lg-5 control-label">Loan Amount</label>
+                  <div class="col-lg-7">
+
+
+
+
+                    <span type="text" class="form-control  input-sm">{{LoanAmount}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="DiscountRate" class="col-lg-4 control-label">Discount Rate</label>
+                  <div class="col-lg-6">
+
+
+                    <span type="text" class="form-control  input-sm">{{DiscountRate}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="{{DiscountRemarkClass}}">
+                  <label for="DiscountRemark" class="col-lg-5 control-label">Discount Remark</label>
+                  <div class="col-lg-7">
+
+
+                    <span type="text" class="form-control  input-sm">{{DiscountRemark}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="LoanTypeId" class="col-lg-4 control-label">Premium Amount</label>
+                  <div class="col-lg-6">
+                    <span class="form-control  input-sm">{{Premium}}</span></div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="LoanAmount" class="col-lg-5 control-label">With Policy Fee</label>
+                  <div class="col-lg-7">
+                    <span class="form-control  input-sm">{{PremiumWithPolicyFee}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+              </div>
+              <div class="col-md-6">
+              </div>
+
+            </div>
+
+
+
+
+            <div class="row" hidden>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="isProposalSendByFax" class="col-lg-6 control-label">Proposal Sending Method</label>
+                  <div class="col-lg-4">
+                    <label class="tgl" style="font-size:20px">  
+              <input type="checkbox" checked   [(ngModel)]="isProposalSendByFax"  name="isProposalSendByFax" id="isProposalSendByFax"/>
+              <span data-on="Fax" data-off="Upload"></span>
+            </label>
+
+                  </div>
+
+
+                </div>
+              </div>
+
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-3">
+
+
+              </div>
+              <div class="col-md-2" hidden>
+
+                <button class="btn btn-primary btn-block  btn-sm" (click)="AddNewQuotation()" type="button">Add New</button>
+
+              </div>
+
+              <div class="col-md-2">
+                <button class="btn btn-primary btn-block btn-sm" (click)="docUploadModal.open()">Upload Docs</button>
+              </div>
+
+              <div class="col-md-2">
+
+                <button class="btn btn-primary btn-block  btn-sm" (click)="SaveProposal()" type="button">Save</button>
+
+              </div>
+
+
+
+              <div class="col-md-2" hidden>
+
+                <button hidden class="btn btn-primary btn-block  btn-sm" (click)="PrintQuotation()" type="button">Print</button>
+
+              </div>
+
+              <div class="col-md-2" hidden>
+                <button class="btn btn-primary" (click)="proposalNoModal.open()" id="openProposalNoModalButton">Show</button>
+              </div>
+
+
+              <!--<div class="col-md-2">
+          
+                    <button class="btn btn-primary btn-block  btn-sm" (click)="Test()" type="button">Test</button>
+          
+                  </div>-->
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- policy tab-->
+
+        <div class="tab-pane fade" id="documents">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-lg-1">
+              </div>
+              <div class="col-lg-10">
+                <table class="table table-striped table-hover ">
+                  <thead>
+                    <tr>
+                      <th>Document Type</th>
+                      <th>View</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let uploadedDocView of uploadedDocViewList | paginate: {itemsPerPage:10 , currentPage:page, id: '1'}; let i = index"
+                      (click)="setDocumentPath(i,uploadedDocView.DocumentURL);">
+                      <td>{{uploadedDocView.DocType}}</td>
+                      <td> <button type="button" id="openDocument" class="btn btn-default" (click)="documentsViewModal.open()">View</button></td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  </form>

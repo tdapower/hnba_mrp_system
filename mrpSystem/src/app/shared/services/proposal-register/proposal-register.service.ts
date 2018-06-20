@@ -189,6 +189,42 @@ export class ProposalRegisterService {
       });
   }
 
+
+  searchProposalDetails(searchObject) {
+    
+        let body = searchObject;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authorization', USER.USER_AUTH_TOKEN);
+        let options = new RequestOptions({ headers: headers });
+    
+    
+        return this.http.post(URL_CONST.URL_PREFIX + 'api/Main/SearchProposals', body, options)
+          .map((response: Response) => response.json())
+          .timeout(60000)
+          .catch((error: any) => {
+            this.handleError;
+            return Observable.throw(new Error(error.status))
+          });
+      }
+    
+
+
+      getProposalToView(SeqId) {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authorization', USER.USER_AUTH_TOKEN);
+        let options = new RequestOptions({ headers: headers });
+    
+    
+        return this.http.get(URL_CONST.URL_PREFIX + 'api/Main/GetProposalToView/' + SeqId, options)
+          .map((response: Response) => JSON.stringify(response.json()))
+          .timeout(60000)
+          .catch((error: any) => {
+            this.handleError;
+            return Observable.throw(new Error(error.status))
+          });
+      }
+    
+
   private handleError(error: Response) {
     console.error('Error occured - ', error);
     return Observable.throw(error.status || ' error');

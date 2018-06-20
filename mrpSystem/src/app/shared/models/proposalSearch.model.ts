@@ -1,16 +1,13 @@
-export interface ISearchQuotations {
+export interface ISearchProposals {
+    ProposalNo: string;
     QuotationNo: string;
-    RevisionNo: number;
     LifeAss1Name: string;
     LifeAss1Nic: string;
     LifeAss2Name: string;
     LifeAss2Nic: string;
     LoanTypeId: number;
-    BranchCode: string;
-    UserName: string;
-    QuotationDate: string;
+    Bank: string;
+    HNBABranchCode: string;
 }
-
-
 
 
