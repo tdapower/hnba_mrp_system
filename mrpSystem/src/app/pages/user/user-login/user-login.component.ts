@@ -83,12 +83,28 @@ export class UserLoginComponent implements OnInit {
 
   }
 
+
+
+
+
   public validateUser() {
 
 
 
     this.isLoading = true;
-    this.authenticationService.CheckAndLoadUser(this.UserName, this.Password)
+
+
+    let obj = {
+      zorro:"User1",
+      guuguu: this.UserName,
+      gaagaa:"qwer@123",
+      bikezorro: this.Password
+
+    }
+
+//  this.authenticationService.CheckAndLoadUser(this.UserName, this.Password)
+
+    this.authenticationService.CheckAndLoadUser(obj)
       .subscribe((data) => {
 
 

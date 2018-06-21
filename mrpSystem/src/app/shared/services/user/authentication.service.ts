@@ -35,18 +35,33 @@ export class AuthenticationService {
     }
 
 
-    CheckAndLoadUser(userName, password) {
+    // CheckAndLoadUser(userName, password) {
+    //     let headers = new Headers({ 'Content-Type': 'application/json' });
+    //     /*  headers.append('Authorization', USER.USER_AUTH_TOKEN);*/
+    //     let options = new RequestOptions({ headers: headers });
+
+    //     return this.http.get(URL_CONST.URL_PREFIX + 'api/UserAccount/checkAndLoadUser?userName=' + userName + '&password=' + password, options)
+    //         .map((response: Response) => response.json())
+    //         .timeout(60000)
+    //         .catch((error: any) => {
+    //             return Observable.throw(new Error(error.status))
+    //         });
+    // }
+    CheckAndLoadUser(guuguugaagaa) {
+        let body = guuguugaagaa;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         /*  headers.append('Authorization', USER.USER_AUTH_TOKEN);*/
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(URL_CONST.URL_PREFIX + 'api/UserAccount/checkAndLoadUser?userName=' + userName + '&password=' + password, options)
+        return this.http.post(URL_CONST.URL_PREFIX + 'api/UserAccount/checkAndLoadUser',body, options)
             .map((response: Response) => response.json())
             .timeout(60000)
             .catch((error: any) => {
                 return Observable.throw(new Error(error.status))
             });
     }
+
+    
 
 
     checkAndLoadWindowsUser(userName) {

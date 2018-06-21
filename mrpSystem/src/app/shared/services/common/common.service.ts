@@ -434,6 +434,13 @@ export class CommonService {
           Month = "02";
         }
       }
+      if (Day.toString().length == 3) {
+
+        Day = Number(Day.toString().substring(1, 3));
+
+      }
+
+
 
 
       NICExtractedData.DOB = this.padLeft(Day, 2, '0') + "/" + Month + "/" + Year;
