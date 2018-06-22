@@ -19,13 +19,29 @@ export class UserLoginComponent implements OnInit {
   UserName: string;
   Password: string;
   message: string;
+  EnteredRanNo: number;
+  ranNo: number = 0;
+  IsValid: boolean = true;
 
   constructor(private router: Router,
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this.authenticationService.logout();
 
+
+
+    let atCount = Number(localStorage.getItem('attemptCount'));
+    if (atCount != null) {
+      if (atCount == 0) {
+        localStorage.setItem("attemptCount", "0");
+      }
+    } else {
+      localStorage.setItem("attemptCount", "0");
+    }
+
+
+    this.authenticationService.logout();
+    this.ranNo = this.getRandomInt(1, 25);
     // this.UserName = "tda";
     // this.Password = "tda";
   }
@@ -84,40 +100,64 @@ export class UserLoginComponent implements OnInit {
   }
 
 
-
+  private getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
 
   public validateUser() {
 
+    if (this.UserName == null || this.Password == null) {
+      this.message = "Enter user name and password";
+    } else {
+      if (this.EnteredRanNo != this.ranNo) {
+        this.message = "Incorrect Answer.";
+      } else {
+        this.checkUser();
+
+      }
+    }
 
 
+
+
+
+  }
+
+
+  private checkUser() {
     this.isLoading = true;
 
 
     let obj = {
-      zorro:"User1",
+      zorro: "User1",
       guuguu: this.UserName,
-      gaagaa:"qwer@123",
-      bikezorro: this.Password
-
+      gaagaa: "qwer@123",
+      bikezorro: this.Password,
+      userName: "User1",
+      Password: "qwer@123"
     }
 
-//  this.authenticationService.CheckAndLoadUser(this.UserName, this.Password)
 
     this.authenticationService.CheckAndLoadUser(obj)
-      .subscribe((data) => {
+      .subscribe((data: any) => {
 
 
         this.isLoading = false;
-        console.log(data);
-        this.User = data
+        // console.log(data);
+        //this.User = data;
+        this.User = null;
+
+        this.User = JSON.parse(data);
+
+
         if (this.User.UserName != null) {
           USER.USER_AUTH_TOKEN = 'Basic ' + btoa(this.User.UserName + ':' + this.User.Password);
           console.log(USER.USER_AUTH_TOKEN);
 
           localStorage.setItem("currentMRPUser", JSON.stringify(this.User));
           localStorage.setItem("currentMRPUserToken", USER.USER_AUTH_TOKEN);
-      
+
           if (this.User.Password == COMMON_VALUES.COMMON_PWD) {
             this.router.navigate(['/', 'passwordChange']);
           } else {
@@ -125,16 +165,46 @@ export class UserLoginComponent implements OnInit {
           }
 
         } else {
+
           this.message = "Invalid User name or Password...";
+
+          let atCount = Number(localStorage.getItem('attemptCount'));
+          atCount = atCount + 1;
+
+          localStorage.setItem("attemptCount", atCount.toString());
+
+
+          if (atCount >= 3) {
+            this.message = "Maximum invalid login attempts reached, Try again in 30 seconds...";
+            this.IsValid = false;
+
+            this.UserName = null;
+            this.Password = null;
+            this.EnteredRanNo = null;
+
+            this.ranNo = this.getRandomInt(1, 25);
+
+            setTimeout(() => {
+              this.IsValid = true;
+              this.message = "";
+              localStorage.setItem("attemptCount", "0");
+            }, 30000)
+
+
+            // this.isLoading = true;
+            // setTimeout(() => {
+            //   this.isLoading = false;
+            //   localStorage.setItem("attemptCount", "0");
+            // }, 20000)
+
+
+          }
+
         }
       }),
       ((err) => {
         console.log(err);
         this.message = "Error while user login...";
       });
-
-
-
-
   }
 }

@@ -54,10 +54,12 @@ export class AuthenticationService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(URL_CONST.URL_PREFIX + 'api/UserAccount/checkAndLoadUser',body, options)
-            .map((response: Response) => response.json())
+            .map((response: Response) => JSON.stringify(response.json()))
+            //.map((response: Response) =>response.json())
             .timeout(60000)
             .catch((error: any) => {
-                return Observable.throw(new Error(error.status))
+      
+              return Observable.throw(new Error(error.status))
             });
     }
 

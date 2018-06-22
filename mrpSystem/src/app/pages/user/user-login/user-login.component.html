@@ -1,19 +1,27 @@
 <div *ngIf="isLoading">
   <app-spinner-large></app-spinner-large>
 </div>
+
+
 <div class="container">
 
 </div>
-<div class="form"  *ngIf="!isLoading">
+<div class="form" *ngIf="!isLoading">
   <div class="thumbnail">
-    <img src="../../../../assets/images/logo_150.png" /></div>
+    <img src="../../../../assets/images/logo_150.png" />
+  </div>
 
   <form class="login-form">
-    <input type="text" placeholder="User Name" [(ngModel)]="UserName" name="UserName" id="UserName" />
-    <input type="password" placeholder="Password" [(ngModel)]="Password" name="Password" id="Password" />
-    <button (click)="validateUser()" type="button">login</button>
+    <input type="text" placeholder="User Name" [(ngModel)]="UserName" name="UserName" id="UserName" [disabled]="!IsValid"/>
+    <input type="password" placeholder="Password" [(ngModel)]="Password" name="Password" id="Password" [disabled]="!IsValid"/>
+    <div style="    display: inline-flex;">
+      <p class="text" style="width: 60%;padding-top: 15px;">Enter {{ranNo}} in this field</p>
+      <input type="text" placeholder="Answer" style="width: 40%" [(ngModel)]="EnteredRanNo" name="Answer" id="Answer" [disabled]="!IsValid"/>
+    </div>
+    <button (click)="validateUser()" type="button" name="btnLogin" id="btnLogin" [disabled]="!IsValid">login</button>
     <!--<button (click)="loginWithWindowsUser()" type="button">Windows User</button>-->
     <p class="text-danger">{{message}}</p>
     <p class="message">Developed by Tharindu @ HNBA IT Dept.</p>
+
   </form>
 </div>

@@ -58,6 +58,22 @@
   transition: all 0.3 ease;
   cursor: pointer;
 }
+.form button:disabled {
+  outline: 0;
+  background: #8b8f91;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
 .form .message {
   margin: 15px 0 0;
   color: #b3b3b3;
