@@ -9,6 +9,7 @@ export interface ISearchQuotations {
     BranchCode: string;
     UserName: string;
     QuotationDate: string;
+    UserCompany: string;
 }
 
 

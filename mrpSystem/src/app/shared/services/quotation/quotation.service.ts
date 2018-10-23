@@ -26,7 +26,7 @@ export class QuotationService {
         this.handleError;
         return Observable.throw(new Error(error.status))
       });
-      
+
   }
 
 
@@ -69,8 +69,8 @@ export class QuotationService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let postoptions = new RequestOptions({ headers: headers });
 
-    return this.http.post(URL_CONST.NEW_CALCULATION_URL , body, postoptions)
-    .map((response: Response) => JSON.stringify(response.json()))
+    return this.http.post(URL_CONST.NEW_CALCULATION_URL, body, postoptions)
+      .map((response: Response) => JSON.stringify(response.json()))
       .timeout(60000)
       .catch((error: any) => {
 
@@ -78,6 +78,24 @@ export class QuotationService {
         return Observable.throw(new Error(error.status))
       });
   }
+
+
+  calculateHNBQuotationUsingNewCalculation(params) {
+    // let body = params;
+    // let headers = new Headers({ 'Content-Type': 'application/json' });
+    // headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    // let postoptions = new RequestOptions({ headers: headers });
+
+    // return this.http.post(URL_CONST.NEW_HNB_CALCULATION_URL, body, postoptions)
+    //   .map((response: Response) => JSON.stringify(response.json()))
+    //   .timeout(60000)
+    //   .catch((error: any) => {
+
+    //     this.handleError;
+    //     return Observable.throw(new Error(error.status))
+    //   });
+  }
+
 
   calculateQuotation(params) {
     let body = params.toString();

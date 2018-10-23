@@ -204,7 +204,7 @@
         <div class="col-md-6">
           <div class="{{BranchCodeClass}}">
             <label for="BranchCode" class="col-lg-4 control-label">Branch</label>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <select type="text" class="form-control input-sm" [(ngModel)]="HnbaBranchCode" name="HnbaBranchCode" id="HnbaBranchCode">
 <option value="0">Select</option>
 <option *ngFor="let branch of hnbaBranchList" value={{branch.HnbaCode}}>{{branch.HnbaBranchName}}</option>
@@ -212,8 +212,19 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-
+        <div class="col-md-5"  *ngIf="isUserBranchHDO">
+            
+          <div class="{{BusinessChannelClass}}">
+            <label for="BusinessChannelID" class="col-lg-5 control-label">Business Channel</label>
+            <div class="col-lg-7">
+              <select type="text" class="form-control input-sm" [(ngModel)]="BusinessChannelID" name="BusinessChannelID" id="BusinessChannelID">
+<option value="0">Select</option>
+<option *ngFor="let businessChannel of businessChannelList" value={{businessChannel.BusinessChannelId}}>{{businessChannel.BusinessChannelName}}</option>
+</select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
         </div>
       </div>
 

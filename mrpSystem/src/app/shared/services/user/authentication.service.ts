@@ -26,7 +26,7 @@ export class AuthenticationService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(URL_CONST.URL_PREFIX + 'api/UserAccount/GetWindowsUserName', options)
+        return this.http.get(URL_CONST.USR_MGT_URL_PREFIX + 'api/UserAccount/GetWindowsUserName', options)
             .map(res => res)
             .timeout(60000)
             .catch((error: any) => {
@@ -40,7 +40,7 @@ export class AuthenticationService {
     //     /*  headers.append('Authorization', USER.USER_AUTH_TOKEN);*/
     //     let options = new RequestOptions({ headers: headers });
 
-    //     return this.http.get(URL_CONST.URL_PREFIX + 'api/UserAccount/checkAndLoadUser?userName=' + userName + '&password=' + password, options)
+    //     return this.http.get(URL_CONST.USR_MGT_URL_PREFIX + 'api/UserAccount/checkAndLoadUser?userName=' + userName + '&password=' + password, options)
     //         .map((response: Response) => response.json())
     //         .timeout(60000)
     //         .catch((error: any) => {
@@ -53,7 +53,7 @@ export class AuthenticationService {
         /*  headers.append('Authorization', USER.USER_AUTH_TOKEN);*/
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(URL_CONST.URL_PREFIX + 'api/UserAccount/checkAndLoadUser',body, options)
+        return this.http.post(URL_CONST.USR_MGT_URL_PREFIX + 'api/UserAccount/checkAndLoadUser',body, options)
             .map((response: Response) => JSON.stringify(response.json()))
             //.map((response: Response) =>response.json())
             .timeout(60000)
@@ -65,13 +65,24 @@ export class AuthenticationService {
 
     
 
+    getUserCompany() {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+    
+        return this.http.get(URL_CONST.USR_MGT_URL_PREFIX + 'api/UserCompany/get', options)
+          .map((response: Response) => response.json())
+          .timeout(60000)
+          .catch((error: any) => {
+            return Observable.throw(new Error(error.status))
+          });
+      }
 
     checkAndLoadWindowsUser(userName) {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         /*  headers.append('Authorization', USER.USER_AUTH_TOKEN);*/
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(URL_CONST.URL_PREFIX + 'api/UserAccount/checkAndLoadWindowsUser?userName=' + userName, options)
+        return this.http.get(URL_CONST.USR_MGT_URL_PREFIX + 'api/UserAccount/checkAndLoadWindowsUser?userName=' + userName, options)
             .map((response: Response) => response.json())
             .timeout(60000)
             .catch((error: any) => {

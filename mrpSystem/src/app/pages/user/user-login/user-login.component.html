@@ -13,10 +13,18 @@
 
   <form class="login-form">
     <input type="text" placeholder="User Name" [(ngModel)]="UserName" name="UserName" id="UserName" [disabled]="!IsValid"/>
+    
+ 
+
     <input type="password" placeholder="Password" [(ngModel)]="Password" name="Password" id="Password" [disabled]="!IsValid"/>
+    
+    <select type="text" class="form-control input-sm" [(ngModel)]="UserCompany" name="UserCompany" 
+    id="UserCompany">
+      <option *ngFor="let company of companyList" value={{company.CompanyName}}>{{company.CompanyName}}</option>
+      </select>
     <div style="    display: inline-flex;">
-      <p class="text" style="width: 60%;padding-top: 15px;">Enter {{ranNo}} in this field</p>
-      <input type="text" placeholder="Answer" style="width: 40%" [(ngModel)]="EnteredRanNo" name="Answer" id="Answer" [disabled]="!IsValid"/>
+      <p class="text" style="width: 60%;padding-top: 15px;">Enter  <span style="color: red;    font-weight: 800;font-size: large;">{{ranNo}}</span>  in this field</p>
+      <input type="text" placeholder="Number" style="width: 40%" [(ngModel)]="EnteredRanNo" name="Answer" id="Answer" [disabled]="!IsValid"/>
     </div>
     <button (click)="validateUser()" type="button" name="btnLogin" id="btnLogin" [disabled]="!IsValid">login</button>
     <!--<button (click)="loginWithWindowsUser()" type="button">Windows User</button>-->

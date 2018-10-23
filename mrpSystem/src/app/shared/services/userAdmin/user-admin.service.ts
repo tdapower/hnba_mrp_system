@@ -36,7 +36,7 @@ export class UserAdminService {
     let postoptions = new RequestOptions({ headers: headers });
 
 
-    return this.http.post(URL_CONST.URL_PREFIX + 'api/UserAdmin/UpdateUserPassword', body, postoptions)
+    return this.http.post(URL_CONST.USR_MGT_URL_PREFIX + 'api/UserAdmin/UpdateUserPassword', body, postoptions)
       .map((response: Response) => {
         return response;
       })

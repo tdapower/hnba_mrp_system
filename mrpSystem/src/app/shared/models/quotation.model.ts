@@ -31,4 +31,5 @@ export interface IQuotation {
     UserId: string;
     Status: string;
     RegisterDate: string;
+    BusinessChannelID: number;
 }

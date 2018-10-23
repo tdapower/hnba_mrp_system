@@ -8,6 +8,7 @@ import { QuotationService } from '../../../shared/services/quotation/quotation.s
 import { IHnbaBranch } from '../../../shared/models/hnbaBranch.model';
 import { ILoanType } from '../../../shared/models/loanType.model';
 import { ISearchQuotations } from '../../../shared/models/quotationSearch.model';
+import { IUser } from '../../../shared/models/user/user.model';
 
 @Component({
   selector: 'app-quotation-search',
@@ -37,7 +38,10 @@ export class QuotationSearchComponent implements OnInit {
   UserName: string = '';
   QuotationDate: string = '';
 
+  User: IUser;
 
+  UserDisplayName: string;
+  
 
   LoanTypeName: string = '';
 
@@ -49,6 +53,11 @@ export class QuotationSearchComponent implements OnInit {
     this.getLoanTypes();
 
 
+    this.User = JSON.parse(localStorage.getItem('currentMRPUser'));
+
+ 
+
+ 
 
 
   }
@@ -94,8 +103,9 @@ export class QuotationSearchComponent implements OnInit {
       LifeAss2Nic: '',
       LoanTypeId: Number(this.LoanTypeId),
       BranchCode: this.BranchCode,
-      UserName:this.UserName,
-      QuotationDate:this.QuotationDate
+      UserName:this.User.UserName,
+      QuotationDate:this.QuotationDate,
+      UserCompany:this.User.Company
     }
 
 

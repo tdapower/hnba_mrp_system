@@ -8,13 +8,13 @@ import { HeaderComponent } from './layout/header/header.component';
 import { MomentModule } from 'angular2-moment';
 import { ToastrModule } from 'toastr-ng2';
 
-
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgUploaderModule } from 'ngx-uploader';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { ModalModule } from "ng2-modal";
 // import { Md2DatepickerModule } from 'md2-datepicker';
 
+import { IdleTimeoutService } from './shared/services/common/idle-timeout-service.service';
 import { routes } from './app.router';
 import { QuotationService } from './shared/services/quotation/quotation.service';
 import { CommonService } from './shared/services/common/common.service';
@@ -91,6 +91,7 @@ import { PasswordChangeComponent } from './pages/user/password-change/password-c
     AssureService,
     MainDashboardService,
     UserAdminService,
+    IdleTimeoutService,
     { provide: LocationStrategy, useClass: HashLocationStrategy }
 
   ],

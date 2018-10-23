@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../shared/services/user/authentication.service';
+import { CommonService } from '../../../shared/services/common/common.service';
 import { IUser } from '../../../shared/models/user/user.model';
-
+import { IUserCompany } from '../../../shared/models/user/userCompany.model';
 import { USER } from '../../../shared/config/user';
 
 import { COMMON_VALUES } from '../../../shared/config/commonValues';
@@ -16,7 +17,11 @@ export class UserLoginComponent implements OnInit {
   isLoading: boolean;
   User: IUser;
 
+  companyList: Array<IUserCompany> = [];
+
   UserName: string;
+
+  UserCompany: string;
   Password: string;
   message: string;
   EnteredRanNo: number;
@@ -24,11 +29,13 @@ export class UserLoginComponent implements OnInit {
   IsValid: boolean = true;
 
   constructor(private router: Router,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService,
+    private commonService: CommonService) { }
 
   ngOnInit() {
 
-
+    this.getUserCompanies();
+    this.UserCompany = "Company";
 
     let atCount = Number(localStorage.getItem('attemptCount'));
     if (atCount != null) {
@@ -45,6 +52,22 @@ export class UserLoginComponent implements OnInit {
     // this.UserName = "tda";
     // this.Password = "tda";
   }
+
+
+  getUserCompanies() {
+    this.isLoading = true;
+    this.authenticationService.getUserCompany()
+      .subscribe((data) => {
+        this.companyList = data
+        this.isLoading = false;
+      },
+        (err) => {
+          console.log(err);
+          this.isLoading = false;
+        });
+  }
+
+
 
   public loginWithWindowsUser() {
     this.isLoading = true;
@@ -111,16 +134,12 @@ export class UserLoginComponent implements OnInit {
       this.message = "Enter user name and password";
     } else {
       if (this.EnteredRanNo != this.ranNo) {
-        this.message = "Incorrect Answer.";
+        this.message = "Incorrect validation number.";
       } else {
         this.checkUser();
 
       }
     }
-
-
-
-
 
   }
 
@@ -129,16 +148,21 @@ export class UserLoginComponent implements OnInit {
     this.isLoading = true;
 
 
+    // let obj = {
+    //   zorro: "User1",
+    //   guuguu: this.UserName,
+    //   gaagaa: "qwer@123",
+    //   bikezorro: this.Password,
+    //   userName: "User1",
+    //   Password: "qwer@123"
+    // }
+
     let obj = {
-      zorro: "User1",
-      guuguu: this.UserName,
-      gaagaa: "qwer@123",
-      bikezorro: this.Password,
-      userName: "User1",
-      Password: "qwer@123"
+      UserName: this.UserName,
+      Company: this.UserCompany,
+      Password: this.Password
+
     }
-
-
     this.authenticationService.CheckAndLoadUser(obj)
       .subscribe((data: any) => {
 
@@ -152,7 +176,7 @@ export class UserLoginComponent implements OnInit {
 
 
         if (this.User.UserName != null) {
-          USER.USER_AUTH_TOKEN = 'Basic ' + btoa(this.User.UserName + ':' + this.User.Password);
+          USER.USER_AUTH_TOKEN = 'Basic ' + btoa(this.User.UserName + ':' + this.User.Password + ':' + this.User.Company);
           console.log(USER.USER_AUTH_TOKEN);
 
           localStorage.setItem("currentMRPUser", JSON.stringify(this.User));

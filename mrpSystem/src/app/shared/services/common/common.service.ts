@@ -18,6 +18,8 @@ export class CommonService {
   options: RequestOptions;
   constructor(private http: Http) { }
 
+
+
   getMedicalTypes() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
@@ -77,7 +79,21 @@ export class CommonService {
       });
   }
 
+  getBusinessChannels() {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
 
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/BusinessChannel/get', options)
+      .map((response: Response) => response.json())
+      .timeout(60000)
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
+  
   getBankBranch() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', USER.USER_AUTH_TOKEN);

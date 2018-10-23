@@ -18,7 +18,7 @@ import { INICExtractedData } from '../../../shared/models/nICExtractedData.model
 import { IQuotationEmailSend } from '../../../shared/models/quotationEmailSend.model';
 import { IBank } from '../../../shared/models/bank.model';
 import { IBankBranch } from '../../../shared/models/bankBranch.model';
-
+import { IBusinessChannel } from '../../../shared/models/businessChannel.model';
 import { IUser } from '../../../shared/models/user/user.model';
 import { COMMON_VALUES } from '../../../shared/config/commonValues';
 
@@ -70,6 +70,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   PremiumWithPolicyFee: number;
   BankId: number;
   BankBranchId: number;
+  BusinessChannelID: number;
   DiscountRate: number = 0;
   DiscountRemark: string = '';
 
@@ -94,7 +95,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
   BankIdClass: string;
   BankBranchIdClass: string;
   DiscountRemarkClass: string;
-
+  BusinessChannelClass: string;
   QuotationDocURL: any;
 
   isQuotationDetailsValid: boolean = false;
@@ -108,6 +109,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
   bankList: Array<IBank> = [];
   bankBranchList: Array<IBankBranch> = [];
+
+  businessChannelList: Array<IBusinessChannel> = [];
 
   NIC1ExtractedData: INICExtractedData = null;
   NIC2ExtractedData: INICExtractedData = null;
@@ -143,7 +146,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     this.getCompanyBuffer();
 
     this.getBanks();
-
+    this.getBusinessChannels();
     this.User = JSON.parse(localStorage.getItem('currentMRPUser'));
     this.mode = "new";
 
@@ -231,11 +234,11 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         this.hnbaBranchList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
-        this.isLoading = false;
-        this.showError("Error loading Hnba Branches");
-      });
+        (err) => {
+          console.log(err);
+          this.isLoading = false;
+          this.showError("Error loading Hnba Branches");
+        });
   }
 
 
@@ -246,13 +249,13 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         this.loanTypeList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Loan Types");
+          this.isLoading = false;
+          this.showError("Error loading Loan Types");
 
-      });
+        });
   }
 
   getCompanyBuffer() {
@@ -262,12 +265,12 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         this.companyBufferList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
-        this.isLoading = false;
-        this.showError("Error loading Company Buffer");
+        (err) => {
+          console.log(err);
+          this.isLoading = false;
+          this.showError("Error loading Company Buffer");
 
-      });
+        });
   }
 
   getBanks() {
@@ -277,14 +280,32 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         this.bankList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Banks");
+          this.isLoading = false;
+          this.showError("Error loading Banks");
 
-      });
+        });
   }
+
+  getBusinessChannels() {
+    this.isLoading = true;
+    this.commonService.getBusinessChannels()
+      .subscribe((data) => {
+        this.businessChannelList = data
+        this.isLoading = false;
+      },
+        (err) => {
+          console.log(err);
+
+          this.isLoading = false;
+          this.showError("Error loading Banks");
+
+        });
+  }
+
+
   onSelectOfBankId(bankId) {
 
 
@@ -296,13 +317,13 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Bank Branches");
+          this.isLoading = false;
+          this.showError("Error loading Bank Branches");
 
-      });
+        });
   }
   // onSelectOfLoanType(loanType) {
 
@@ -346,7 +367,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     }
 
     this.isQuotationSaved = false;
-    
+
     if (this.mode == "new") {
       this.saveNewQuotation();
     } else if (this.mode == "saved") {
@@ -398,6 +419,10 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         this.LoanTypeId = 0;
       }
 
+      if (this.BusinessChannelID == null || isNaN(this.BusinessChannelID)) {
+        this.BusinessChannelID = 0;
+      }
+
       var moment = require('moment');
 
       var formatted_dob_life1 = moment(this.LifeAss1Dob).format('DD/MM/YYYY');
@@ -436,7 +461,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         Status: COMMON_VALUES.QUOTATION_STATUS_INITIAL,
         BankId: this.BankId,
         BankBranchId: this.BankBranchId,
-        RegisterDate: ''
+        RegisterDate: '',
+        BusinessChannelID:this.BusinessChannelID
 
       }
 
@@ -562,6 +588,10 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         this.LoanTypeId = 0;
       }
 
+      if (this.BusinessChannelID == null || isNaN(this.BusinessChannelID)) {
+        this.BusinessChannelID = 0;
+      }
+
       var moment = require('moment');
 
       var formatted_dob_life1 = moment(this.LifeAss1Dob).format('DD/MM/YYYY');
@@ -599,7 +629,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
         Status: COMMON_VALUES.QUOTATION_STATUS_INITIAL,
         BankId: this.BankId,
         BankBranchId: this.BankBranchId,
-        RegisterDate: ''
+        RegisterDate: '',
+        BusinessChannelID:this.BusinessChannelID
 
       }
 
@@ -669,12 +700,16 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
       this.LifeAss1GenderClass = "form-group";
     }
 
-    if (this.LifeAss1Nic == "") {
-      this.LifeAss1NicClass = "has-error";
-      this.isQuotationDetailsValid = false;
-    } else {
-      this.LifeAss1NicClass = "form-group";
+
+    if (this.User.Company == "Life") {
+      if (this.LifeAss1Nic == "") {
+        this.LifeAss1NicClass = "has-error";
+        this.isQuotationDetailsValid = false;
+      } else {
+        this.LifeAss1NicClass = "form-group";
+      }
     }
+
 
     if (this.LoanAmount == null || isNaN(this.LoanAmount)) {
       this.LoanAmountClass = "has-error";
@@ -752,6 +787,7 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
     var moment = require('moment');
     //this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
     this.LifeAss1Age = Math.round(this.commonService.CalculateAge(this.LifeAss1Dob, moment()));
+
   }
 
 
@@ -777,6 +813,8 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
       if (this.BankId == COMMON_VALUES.HNB_BANK_CODE) {
         this.calculatePremiumWithOldCalculation();
+
+        // this.calculateHNBPremiumWithNewCalculation();
       } else {
         this.calculatePremiumWithNewCalculation();
       }
@@ -839,8 +877,9 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
 
     var formatted_dob_life1 = moment(this.LifeAss1Dob).format('YYYY/MM/DD');
-    var formatted_dob_life2;
 
+
+    var formatted_dob_life2;
     if (this.LifeAss2Dob == "01/01/1900") {
       formatted_dob_life2 = "N/A";
     } else {
@@ -1111,6 +1150,162 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
   }
 
+
+  // public calculateHNBPremiumWithNewCalculation() {
+  //   var moment = require('moment');
+
+
+
+  //   this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == this.LoanTypeId)[0]['LoanTypeName'];
+
+
+  //   if (this.CompanyBufferId > 0) {
+  //     this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
+  //   } else {
+  //     this.CompanyBufferValue = "0";
+  //   }
+
+
+  //   if (this.LifeAss1Age == null) {
+  //     this.LifeAss1Age = 0;
+  //   }
+  //   if (this.LifeAss2Age == null) {
+  //     this.LifeAss2Age = 0;
+  //   }
+  //   if (this.LoanAmount == null) {
+  //     this.LoanAmount = 0;
+  //   }
+  //   if (this.FullTermOfLoanMonthly == null) {
+  //     this.FullTermOfLoanMonthly = 0;
+  //   }
+  //   if (this.FixedInterest == null) {
+  //     this.FixedInterest = 0;
+  //   }
+  //   if (this.CompanyBufferId == null) {
+  //     this.CompanyBufferId = 0;
+  //   }
+  //   if (this.CurrentAwplr == null) {
+  //     this.CurrentAwplr = 0;
+  //   }
+  //   if (this.AdditionalToAwplr == null) {
+  //     this.AdditionalToAwplr = 0;
+  //   }
+  //   if (this.TermOfFixedInterest == null) {
+  //     this.TermOfFixedInterest = 0;
+  //   }
+  //   if (this.DiscountRate == null) {
+  //     this.DiscountRate = 0;
+  //   }
+
+  //   if (this.LoanTypeId == null) {
+  //     this.LoanTypeId = 0;
+  //   }
+
+
+  //   console.log('this.LifeAss2Gender   =' + this.LifeAss2Gender);
+
+  //   var formatted_dob_life1 = moment(this.LifeAss1Dob).format('YYYY/MM/DD');
+  //   var formatted_dob_life2;
+
+  //   if (this.LifeAss2Dob == "01/01/1900") {
+  //     formatted_dob_life2 = "";
+  //   } else {
+  //     formatted_dob_life2 = moment(this.LifeAss2Dob).format('YYYY/MM/DD');
+  //   }
+
+  //   var formattedLifeAss2Gender;
+  //   if (this.LifeAss2Gender == null || this.LifeAss2Gender == "") {
+  //     formattedLifeAss2Gender = "";
+  //   } else {
+  //     formattedLifeAss2Gender = this.LifeAss2Gender;
+  //   }
+
+  //   // var FullTermOfLoanYearly = 0;
+  //   // FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
+
+
+
+  //   var obj = {
+
+  //     Term: this.FullTermOfLoanMonthly,
+  //     FixedInterestTerm: this.TermOfFixedInterest,
+  //     CommencementDate: moment().format('YYYY/MM/DD'),
+  //     DOBL1: formatted_dob_life1,
+  //     DOBL2: formatted_dob_life2,
+  //     Currency: "LKR",
+  //     ExchangeRate: 1,
+  //     LoanAmount: this.LoanAmount.toString(),
+  //     FixedInterest: this.FixedInterest.toString(),
+  //     AWPLR: this.CurrentAwplr.toString(),
+  //     AdditionToAWPLR: this.AdditionalToAwplr.toString(),
+  //     CompanyBuffer: this.CompanyBufferValue,
+  //     GracePeriod: 0,
+  //     LoanType: this.LoanTypeName,
+  //     GenderL1: this.LifeAss1Gender,
+  //     GenderL2: formattedLifeAss2Gender,
+  //     TPDDeclineL1: "N",
+  //     TPDDeclineL2: "N",
+  //     RIComapny: COMMON_VALUES.DEFAULT_RI_COMPANY,
+  //     IncludeSV: "Yes",
+  //     ExpenseAssumption: "Normal",
+  //     HealthExtraDeathL1: 0,
+  //     HealthExtraDeathL2: 0,
+  //     HealthExtraTPDL1: 0,
+  //     HealthExtraTPDL2: 0,
+  //     OccupationExtraDeathL1: 0,
+  //     OccupationExtraDeathL2: 0,
+  //     OccupationExtraTPDL1: 0,
+  //     OccupationExtraTPDL2: 0,
+  //     OtherLoadingDeathL1: 0,
+  //     OtherLoadingDeathL2: 0,
+  //     OtherLoadingTPDL1: 0,
+  //     OtherLoadingTPDL2: 0,
+  //     RILoadDeathL1: 0,
+  //     RILoadDeathL2: 0,
+  //     RILoadTPDL1: 0,
+  //     RILoadTPDL2: 0
+  //   };
+  //   console.log(obj);
+  //   console.log("------------------");
+
+  //   console.log(JSON.stringify(obj));
+
+
+  //   this.quotationService.calculateHNBQuotationUsingNewCalculation(obj).subscribe((data: any) => {
+
+  //     console.log(data.toString().replace(/"/g, ''));
+  //     this.isQuotationCalculated = true;
+  //     this.Premium = data.toString().replace(/"/g, '');
+  //     this.PremiumWithPolicyFee = Number(this.Premium) + Number(COMMON_VALUES.POLICY_FEE);
+
+
+  //     if (this.DiscountRate > 0) {
+
+  //       var premiumWithDiscount = 0;
+  //       premiumWithDiscount = Math.ceil(Number(this.Premium.toString().replace(/,/g, '')) * ((100 - this.DiscountRate) / 100));
+
+
+  //       this.Premium = premiumWithDiscount;
+  //       this.PremiumWithPolicyFee = premiumWithDiscount + COMMON_VALUES.POLICY_FEE;
+
+  //     }
+
+  //     this.isLoading = false;
+
+
+  //     this.showInfo("Premium: " + this.PremiumWithPolicyFee);
+  //   },
+  //     (err) => {
+
+  //       this.isLoading = false;
+  //       this.showError("Error calculating premium");
+  //     },
+  //     () => console.log('done')
+  //   );
+
+
+
+  // }
   public ViewQuotation() {
     if (!this.isQuotationSaved) {
       this.showWarning("Please save before view quotation");

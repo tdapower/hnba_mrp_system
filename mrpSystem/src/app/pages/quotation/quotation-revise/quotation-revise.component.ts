@@ -20,6 +20,8 @@ import { INICExtractedData } from '../../../shared/models/nICExtractedData.model
 import { IQuotationEmailSend } from '../../../shared/models/quotationEmailSend.model';
 import { IBank } from '../../../shared/models/bank.model';
 import { IBankBranch } from '../../../shared/models/bankBranch.model';
+
+import { IBusinessChannel } from '../../../shared/models/businessChannel.model';
 import { IUser } from '../../../shared/models/user/user.model';
 import { COMMON_VALUES } from '../../../shared/config/commonValues';
 import { URL_CONST } from '../../../shared/config/url.constants';
@@ -67,6 +69,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
   PremiumWithPolicyFee: number;
   BankId: number;
   BankBranchId: number;
+  BusinessChannelID: number;
   DiscountRate: number = 0;
   DiscountRemark: string = '';
 
@@ -88,6 +91,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
   LoanTypeIdClass: string;
   BranchCodeClass: string;
   CompanyBufferClass: string;
+  BusinessChannelClass: string;
 
   BankIdClass: string;
   BankBranchIdClass: string;
@@ -99,7 +103,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
   isQuotationDetailsValid: boolean = false;
 
   isQuotationCalculated: boolean = false;
-  
+
   isEditable: boolean = false;
 
 
@@ -110,6 +114,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
   bankList: Array<IBank> = [];
   bankBranchList: Array<IBankBranch> = [];
 
+  businessChannelList: Array<IBusinessChannel> = [];
 
   NIC1ExtractedData: INICExtractedData = null;
   NIC2ExtractedData: INICExtractedData = null;
@@ -161,6 +166,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
 
     this.getBanks();
 
+    this.getBusinessChannels();
 
     this.User = JSON.parse(localStorage.getItem('currentMRPUser'));
 
@@ -240,11 +246,11 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         this.hnbaBranchList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
-        this.isLoading = false;
-        this.showError("Error loading Hnba Branches");
-      });
+        (err) => {
+          console.log(err);
+          this.isLoading = false;
+          this.showError("Error loading Hnba Branches");
+        });
   }
 
 
@@ -255,13 +261,13 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         this.loanTypeList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Loan Types");
+          this.isLoading = false;
+          this.showError("Error loading Loan Types");
 
-      });
+        });
   }
 
   getCompanyBuffer() {
@@ -271,12 +277,12 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         this.companyBufferList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
-        this.isLoading = false;
-        this.showError("Error loading Company Buffer");
+        (err) => {
+          console.log(err);
+          this.isLoading = false;
+          this.showError("Error loading Company Buffer");
 
-      });
+        });
   }
 
   getBanks() {
@@ -286,14 +292,33 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         this.bankList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Banks");
+          this.isLoading = false;
+          this.showError("Error loading Banks");
 
-      });
+        });
   }
+
+  
+  getBusinessChannels() {
+    this.isLoading = true;
+    this.commonService.getBusinessChannels()
+      .subscribe((data) => {
+        this.businessChannelList = data
+        this.isLoading = false;
+      },
+        (err) => {
+          console.log(err);
+
+          this.isLoading = false;
+          this.showError("Error loading Banks");
+
+        });
+  }
+
+
   onSelectOfBankId(bankId) {
     this.BankId = bankId;
     this.isLoading = true;
@@ -303,13 +328,13 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
 
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Bank Branches");
+          this.isLoading = false;
+          this.showError("Error loading Bank Branches");
 
-      });
+        });
   }
 
   // onSelectOfLoanType(loanType) {
@@ -389,10 +414,25 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
       if (this.LoanTypeId == null || isNaN(this.LoanTypeId)) {
         this.LoanTypeId = 0;
       }
+
+      if (this.BusinessChannelID == null || isNaN(this.BusinessChannelID)) {
+        this.BusinessChannelID = 0;
+      }
+
+
       var moment = require('moment');
 
       var formatted_dob_life1 = moment(this.LifeAss1Dob).format('DD/MM/YYYY');
-      var formatted_dob_life2 = moment(this.LifeAss2Dob).format('DD/MM/YYYY');
+      var formatted_dob_life2;
+
+      if (this.LifeAss2Dob == "") {
+        formatted_dob_life2 = "01/01/1900";
+      } else {
+        formatted_dob_life2 = moment(this.LifeAss2Dob).format('DD/MM/YYYY');
+      }
+
+
+
 
       let obj: IQuotation = {
         SeqId: 0,
@@ -426,7 +466,8 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         Status: COMMON_VALUES.QUOTATION_STATUS_REVISED,
         BankId: this.BankId,
         BankBranchId: this.BankBranchId,
-        RegisterDate: ''
+        RegisterDate: '',
+        BusinessChannelID:this.BusinessChannelID
 
       }
 
@@ -533,13 +574,14 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
       this.LifeAss1GenderClass = "form-group";
     }
 
-    if (this.LifeAss1Nic == "") {
-      this.LifeAss1NicClass = "has-error";
-      this.isQuotationDetailsValid = false;
-    } else {
-      this.LifeAss1NicClass = "form-group";
+    if (this.User.Company == "Life") {
+      if (this.LifeAss1Nic == "") {
+        this.LifeAss1NicClass = "has-error";
+        this.isQuotationDetailsValid = false;
+      } else {
+        this.LifeAss1NicClass = "form-group";
+      }
     }
-
     if (this.LoanAmount == null || isNaN(this.LoanAmount)) {
       this.LoanAmountClass = "has-error";
       this.isQuotationDetailsValid = false;
@@ -610,19 +652,23 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
   }
 
   public calculateLife1Age(life1Dob: Date) {
-
-    var moment = require('moment');
-    //  this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
-    this.LifeAss1Age = Math.round(this.commonService.CalculateAge(this.LifeAss1Dob, moment()));
-
+    if (life1Dob != null) {
+      var moment = require('moment');
+      //  this.LifeAss1Age = Math.round(this.commonService.Days360(this.LifeAss1Dob, moment()) / 360);
+      this.LifeAss1Age = Math.round(this.commonService.CalculateAge(this.LifeAss1Dob, moment()));
+    } else {
+      this.LifeAss1Age = 0;
+    }
   }
 
   public calculateLife2Age(life2Dob: Date) {
-
-    var moment = require('moment');
-    // this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
-    this.LifeAss2Age = Math.round(this.commonService.CalculateAge(this.LifeAss2Dob, moment()));
-
+    if (life2Dob != null) {
+      var moment = require('moment');
+      // this.LifeAss2Age = Math.round(this.commonService.Days360(this.LifeAss2Dob, moment()) / 360);
+      this.LifeAss2Age = Math.round(this.commonService.CalculateAge(this.LifeAss2Dob, moment()));
+    } else {
+      this.LifeAss2Age = 0;
+    }
   }
 
   public Calculate() {
@@ -700,7 +746,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
     var formatted_dob_life2;
 
     if (this.LifeAss2Dob == "01/01/1900") {
-      formatted_dob_life2 = "N/A";
+      formatted_dob_life2 = "";
     } else {
       formatted_dob_life2 = moment(this.LifeAss2Dob).format('YYYY/MM/DD');
     }
@@ -712,6 +758,9 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
       formattedLifeAss2Gender = this.LifeAss2Gender;
     }
 
+    if (this.BusinessChannelID == null || isNaN(this.BusinessChannelID)) {
+      this.BusinessChannelID = 0;
+    }
 
 
     var FullTermOfLoanYearly = 0;
@@ -879,6 +928,9 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
     // var FullTermOfLoanYearly = 0;
     // FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
 
+    if (this.BusinessChannelID == null || isNaN(this.BusinessChannelID)) {
+      this.BusinessChannelID = 0;
+    }
 
 
     var obj = {
@@ -1018,8 +1070,19 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         this.LifeAss2Name = obj.LifeAss2Name;
 
         var moment = require('moment');
-        var momentDateLife2Dob = moment(obj.LifeAss2Dob.substr(0, 10), 'DD/MM/YYYY').toDate();
+        // var momentDateLife2Dob = moment(obj.LifeAss2Dob.substr(0, 10), 'DD/MM/YYYY').toDate();
 
+        // if (momentDateLife2Dob == "01/01/1900") {
+        //   momentDateLife2Dob = "";
+        // } 
+
+
+        var momentDateLife2Dob;
+        if (obj.LifeAss2Dob.substr(0, 10) == "01/01/1900") {
+          momentDateLife2Dob = "";
+        } else {
+          momentDateLife2Dob = moment(obj.LifeAss2Dob.substr(0, 10), 'DD/MM/YYYY').toDate();
+        }
 
         this.LifeAss2Dob = momentDateLife2Dob;
         this.LifeAss2Age = obj.LifeAss2Age;
@@ -1045,6 +1108,7 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
         this.UserId = obj.UserId;
         this.Status = obj.Status;
         this.RegisterDate = obj.RegisterDate;
+        this.BusinessChannelID=obj.BusinessChannelID;
 
 
         console.log(this.LifeAss1Dob);
@@ -1053,12 +1117,12 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
 
         this.generateQuotationDocument();
       },
-      (err) => {
+        (err) => {
 
-        console.log(err);
-        this.isLoading = false;
+          console.log(err);
+          this.isLoading = false;
 
-      });
+        });
 
   }
 
@@ -1085,10 +1149,10 @@ export class QuotationReviseComponent implements OnInit, AfterViewInit {
 
 
       },
-      (err) => {
-        console.log(err);
-        this.isLoading = false;
-      }
+        (err) => {
+          console.log(err);
+          this.isLoading = false;
+        }
       );
 
 
