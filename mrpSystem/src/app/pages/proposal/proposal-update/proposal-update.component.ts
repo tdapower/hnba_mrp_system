@@ -757,279 +757,277 @@ export class ProposalUpdateComponent implements OnInit {
   loadProposalDetails() {
     console.log('seeeeqqqq' + this.SeqId);
 
-    this.proposalRegisterService.getProposalDetailsBySeqId(this.SeqId)
-      .subscribe((data) => {
-        console.log(data);
+    // this.proposalRegisterService.getProposalDetailsBySeqId(this.SeqId)
+    //   .subscribe((data) => {
+    //     console.log(data);
 
-        var moment = require('moment');
-        let obj: IMain = JSON.parse(data);
-
-
-        this.SeqId = obj.SeqId;
-        this.JobNo = obj.JobNo;
-        this.QuotationNo = obj.QuotationNo;
-        this.RevisionNo = obj.RevisionNo;
-        this.ProposalNo = obj.ProposalNo;
-        this.MedicalType = obj.MedicalType;
-        this.PolicyNo = obj.PolicyNo;
-        this.LoanAmount = obj.LoanAmount;
-        this.Interest = obj.Interest;
-        this.Term = obj.Term;
-        this.FullTermInMonths = obj.FullTermInMonths;
-        this.GracePeriod = obj.GracePeriod;
-        this.CompanyBufferId = obj.CompanyBufferId;
-        this.CurrentAwplr = obj.CurrentAwplr;
-        this.AdditionToAwplr = obj.AdditionToAwplr;
-        this.TermOfFixedInterest = obj.TermOfFixedInterest;
-        this.BankId = obj.BankId;
-        this.onSelectOfBankId(this.BankId)
-
-        this.BranchId = obj.BranchId;
-        this.onSelectOfBankBranchId(this.BranchId);
-        this.CurrencyId = obj.CurrencyId;
-        this.InterestRateType = obj.InterestRateType;
-        this.HnbaBranchCode = obj.HnbaBranchCode;
-        this.BrokerCode = obj.BrokerCode;
-        this.ChannelCode = obj.ChannelCode;
-
-        let bIsReInsurance: boolean;
-
-        if (obj.IsReInsurance) {
-          bIsReInsurance = true;
-        } else {
-          bIsReInsurance = false;
-        }
-
-        this.IsReInsurance = bIsReInsurance;
-        this.LoanTypeId = obj.LoanTypeId;
-        this.ReInsCompanyId = obj.ReInsCompanyId;
-        this.ExchangeRate = obj.ExchangeRate;
-
-        var momentDateOfCommence = moment(obj.DateOfCommence.substr(0, 10), 'DD/MM/YYYY').toDate();
-
-        this.DateOfCommence = momentDateOfCommence;
-
-        var momentDateOfProposal = moment(obj.DateOfProposal.substr(0, 10), 'DD/MM/YYYY').toDate();
-
-        this.DateOfProposal = momentDateOfProposal;
-
-        this.Premium = obj.Premium;
-        this.PremiumWithPolicyFee = obj.PremiumWithPolicyFee;
-        this.Status = obj.Status;
-        this.UserId = obj.UserId;
-        this.ProposalSendingMethod = obj.ProposalSendingMethod;
-        this.RegisterDate = obj.RegisterDate;
+    //     var moment = require('moment');
+    //     let obj: IMain = JSON.parse(data);
 
 
+    //     this.SeqId = obj.SeqId;
+    //     this.JobNo = obj.JobNo;
+    //     this.QuotationNo = obj.QuotationNo;
+    //     this.RevisionNo = obj.RevisionNo;
+    //     this.ProposalNo = obj.ProposalNo;
+    //     this.MedicalType = obj.MedicalType;
+    //     this.PolicyNo = obj.PolicyNo;
+    //     this.LoanAmount = obj.LoanAmount;
+    //     this.Interest = obj.Interest;
+    //     this.Term = obj.Term;
+    //     this.FullTermInMonths = obj.FullTermInMonths;
+    //     this.GracePeriod = obj.GracePeriod;
+    //     this.CompanyBufferId = obj.CompanyBufferId;
+    //     this.CurrentAwplr = obj.CurrentAwplr;
+    //     this.AdditionToAwplr = obj.AdditionToAwplr;
+    //     this.TermOfFixedInterest = obj.TermOfFixedInterest;
+    //     this.BankId = obj.BankId;
+    //     this.onSelectOfBankId(this.BankId)
 
-        let bIsValidated: boolean;
-        if (obj.IsValidated) {
-          bIsValidated = true;
-        } else {
-          bIsValidated = false;
-        }
-        this.isValidated = bIsValidated;
+    //     this.BranchId = obj.BranchId;
+    //     this.onSelectOfBankBranchId(this.BranchId);
+    //     this.CurrencyId = obj.CurrencyId;
+    //     this.InterestRateType = obj.InterestRateType;
+    //     this.HnbaBranchCode = obj.HnbaBranchCode;
+    //     this.BrokerCode = obj.BrokerCode;
+    //     this.ChannelCode = obj.ChannelCode;
 
-        this.loadLife1Details();
-        this.loadLife2Details();
+    //     let bIsReInsurance: boolean;
+
+    //     if (obj.IsReInsurance) {
+    //       bIsReInsurance = true;
+    //     } else {
+    //       bIsReInsurance = false;
+    //     }
+
+    //     this.IsReInsurance = bIsReInsurance;
+    //     this.LoanTypeId = obj.LoanTypeId;
+    //     this.ReInsCompanyId = obj.ReInsCompanyId;
+    //     this.ExchangeRate = obj.ExchangeRate;
+
+    //     var momentDateOfCommence = moment(obj.DateOfCommence.substr(0, 10), 'DD/MM/YYYY').toDate();
+
+    //     this.DateOfCommence = momentDateOfCommence;
+
+    //     var momentDateOfProposal = moment(obj.DateOfProposal.substr(0, 10), 'DD/MM/YYYY').toDate();
+
+    //     this.DateOfProposal = momentDateOfProposal;
+
+    //     this.Premium = obj.Premium;
+    //     this.PremiumWithPolicyFee = obj.PremiumWithPolicyFee;
+    //     this.Status = obj.Status;
+    //     this.UserId = obj.UserId;
+    //     this.ProposalSendingMethod = obj.ProposalSendingMethod;
+    //    // this.RegisterDate = obj.RegisterDate;
 
 
-        this.getUploadedDocViewList(this.SeqId);
-      },
-      (err) => console.log(err));
+
+    //     let bIsValidated: boolean;
+    //     if (obj.IsValidated) {
+    //       bIsValidated = true;
+    //     } else {
+    //       bIsValidated = false;
+    //     }
+    //     this.isValidated = bIsValidated;
+
+    //     this.loadLife1Details();
+    //     this.loadLife2Details();
+
+
+    //     this.getUploadedDocViewList(this.SeqId);
+    //   },
+    //   (err) => console.log(err));
 
   }
 
   loadLife1Details() {
-    this.assureService.getAssureDetailsByMainSeqId(this.SeqId, COMMON_VALUES.LIFE_ASSURE_TYPE_1)
-      .subscribe((data) => {
-        console.log(data);
+    // this.assureService.getAssureDetailsByMainSeqId(this.SeqId, COMMON_VALUES.LIFE_ASSURE_TYPE_1)
+    //   .subscribe((data) => {
+    //     console.log(data);
 
-        if (data != null) {
-
-
-          var moment = require('moment');
-          let obj: IAssureDetail = JSON.parse(data);
-
-          this.Life1SeqId = obj.SeqId;
-          this.Life1MainSeqId = obj.MainSeqId;
-          this.Life1AssureType = obj.AssureType;
-          this.Life1Name = obj.Name;
-
-          var momentDateLife1Dob = moment(obj.Dob.substr(0, 10), 'DD/MM/YYYY').toDate();
+    //     if (data != null) {
 
 
-          this.Life1Dob = momentDateLife1Dob;
-          this.Life1Age = obj.Age;
-          this.Life1Gender = obj.Gender;
-          this.Life1Nic = obj.Nic;
-          this.Life1NationalityId = obj.NationalityId;
-          this.Life1Occupation = obj.Occupation;
-          this.Life1ContactNo = obj.ContactNo;
-          this.Life1Email = obj.Email;
-          this.Life1Address = obj.Address;
-          this.Life1HeightCm = obj.HeightCm;
-          this.Life1HeightInch = obj.HeightInch;
-          this.Life1WeightKg = obj.WeightKg;
-          this.Life1WeightLbs = obj.WeightLbs;
-          // this.Life1Bmi = obj.Bmi;
+    //       var moment = require('moment');
+    //       let obj: IAssureDetail = JSON.parse(data);
 
-          this.Life1HnbaRefNo = obj.HnbaRefNo;
-          this.Life1RiRefNo = obj.ReInsuranceRefNo;
-          this.Life1PrevPolicyAmount = obj.PreviousPolicyAmount;
-          this.Life1HealthExtraBasic = obj.HealthExtraBasic;
-          this.Life1HealthExtraTpd = obj.HealthExtraTpd;
-          this.Life1OccuExtraBasic = obj.OccupationExtraBasic;
-          this.Life1OccuExtraTpd = obj.OccupationExtraTpd;
-          this.Life1OccuExtraPerMileBasic = obj.OccupationExtraPerMileBasic;
-          this.Life1OccuExtraPerMileTpd = obj.OccupationExtraPerMileTpd;
-          this.Life1Discount = obj.Discount;
-          this.Life1Loadings = obj.Loadings;
+    //       this.Life1SeqId = obj.SeqId;
+    //    //   this.Life1MainSeqId = obj.MainSeqId;
+    //       this.Life1AssureType = obj.AssureType;
+    //       this.Life1Name = obj.Name;
 
-          let bIsAgeAdmitted: boolean;
-          let bIsSmoker: boolean;
-          let bIsFemaleRebate: boolean;
-          let bIsTpd: boolean;
-
-          if (obj.IsAgeAdmitted) {
-            bIsAgeAdmitted = true;
-          } else {
-            bIsAgeAdmitted = false;
-          }
-          if (obj.IsSmoker) {
-            bIsSmoker = true;
-          } else {
-            bIsSmoker = false;
-          }
-          if (obj.IsFemaleRebate) {
-            bIsFemaleRebate = true;
-          } else {
-            bIsFemaleRebate = false;
-          }
-          if (obj.IsTpd) {
-            bIsTpd = true;
-          } else {
-            bIsTpd = false;
-          }
+    //    //   var momentDateLife1Dob = moment(obj.Dob.substr(0, 10), 'DD/MM/YYYY').toDate();
 
 
+    //       this.Life1Dob = momentDateLife1Dob;
+    //       this.Life1Age = obj.Age;
+    //       this.Life1Gender = obj.Gender;
+    //     //  this.Life1Nic = obj.Nic;
+    //       this.Life1NationalityId = obj.NationalityId;
+    //       this.Life1Occupation = obj.Occupation;
+    //       this.Life1ContactNo = obj.ContactNo;
+    //       this.Life1Email = obj.Email;
+    //       this.Life1Address = obj.Address;
+    //       this.Life1HeightCm = obj.HeightCm;
+    //       this.Life1HeightInch = obj.HeightInch;
+    //       this.Life1WeightKg = obj.WeightKg;
+    //       this.Life1WeightLbs = obj.WeightLbs;
 
-          this.Life1IsAgeAdmitted = bIsAgeAdmitted;
-          this.Life1IsSmoker = bIsSmoker;
-          this.Life1IsFemaleRebate = bIsFemaleRebate;
-          this.Life1IsTpd = bIsTpd;
+    //       // this.Life1HnbaRefNo = obj.HnbaRefNo;
+    //       // this.Life1RiRefNo = obj.ReInsuranceRefNo;
+    //       // this.Life1PrevPolicyAmount = obj.PreviousPolicyAmount;
+    //       // this.Life1HealthExtraBasic = obj.HealthExtraBasic;
+    //       // this.Life1HealthExtraTpd = obj.HealthExtraTpd;
+    //       // this.Life1OccuExtraBasic = obj.OccupationExtraBasic;
+    //       // this.Life1OccuExtraTpd = obj.OccupationExtraTpd;
+    //       // this.Life1OccuExtraPerMileBasic = obj.OccupationExtraPerMileBasic;
+    //       // this.Life1OccuExtraPerMileTpd = obj.OccupationExtraPerMileTpd;
+    //       // this.Life1Discount = obj.Discount;
+    //       // this.Life1Loadings = obj.Loadings;
+
+    //       let bIsAgeAdmitted: boolean;
+    //       let bIsSmoker: boolean;
+    //       let bIsFemaleRebate: boolean;
+    //       let bIsTpd: boolean;
+
+    //       if (obj.IsAgeAdmitted) {
+    //         bIsAgeAdmitted = true;
+    //       } else {
+    //         bIsAgeAdmitted = false;
+    //       }
+    //       if (obj.IsSmoker) {
+    //         bIsSmoker = true;
+    //       } else {
+    //         bIsSmoker = false;
+    //       }
+    //       if (obj.IsFemaleRebate) {
+    //         bIsFemaleRebate = true;
+    //       } else {
+    //         bIsFemaleRebate = false;
+    //       }
+    //       if (obj.IsTpd) {
+    //         bIsTpd = true;
+    //       } else {
+    //         bIsTpd = false;
+    //       }
 
 
-          this.Life1TpdOption = obj.TpdOption;
+
+    //       this.Life1IsAgeAdmitted = bIsAgeAdmitted;
+    //       this.Life1IsSmoker = bIsSmoker;
+    //       this.Life1IsFemaleRebate = bIsFemaleRebate;
+    //       this.Life1IsTpd = bIsTpd;
 
 
-          var momentDateLife1SysDate = moment(obj.RegisterDate.substr(0, 10), 'DD/MM/YYYY').toDate();
+    //     //  this.Life1TpdOption = obj.TpdOption;
 
-          this.Life1SysDate = momentDateLife1SysDate;
 
-          this.Life1Bmi = this.calculateBMI(this.Life1HeightCm, this.Life1WeightKg);
+    //       var momentDateLife1SysDate = moment(obj.RegisterDate.substr(0, 10), 'DD/MM/YYYY').toDate();
 
-        }
+    //       this.Life1SysDate = momentDateLife1SysDate;
 
-      },
-      (err) => console.log(err));
+    //       this.Life1Bmi = this.calculateBMI(this.Life1HeightCm, this.Life1WeightKg);
+
+    //     }
+
+    //   },
+    //   (err) => console.log(err));
   }
 
 
 
   loadLife2Details() {
-    this.assureService.getAssureDetailsByMainSeqId(this.SeqId, COMMON_VALUES.LIFE_ASSURE_TYPE_2)
-      .subscribe((data) => {
-        console.log(data);
-        if (data != null) {
-          var moment = require('moment');
-          let obj: IAssureDetail = JSON.parse(data);
+    // this.assureService.getAssureDetailsByMainSeqId(this.SeqId, COMMON_VALUES.LIFE_ASSURE_TYPE_2)
+    //   .subscribe((data) => {
+    //     console.log(data);
+    //     if (data != null) {
+    //       var moment = require('moment');
+    //       let obj: IAssureDetail = JSON.parse(data);
 
 
-          this.Life2SeqId = obj.SeqId;
-          this.Life2MainSeqId = obj.MainSeqId;
-          this.Life2AssureType = obj.AssureType;
-          this.Life2Name = obj.Name;
+    //       this.Life2SeqId = obj.SeqId;
+    //       // this.Life2MainSeqId = obj.MainSeqId;
+    //       this.Life2AssureType = obj.AssureType;
+    //       this.Life2Name = obj.Name;
 
 
-          var momentDateLife2Dob = moment(obj.Dob.substr(0, 10), 'DD/MM/YYYY').toDate();
-
-
-
-          this.Life2Dob = momentDateLife2Dob;
-          this.Life2Age = obj.Age;
-          this.Life2Gender = obj.Gender;
-          this.Life2Nic = obj.Nic;
-          this.Life2NationalityId = obj.NationalityId;
-          this.Life2Occupation = obj.Occupation;
-          this.Life2ContactNo = obj.ContactNo;
-          this.Life2Email = obj.Email;
-          this.Life2Address = obj.Address;
-          this.Life2HeightCm = obj.HeightCm;
-          this.Life2HeightInch = obj.HeightInch;
-          this.Life2WeightKg = obj.WeightKg;
-          this.Life2WeightLbs = obj.WeightLbs;
-          //  this.Life2Bmi = obj.Bmi;
-          this.Life2HnbaRefNo = obj.HnbaRefNo;
-          this.Life2RiRefNo = obj.ReInsuranceRefNo;
-          this.Life2PrevPolicyAmount = obj.PreviousPolicyAmount;
-          this.Life2HealthExtraBasic = obj.HealthExtraBasic;
-          this.Life2HealthExtraTpd = obj.HealthExtraTpd;
-          this.Life2OccuExtraBasic = obj.OccupationExtraBasic;
-          this.Life2OccuExtraTpd = obj.OccupationExtraTpd;
-          this.Life2OccuExtraPerMileBasic = obj.OccupationExtraPerMileBasic;
-          this.Life2OccuExtraPerMileTpd = obj.OccupationExtraPerMileTpd;
-          this.Life2Discount = obj.Discount;
-          this.Life2Loadings = obj.Loadings;
-
-          let bIsAgeAdmitted: boolean;
-          let bIsSmoker: boolean;
-          let bIsFemaleRebate: boolean;
-          let bIsTpd: boolean;
-
-          if (obj.IsAgeAdmitted) {
-            bIsAgeAdmitted = true;
-          } else {
-            bIsAgeAdmitted = false;
-          }
-          if (obj.IsSmoker) {
-            bIsSmoker = true;
-          } else {
-            bIsSmoker = false;
-          }
-          if (obj.IsFemaleRebate) {
-            bIsFemaleRebate = true;
-          } else {
-            bIsFemaleRebate = false;
-          }
-          if (obj.IsTpd) {
-            bIsTpd = true;
-          } else {
-            bIsTpd = false;
-          }
-
-
-          this.Life2IsAgeAdmitted = bIsAgeAdmitted;
-          this.Life2IsSmoker = bIsSmoker;
-          this.Life2IsFemaleRebate = bIsFemaleRebate;
-          this.Life2IsTpd = bIsTpd;
-          this.Life2TpdOption = obj.TpdOption;
-
-
-          var momentDateLife2SysDate = moment(obj.RegisterDate.substr(0, 10), 'DD/MM/YYYY').toDate();
-
-          this.Life2SysDate = momentDateLife2SysDate;
+    //       // var momentDateLife2Dob = moment(obj.Dob.substr(0, 10), 'DD/MM/YYYY').toDate();
 
 
 
-          this.Life2Bmi = this.calculateBMI(this.Life2HeightCm, this.Life2WeightKg);
+    //       this.Life2Dob = momentDateLife2Dob;
+    //       this.Life2Age = obj.Age;
+    //       this.Life2Gender = obj.Gender;
+    //       // this.Life2Nic = obj.Nic;
+    //       this.Life2NationalityId = obj.NationalityId;
+    //       this.Life2Occupation = obj.Occupation;
+    //       this.Life2ContactNo = obj.ContactNo;
+    //       this.Life2Email = obj.Email;
+    //       this.Life2Address = obj.Address;
+    //       this.Life2HeightCm = obj.HeightCm;
+    //       this.Life2HeightInch = obj.HeightInch;
+    //       this.Life2WeightKg = obj.WeightKg;
+    //       this.Life2WeightLbs = obj.WeightLbs;
+    //       // this.Life2HnbaRefNo = obj.HnbaRefNo;
+    //       // this.Life2RiRefNo = obj.ReInsuranceRefNo;
+    //       // this.Life2PrevPolicyAmount = obj.PreviousPolicyAmount;
+    //       // this.Life2HealthExtraBasic = obj.HealthExtraBasic;
+    //       // this.Life2HealthExtraTpd = obj.HealthExtraTpd;
+    //       // this.Life2OccuExtraBasic = obj.OccupationExtraBasic;
+    //       // this.Life2OccuExtraTpd = obj.OccupationExtraTpd;
+    //       // this.Life2OccuExtraPerMileBasic = obj.OccupationExtraPerMileBasic;
+    //       // this.Life2OccuExtraPerMileTpd = obj.OccupationExtraPerMileTpd;
+    //       // this.Life2Discount = obj.Discount;
+    //       // this.Life2Loadings = obj.Loadings;
 
-        }
+    //       let bIsAgeAdmitted: boolean;
+    //       let bIsSmoker: boolean;
+    //       let bIsFemaleRebate: boolean;
+    //       let bIsTpd: boolean;
+
+    //       if (obj.IsAgeAdmitted) {
+    //         bIsAgeAdmitted = true;
+    //       } else {
+    //         bIsAgeAdmitted = false;
+    //       }
+    //       if (obj.IsSmoker) {
+    //         bIsSmoker = true;
+    //       } else {
+    //         bIsSmoker = false;
+    //       }
+    //       if (obj.IsFemaleRebate) {
+    //         bIsFemaleRebate = true;
+    //       } else {
+    //         bIsFemaleRebate = false;
+    //       }
+    //       // if (obj.IsTpd) {
+    //       //   bIsTpd = true;
+    //       // } else {
+    //       //   bIsTpd = false;
+    //       // }
+
+
+    //       this.Life2IsAgeAdmitted = bIsAgeAdmitted;
+    //       this.Life2IsSmoker = bIsSmoker;
+    //       this.Life2IsFemaleRebate = bIsFemaleRebate;
+    //       this.Life2IsTpd = bIsTpd;
+    //       this.Life2TpdOption = obj.TpdOption;
+
+
+    //       var momentDateLife2SysDate = moment(obj.RegisterDate.substr(0, 10), 'DD/MM/YYYY').toDate();
+
+    //       this.Life2SysDate = momentDateLife2SysDate;
 
 
 
-      },
-      (err) => console.log(err));
+    //       this.Life2Bmi = this.calculateBMI(this.Life2HeightCm, this.Life2WeightKg);
+
+    //     }
+
+
+
+    //   },
+    //   (err) => console.log(err));
 
   }
 
@@ -1220,106 +1218,106 @@ export class ProposalUpdateComponent implements OnInit {
   public SaveProposal() {
 
 
-    this.validateFields();
-    console.log(this.isProposalDetailsValid);
-    if (this.isProposalDetailsValid) {
-      this.isLoading = true;
+    // this.validateFields();
+    // console.log(this.isProposalDetailsValid);
+    // if (this.isProposalDetailsValid) {
+    //   this.isLoading = true;
 
-      console.log('bank   -' + this.BankId);
-
-
-      var moment = require('moment');
-
-      var formattedDateOfCommence = moment(this.DateOfCommence).format('DD/MM/YYYY');
-      var formattedDateOfProposal = moment(this.DateOfProposal).format('DD/MM/YYYY');
-
-      var formattedRegisterDate = moment(this.RegisterDate).format('DD/MM/YYYY');
-
-      let nIsReInsurance: number;
-      if (this.IsReInsurance) {
-        nIsReInsurance = 1;
-      } else {
-        nIsReInsurance = 0;
-      }
-
-      let nIsValidated: number;
-      if (this.isValidated) {
-        nIsValidated = 1;
-      } else {
-        nIsValidated = 0;
-      }
+    //   console.log('bank   -' + this.BankId);
 
 
-      let obj: IMain = {
-        TempSeqId: '',
-        SeqId: this.SeqId,
-        JobNo: this.JobNo,
-        QuotationNo: this.QuotationNo,
-        RevisionNo: this.RevisionNo,
-        ProposalNo: this.ProposalNo,
-        MedicalType: this.MedicalType,
-        PolicyNo: this.PolicyNo,
-        LoanAmount: this.LoanAmount,
-        Interest: this.Interest,
-        Term: this.Term,
-        FullTermInMonths: this.FullTermInMonths,
-        GracePeriod: this.GracePeriod,
-        CompanyBufferId: this.CompanyBufferId,
-        CurrentAwplr: this.CurrentAwplr,
-        AdditionToAwplr: this.AdditionToAwplr,
-        TermOfFixedInterest: this.TermOfFixedInterest,
-        BankId: this.BankId,
-        BranchId: this.BranchId,
-        CurrencyId: this.CurrencyId,
-        InterestRateType: this.InterestRateType,
-        HnbaBranchCode: this.HnbaBranchCode,
-        BrokerCode: this.BrokerCode,
-        ChannelCode: this.ChannelCode,
-        IsReInsurance: nIsReInsurance,
-        LoanTypeId: this.LoanTypeId,
-        ReInsCompanyId: this.ReInsCompanyId,
-        ExchangeRate: this.ExchangeRate,
-        DateOfCommence: formattedDateOfCommence,
-        DateOfProposal: formattedDateOfProposal,
-        Premium: this.Premium,
-        PremiumWithPolicyFee: this.PremiumWithPolicyFee,
-        Status: this.Status,
-        UserId: this.User.UserName,
-        ProposalSendingMethod: this.ProposalSendingMethod,
-        RegisterDate: formattedRegisterDate,
-        IsValidated: nIsValidated,
-        IsVIP: 0
-      }
+    //   var moment = require('moment');
 
-      console.log(obj);
-      console.log(JSON.stringify(obj));
-      this.proposalRegisterService.updateProposalDetails(obj).subscribe((data: any) => {
+    //   var formattedDateOfCommence = moment(this.DateOfCommence).format('DD/MM/YYYY');
+    //   var formattedDateOfProposal = moment(this.DateOfProposal).format('DD/MM/YYYY');
 
-        if (data.status == 200) {
-          this.showSuccess("Proposal Details Successfully Saved.");
+    //   var formattedRegisterDate = moment(this.RegisterDate).format('DD/MM/YYYY');
 
-          this.SaveDataToMRP();
-          this.SaveAssureDetails1();
-          if (this.Life2Name != "" && this.Life2Nic != "") {
+    //   let nIsReInsurance: number;
+    //   if (this.IsReInsurance) {
+    //     nIsReInsurance = 1;
+    //   } else {
+    //     nIsReInsurance = 0;
+    //   }
 
-            this.SaveAssureDetails2();
-          }
-        }
-        this.isLoading = false;
+    //   let nIsValidated: number;
+    //   if (this.isValidated) {
+    //     nIsValidated = 1;
+    //   } else {
+    //     nIsValidated = 0;
+    //   }
 
 
+    //   let obj: IMain = {
+    //     // TempSeqId: '',
+    //     SeqId: this.SeqId,
+    //     JobNo: this.JobNo,
+    //     QuotationNo: this.QuotationNo,
+    //     RevisionNo: this.RevisionNo,
+    //     ProposalNo: this.ProposalNo,
+    //     MedicalType: this.MedicalType,
+    //     PolicyNo: this.PolicyNo,
+    //     LoanAmount: this.LoanAmount,
+    //     Interest: this.Interest,
+    //     Term: this.Term,
+    //     FullTermInMonths: this.FullTermInMonths,
+    //     GracePeriod: this.GracePeriod,
+    //     CompanyBufferId: this.CompanyBufferId,
+    //     CurrentAwplr: this.CurrentAwplr,
+    //     AdditionToAwplr: this.AdditionToAwplr,
+    //     TermOfFixedInterest: this.TermOfFixedInterest,
+    //     BankId: this.BankId,
+    //     BranchId: this.BranchId,
+    //     CurrencyId: this.CurrencyId,
+    //     InterestRateType: this.InterestRateType,
+    //     HnbaBranchCode: this.HnbaBranchCode,
+    //     BrokerCode: this.BrokerCode,
+    //     ChannelCode: this.ChannelCode,
+    //     IsReInsurance: nIsReInsurance,
+    //     LoanTypeId: this.LoanTypeId,
+    //     ReInsCompanyId: this.ReInsCompanyId,
+    //     ExchangeRate: this.ExchangeRate,
+    //     DateOfCommence: formattedDateOfCommence,
+    //     DateOfProposal: formattedDateOfProposal,
+    //     Premium: this.Premium,
+    //     PremiumWithPolicyFee: this.PremiumWithPolicyFee,
+    //     Status: this.Status,
+    //     UserId: this.User.UserName,
+    //     ProposalSendingMethod: this.ProposalSendingMethod,
+    //     // RegisterDate: formattedRegisterDate,
+    //     IsValidated: nIsValidated,
+    //     IsVIP: 0
+    //   }
 
-      },
-        (err) => {
-          // alert(err);
-          console.log(err);
+    //   console.log(obj);
+    //   console.log(JSON.stringify(obj));
+    //   this.proposalRegisterService.updateProposalDetails(obj).subscribe((data: any) => {
 
-          this.isLoading = false;
-          this.showError("Error while saving Proposal.");
-        },
-        () => console.log('done'));
+    //     if (data.status == 200) {
+    //       this.showSuccess("Proposal Details Successfully Saved.");
 
-    }
+    //       this.SaveDataToMRP();
+    //       this.SaveAssureDetails1();
+    //       if (this.Life2Name != "" && this.Life2Nic != "") {
+
+    //         this.SaveAssureDetails2();
+    //       }
+    //     }
+    //     this.isLoading = false;
+
+
+
+    //   },
+    //     (err) => {
+    //       // alert(err);
+    //       console.log(err);
+
+    //       this.isLoading = false;
+    //       this.showError("Error while saving Proposal.");
+    //     },
+    //     () => console.log('done'));
+
+    // }
 
   }
 
@@ -1328,104 +1326,104 @@ export class ProposalUpdateComponent implements OnInit {
   public SaveAssureDetails1() {
 
 
-    this.isLoading = true;
+    // this.isLoading = true;
 
 
-    var moment = require('moment');
-    var formatted_dob_life1 = moment(this.Life1Dob).format('DD/MM/YYYY');
+    // var moment = require('moment');
+    // var formatted_dob_life1 = moment(this.Life1Dob).format('DD/MM/YYYY');
 
-    var formattedLife1SysDate = moment(this.Life1SysDate).format('DD/MM/YYYY');
-
-
-    let nIsAgeAdmitted: number;
-    let nIsSmoker: number;
-    let nIsFemaleRebate: number;
-    let nIsTpd: number;
-
-    if (this.Life1IsAgeAdmitted) {
-      nIsAgeAdmitted = 1;
-    } else {
-      nIsAgeAdmitted = 0;
-    }
-    if (this.Life1IsSmoker) {
-      nIsSmoker = 1;
-    } else {
-      nIsSmoker = 0;
-    }
-    if (this.Life1IsFemaleRebate) {
-      nIsFemaleRebate = 1;
-    } else {
-      nIsFemaleRebate = 0;
-    }
-    if (this.Life1IsTpd) {
-      nIsTpd = 1;
-    } else {
-      nIsTpd = 0;
-    }
-
-    let obj: IAssureDetail = {
-      SeqId: this.Life1SeqId,
-      MainSeqId: this.SeqId,
-      AssureType: this.Life1AssureType,
-      Name: this.Life1Name,
-      Dob: formatted_dob_life1,
-      Age: this.Life1Age,
-      Gender: this.Life1Gender,
-      Nic: this.Life1Nic,
-      NationalityId: this.Life1NationalityId,
-      Occupation: this.Life1Occupation,
-      ContactNo: this.Life1ContactNo,
-      Email: this.Life1Email,
-      Address: this.Life1Address,
-      HeightCm: this.Life1HeightCm,
-      HeightInch: this.Life1HeightInch,
-      WeightKg: this.Life1WeightKg,
-      WeightLbs: this.Life1WeightLbs,
-      Bmi: this.Life1Bmi,
-      HnbaRefNo: this.Life1HnbaRefNo,
-      ReInsuranceRefNo: this.Life1RiRefNo,
-      PreviousPolicyAmount: this.Life1PrevPolicyAmount,
-      HealthExtraBasic: this.Life1HealthExtraBasic,
-      HealthExtraTpd: this.Life1HealthExtraTpd,
-      OccupationExtraBasic: this.Life1OccuExtraBasic,
-      OccupationExtraTpd: this.Life1OccuExtraTpd,
-      OccupationExtraPerMileBasic: this.Life1OccuExtraPerMileBasic,
-      OccupationExtraPerMileTpd: this.Life1OccuExtraPerMileTpd,
-      Discount: this.Life1Discount,
-      Loadings: this.Life1Loadings,
-      IsAgeAdmitted: nIsAgeAdmitted,
-      IsSmoker: nIsSmoker,
-      IsFemaleRebate: nIsFemaleRebate,
-      IsTpd: nIsTpd,
-      TpdOption: this.Life1TpdOption,
-      RegisterDate: formattedLife1SysDate
-
-    }
-
-    console.log(obj);
-    console.log(JSON.stringify(obj));
-    this.assureService.updateAssureDetail(obj).subscribe((data: any) => {
-      console.log(data);
-
-      this.isLoading = false;
+    // var formattedLife1SysDate = moment(this.Life1SysDate).format('DD/MM/YYYY');
 
 
-      if (data.status == 200) {
-        this.showSuccess("Assure 1 Details Successfully Saved.");
-      } else {
-        this.showError("Error while saving Assure 1 Details.");
+    // let nIsAgeAdmitted: number;
+    // let nIsSmoker: number;
+    // let nIsFemaleRebate: number;
+    // let nIsTpd: number;
+
+    // if (this.Life1IsAgeAdmitted) {
+    //   nIsAgeAdmitted = 1;
+    // } else {
+    //   nIsAgeAdmitted = 0;
+    // }
+    // if (this.Life1IsSmoker) {
+    //   nIsSmoker = 1;
+    // } else {
+    //   nIsSmoker = 0;
+    // }
+    // if (this.Life1IsFemaleRebate) {
+    //   nIsFemaleRebate = 1;
+    // } else {
+    //   nIsFemaleRebate = 0;
+    // }
+    // if (this.Life1IsTpd) {
+    //   nIsTpd = 1;
+    // } else {
+    //   nIsTpd = 0;
+    // }
+
+    // let obj: IAssureDetail = {
+    //   SeqId: this.Life1SeqId,
+    //   // MainSeqId: this.SeqId,
+    //   AssureType: this.Life1AssureType,
+    //   Name: this.Life1Name,
+    //   Dob: formatted_dob_life1,
+    //   Age: this.Life1Age,
+    //   Gender: this.Life1Gender,
+    //   Nic: this.Life1Nic,
+    //   NationalityId: this.Life1NationalityId,
+    //   Occupation: this.Life1Occupation,
+    //   ContactNo: this.Life1ContactNo,
+    //   Email: this.Life1Email,
+    //   Address: this.Life1Address,
+    //   HeightCm: this.Life1HeightCm,
+    //   HeightInch: this.Life1HeightInch,
+    //   WeightKg: this.Life1WeightKg,
+    //   WeightLbs: this.Life1WeightLbs,
+    //   Bmi: this.Life1Bmi,
+    //   HnbaRefNo: this.Life1HnbaRefNo,
+    //   ReInsuranceRefNo: this.Life1RiRefNo,
+    //   PreviousPolicyAmount: this.Life1PrevPolicyAmount,
+    //   HealthExtraBasic: this.Life1HealthExtraBasic,
+    //   HealthExtraTpd: this.Life1HealthExtraTpd,
+    //   OccupationExtraBasic: this.Life1OccuExtraBasic,
+    //   OccupationExtraTpd: this.Life1OccuExtraTpd,
+    //   OccupationExtraPerMileBasic: this.Life1OccuExtraPerMileBasic,
+    //   OccupationExtraPerMileTpd: this.Life1OccuExtraPerMileTpd,
+    //   Discount: this.Life1Discount,
+    //   Loadings: this.Life1Loadings,
+    //   IsAgeAdmitted: nIsAgeAdmitted,
+    //   IsSmoker: nIsSmoker,
+    //   IsFemaleRebate: nIsFemaleRebate,
+    //   IsTpd: nIsTpd,
+    //   TpdOption: this.Life1TpdOption,
+    //   RegisterDate: formattedLife1SysDate
+
+    // }
+
+    // console.log(obj);
+    // console.log(JSON.stringify(obj));
+    // this.assureService.updateAssureDetail(obj).subscribe((data: any) => {
+    //   console.log(data);
+
+    //   this.isLoading = false;
 
 
-      }
-    },
-      (err) => {
-        // alert(err);
-        console.log(err);
+    //   if (data.status == 200) {
+    //     this.showSuccess("Assure 1 Details Successfully Saved.");
+    //   } else {
+    //     this.showError("Error while saving Assure 1 Details.");
 
-        this.isLoading = false;
-        this.showError("Error while saving Assure 1 Details.");
-      },
-      () => console.log('done'));
+
+    //   }
+    // },
+    //   (err) => {
+    //     // alert(err);
+    //     console.log(err);
+
+    //     this.isLoading = false;
+    //     this.showError("Error while saving Assure 1 Details.");
+    //   },
+    //   () => console.log('done'));
 
 
   }
@@ -1433,102 +1431,102 @@ export class ProposalUpdateComponent implements OnInit {
   public SaveAssureDetails2() {
 
 
-    this.isLoading = true;
+    // this.isLoading = true;
 
-    var moment = require('moment');
-    var formatted_dob_life2 = moment(this.Life2Dob).format('DD/MM/YYYY');
-    var formattedLife2SysDate = moment(this.Life2SysDate).format('DD/MM/YYYY');
+    // var moment = require('moment');
+    // var formatted_dob_life2 = moment(this.Life2Dob).format('DD/MM/YYYY');
+    // var formattedLife2SysDate = moment(this.Life2SysDate).format('DD/MM/YYYY');
 
-    let nIsAgeAdmitted: number;
-    let nIsSmoker: number;
-    let nIsFemaleRebate: number;
-    let nIsTpd: number;
+    // let nIsAgeAdmitted: number;
+    // let nIsSmoker: number;
+    // let nIsFemaleRebate: number;
+    // let nIsTpd: number;
 
-    if (this.Life1IsAgeAdmitted) {
-      nIsAgeAdmitted = 1;
-    } else {
-      nIsAgeAdmitted = 0;
-    }
-    if (this.Life2IsSmoker) {
-      nIsSmoker = 1;
-    } else {
-      nIsSmoker = 0;
-    }
-    if (this.Life2IsFemaleRebate) {
-      nIsFemaleRebate = 1;
-    } else {
-      nIsFemaleRebate = 0;
-    }
-    if (this.Life2IsTpd) {
-      nIsTpd = 1;
-    } else {
-      nIsTpd = 0;
-    }
-
-
-
-    let obj: IAssureDetail = {
-      SeqId: this.Life2SeqId,
-      MainSeqId: this.SeqId,
-      AssureType: this.Life2AssureType,
-      Name: this.Life2Name,
-      Dob: formatted_dob_life2,
-      Age: this.Life2Age,
-      Gender: this.Life2Gender,
-      Nic: this.Life2Nic,
-      NationalityId: this.Life2NationalityId,
-      Occupation: this.Life2Occupation,
-      ContactNo: this.Life2ContactNo,
-      Email: this.Life2Email,
-      Address: this.Life2Address,
-      HeightCm: this.Life2HeightCm,
-      HeightInch: this.Life2HeightInch,
-      WeightKg: this.Life2WeightKg,
-      WeightLbs: this.Life2WeightLbs,
-      Bmi: this.Life2Bmi,
-      HnbaRefNo: this.Life2HnbaRefNo,
-      ReInsuranceRefNo: this.Life2RiRefNo,
-      PreviousPolicyAmount: this.Life2PrevPolicyAmount,
-      HealthExtraBasic: this.Life2HealthExtraBasic,
-      HealthExtraTpd: this.Life2HealthExtraTpd,
-      OccupationExtraBasic: this.Life2OccuExtraBasic,
-      OccupationExtraTpd: this.Life2OccuExtraTpd,
-      OccupationExtraPerMileBasic: this.Life2OccuExtraPerMileBasic,
-      OccupationExtraPerMileTpd: this.Life2OccuExtraPerMileTpd,
-      Discount: this.Life2Discount,
-      Loadings: this.Life2Loadings,
-      IsAgeAdmitted: nIsAgeAdmitted,
-      IsSmoker: nIsSmoker,
-      IsFemaleRebate: nIsFemaleRebate,
-      IsTpd: nIsTpd,
-      TpdOption: this.Life2TpdOption,
-      RegisterDate: formattedLife2SysDate
-    }
-
-    console.log(obj);
-    console.log(JSON.stringify(obj));
-    this.assureService.updateAssureDetail(obj).subscribe((data: any) => {
-      console.log(data);
-
-      this.isLoading = false;
+    // if (this.Life1IsAgeAdmitted) {
+    //   nIsAgeAdmitted = 1;
+    // } else {
+    //   nIsAgeAdmitted = 0;
+    // }
+    // if (this.Life2IsSmoker) {
+    //   nIsSmoker = 1;
+    // } else {
+    //   nIsSmoker = 0;
+    // }
+    // if (this.Life2IsFemaleRebate) {
+    //   nIsFemaleRebate = 1;
+    // } else {
+    //   nIsFemaleRebate = 0;
+    // }
+    // if (this.Life2IsTpd) {
+    //   nIsTpd = 1;
+    // } else {
+    //   nIsTpd = 0;
+    // }
 
 
-      if (data.status == 200) {
-        this.showSuccess("Assure 2 Details Successfully Saved.");
+
+    // let obj: IAssureDetail = {
+    //   SeqId: this.Life2SeqId,
+    //   // MainSeqId: this.SeqId,
+    //   AssureType: this.Life2AssureType,
+    //   Name: this.Life2Name,
+    //   Dob: formatted_dob_life2,
+    //   Age: this.Life2Age,
+    //   Gender: this.Life2Gender,
+    //   Nic: this.Life2Nic,
+    //   NationalityId: this.Life2NationalityId,
+    //   Occupation: this.Life2Occupation,
+    //   ContactNo: this.Life2ContactNo,
+    //   Email: this.Life2Email,
+    //   Address: this.Life2Address,
+    //   HeightCm: this.Life2HeightCm,
+    //   HeightInch: this.Life2HeightInch,
+    //   WeightKg: this.Life2WeightKg,
+    //   WeightLbs: this.Life2WeightLbs,
+    //   Bmi: this.Life2Bmi,
+    //   HnbaRefNo: this.Life2HnbaRefNo,
+    //   ReInsuranceRefNo: this.Life2RiRefNo,
+    //   PreviousPolicyAmount: this.Life2PrevPolicyAmount,
+    //   HealthExtraBasic: this.Life2HealthExtraBasic,
+    //   HealthExtraTpd: this.Life2HealthExtraTpd,
+    //   OccupationExtraBasic: this.Life2OccuExtraBasic,
+    //   OccupationExtraTpd: this.Life2OccuExtraTpd,
+    //   OccupationExtraPerMileBasic: this.Life2OccuExtraPerMileBasic,
+    //   OccupationExtraPerMileTpd: this.Life2OccuExtraPerMileTpd,
+    //   Discount: this.Life2Discount,
+    //   Loadings: this.Life2Loadings,
+    //   IsAgeAdmitted: nIsAgeAdmitted,
+    //   IsSmoker: nIsSmoker,
+    //   IsFemaleRebate: nIsFemaleRebate,
+    //   IsTpd: nIsTpd,
+    //   TpdOption: this.Life2TpdOption,
+    //   RegisterDate: formattedLife2SysDate
+    // }
+
+    // console.log(obj);
+    // console.log(JSON.stringify(obj));
+    // this.assureService.updateAssureDetail(obj).subscribe((data: any) => {
+    //   console.log(data);
+
+    //   this.isLoading = false;
 
 
-      } else {
-        this.showError("Error while saving Assure 2 Details.");
-      }
-    },
-      (err) => {
-        // alert(err);
-        console.log(err);
+    //   if (data.status == 200) {
+    //     this.showSuccess("Assure 2 Details Successfully Saved.");
 
-        this.isLoading = false;
-        this.showError("Error while saving Assure 2 Details.");
-      },
-      () => console.log('done'));
+
+    //   } else {
+    //     this.showError("Error while saving Assure 2 Details.");
+    //   }
+    // },
+    //   (err) => {
+    //     // alert(err);
+    //     console.log(err);
+
+    //     this.isLoading = false;
+    //     this.showError("Error while saving Assure 2 Details.");
+    //   },
+    //   () => console.log('done'));
 
 
   }

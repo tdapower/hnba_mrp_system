@@ -46,6 +46,8 @@ export class ProposalRegisterComponent implements OnInit {
   QuotationNo: string = '';
   RevisionNo: number = 0;
   ProposalNo: string = '';
+  
+  WorkflowJobNo: string = '';
   MedicalType: string;
   PolicyNo: string;
   LoanAmount: number;
@@ -256,7 +258,7 @@ export class ProposalRegisterComponent implements OnInit {
     this.User = JSON.parse(localStorage.getItem('currentMRPUser'));
     if (this.User.Password == COMMON_VALUES.COMMON_PWD) {
       this.router.navigate(['/', 'passwordChange']);
-    } 
+    }
 
 
     this.getUploadDocumentTypes();
@@ -290,13 +292,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.proposalStatusList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Statuses");
+          this.isLoading = false;
+          this.showError("Error loading Statuses");
 
-      });
+        });
   }
 
   getUploadDocumentTypes() {
@@ -307,13 +309,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.isLoading = false;
 
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Upload Document Types");
+          this.isLoading = false;
+          this.showError("Error loading Upload Document Types");
 
-      });
+        });
   }
   getNationalities() {
     this.isLoading = true;
@@ -322,13 +324,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.nationalityList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Nationalities");
+          this.isLoading = false;
+          this.showError("Error loading Nationalities");
 
-      });
+        });
   }
 
 
@@ -339,13 +341,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.bankList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Banks");
+          this.isLoading = false;
+          this.showError("Error loading Banks");
 
-      });
+        });
   }
   getBankBranches() {
     this.isLoading = true;
@@ -356,13 +358,13 @@ export class ProposalRegisterComponent implements OnInit {
 
 
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Banks");
+          this.isLoading = false;
+          this.showError("Error loading Banks");
 
-      });
+        });
   }
 
   getLoanTypes() {
@@ -372,13 +374,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.loanTypeList = data
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Loan Types");
+          this.isLoading = false;
+          this.showError("Error loading Loan Types");
 
-      });
+        });
   }
 
   onSelectOfUploadDocTypeId(docTypeId) {
@@ -426,13 +428,13 @@ export class ProposalRegisterComponent implements OnInit {
 
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading Bank Branches");
+          this.isLoading = false;
+          this.showError("Error loading Bank Branches");
 
-      });
+        });
   }
 
 
@@ -556,6 +558,8 @@ export class ProposalRegisterComponent implements OnInit {
 
     this.clearFields();
     this.ProposalNo = '';
+    
+    this.WorkflowJobNo = '';
 
 
     if (this.QuotationNo != null && this.QuotationNo != "") {
@@ -572,58 +576,61 @@ export class ProposalRegisterComponent implements OnInit {
     this.clearFields();
     this.isLoading = true;
 
-    this.quotationService.checkIsLoanTypeMRPStandard(quotationNo)
+    this.validateAndLoadDetails(quotationNo);
+
+
+    // this.quotationService.checkIsLoanTypeMRPStandard(quotationNo)
+    //   .subscribe((data) => {
+    //     if (data == "false") {
+    //       this.showError("Only MRP STD (Home Loans) allowed here");
+    //     } else {
+    //       this.validateAndLoadDetails(quotationNo);
+
+    //     }
+
+
+    //     this.isLoading = false;
+    //   },
+    //   (err) => {
+    //     console.log(err);
+
+    //     this.isLoading = false;
+    //     this.showError("Error loading quotation details");
+
+    //   });
+
+
+
+
+
+
+
+
+  }
+
+
+  validateAndLoadDetails(quotationNo) {
+    this.quotationService.checkQuotationAlreadyProcessed(quotationNo)
       .subscribe((data) => {
         if (data == "false") {
-          this.showError("Only MRP STD (Home Loans) allowed here");
+
+          this.loadQuotationDetailsFromQuotationNo(quotationNo);
         } else {
-          this.validateAndLoadDetails(quotationNo);
+
+          this.showError("This quotation no already processed");
 
         }
 
 
         this.isLoading = false;
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading quotation details");
+          this.isLoading = false;
+          this.showError("Error loading quotation details");
 
-      });
-    
-
-  
-
-
-
-      
-
-  }
-
-
-  validateAndLoadDetails(quotationNo){
-    this.quotationService.checkQuotationAlreadyProcessed(quotationNo)
-    .subscribe((data) => {
-      if (data == "false") {
-
-        this.loadQuotationDetailsFromQuotationNo(quotationNo);
-      } else {
-
-        this.showError("This quotation no already processed");
-
-      }
-
-
-      this.isLoading = false;
-    },
-    (err) => {
-      console.log(err);
-
-      this.isLoading = false;
-      this.showError("Error loading quotation details");
-
-    });
+        });
 
   }
 
@@ -690,13 +697,13 @@ export class ProposalRegisterComponent implements OnInit {
         this.isLoading = false;
 
       },
-      (err) => {
-        console.log(err);
+        (err) => {
+          console.log(err);
 
-        this.isLoading = false;
-        this.showError("Error loading quotation details");
+          this.isLoading = false;
+          this.showError("Error loading quotation details");
 
-      });
+        });
   }
 
 
@@ -759,7 +766,6 @@ export class ProposalRegisterComponent implements OnInit {
 
   }
 
-
   public SaveProposal() {
 
     if (this.isProposalSendByFax) {
@@ -775,280 +781,481 @@ export class ProposalRegisterComponent implements OnInit {
     if (this.isProposalDetailsValid) {
       this.isLoading = true;
 
-      console.log('bank   -' + this.BankId);
-
-
-      console.log('bank code   - ' + this.BankCode);
-
-
-      console.log('pro no 0 - ' + this.ProposalNo);
-
       document.getElementById('openProposalNoModalButton').click();
-      this.proposalRegisterService.generateProposalNo(this.BankCode).subscribe((data: any) => {
-
-        console.log(data);
-        this.ProposalNo = data.toString().replace(/"/g, '');
-
-        if(this.ProposalNo=='' || this.ProposalNo==null){
 
 
-          this.showError("Error while generating proposal No");
-          return;
+
+      this.isLoading = false;
 
 
-        }else{
-          console.log('pro no - ' + this.ProposalNo);
-          
-                  let obj: IMain = {
-                    TempSeqId: this.TempSeqId,
-                    SeqId: 0,
-                    JobNo: '',
-                    QuotationNo: this.QuotationNo,
-                    RevisionNo: 0,
-                    ProposalNo: this.ProposalNo,
-                    MedicalType: '',
-                    PolicyNo: '',
-                    LoanAmount: this.LoanAmount,
-                    Interest: this.Interest,
-                    Term: this.Term,
-                    FullTermInMonths: this.FullTermInMonths,
-                    GracePeriod: 0,
-                    CompanyBufferId: this.CompanyBufferId,
-                    CurrentAwplr: this.CurrentAwplr,
-                    AdditionToAwplr: this.AdditionToAwplr,
-                    TermOfFixedInterest: this.TermOfFixedInterest,
-                    BankId: this.BankId,
-                    BranchId: this.BranchId,
-                    CurrencyId: 0,
-                    InterestRateType: '',
-                    HnbaBranchCode: this.HnbaBranchCode,
-                    BrokerCode: 0,
-                    ChannelCode: 0,
-                    IsReInsurance: 0,
-                    LoanTypeId: this.LoanTypeId,
-                    ReInsCompanyId: 0,
-                    ExchangeRate: 0,
-                    DateOfCommence: '01/01/1970',
-                    DateOfProposal: '01/01/1970',
-                    Premium: this.Premium,
-                    PremiumWithPolicyFee: this.PremiumWithPolicyFee,
-                    Status: this.Status,
-                    UserId: this.User.UserName,
-                    ProposalSendingMethod: this.ProposalSendingMethod,
-                    RegisterDate: '01/01/1970',
-                    IsValidated: 0,
-                    IsVIP: 0
-                  }
-          
-                  console.log(obj);
-                  console.log(JSON.stringify(obj));
-                  this.proposalRegisterService.saveProposalDetails(obj).subscribe((data: any) => {
-                    console.log(data);
-          
-                    this.loading['loading1'] = false;
-                    this.loadingComplete();
-          
-                    let obj: IMainSaveReturn = JSON.parse(data);
-                    this.SeqId = obj.SeqId;
-                    this.JobNo = obj.JobNo;
-                    console.log(' this.SeqId =' + this.SeqId);
-          
-          
-          
-                    this.showSuccess("Proposal Successfully Saved. Job  Number is " + this.JobNo);
-          
-          
-                    this.SaveAssureDetails1();
-                    if (this.Life2Name != "" && this.Life2Nic != "") {
-          
-                      this.SaveAssureDetails2();
-                    }
-          
-          
-                    this.SaveDataToMRP();
-          
-                  },
-                    (err) => {
-                      // alert(err);
-                      console.log(err);
-          
-                      this.isLoading = false;
-                      this.showError("Error while saving Proposal.");
-                    },
-                    () => console.log('done'));
-        }
 
-   
+      let proposalObj: IMain = {
+        TempMainSeqId: this.TempSeqId,
+        SeqId: 0,
+        JobNo: '',
+        QuotationNo: this.QuotationNo,
+        RevisionNo: 0,
+        ProposalNo: this.ProposalNo,
+        MedicalType: '',
+        PolicyNo: '',
+        LoanAmount: this.LoanAmount,
+        Interest: this.Interest,
+        Term: this.Term,
+        FullTermInMonths: this.FullTermInMonths,
+        GracePeriod: 0,
+        CompanyBufferId: this.CompanyBufferId,
+        CurrentAwplr: this.CurrentAwplr,
+        AdditionToAwplr: this.AdditionToAwplr,
+        TermOfFixedInterest: this.TermOfFixedInterest,
+        BankId: this.BankId,
+        BranchId: this.BranchId,
+        CurrencyId: 0,
+        InterestRateType: '',
+        HnbaBranchCode: this.HnbaBranchCode,
+        BrokerCode: 0,
+        ChannelCode: 0,
+        IsReInsurance: 0,
+        LoanTypeId: this.LoanTypeId,
+        ReInsCompanyId: 0,
+        ExchangeRate: 0,
+        DateOfCommence: '01/01/1970',
+        DateOfProposal: '01/01/1970',
+        Premium: this.Premium,
+        PremiumWithPolicyFee: this.PremiumWithPolicyFee,
+        Status: this.Status,
+        UserId: this.User.UserName,
+        ProposalSendingMethod: this.ProposalSendingMethod,
+        SystemDate: '01/01/1970',
+        IsValidated: 0,
+        Life1HnbaRefNo: '',
+        Life1RiRefNo: '',
+        Life1HealthExtraBasic: 0,
+        Life1HealthExtraTpd: 0,
+        Life1OccuExtraBasic: 0,
+        Life1OccuExtraTpd: 0,
+        Life1OccuExtraPmileBasic: 0,
+        Life1OccuExtraPmileTpd: 0,
+        Life1Discount: 0,
+        Life1Loadings: 0,
+        Life1IsTpd: 0,
+        Life1TpdOption: 0,
+        Life2HnbaRefNo: '',
+        Life2RiRefNo: '',
+        Life2HealthExtraBasic: 0,
+        Life2HealthExtraTpd: 0,
+        Life2OccuExtraBasic: 0,
+        Life2OccuExtraTpd: 0,
+        Life2OccuExtraPMileBasic: 0,
+        Life2OccuExtraPMileTpd: 0,
+        Life2Discount: 0,
+        Life2Loadings: 0,
+        Life2IsTpd: 0,
+        Life2TpdOption: 0,
+        LifeAssure1Id: 0,
+        LifeAssure2Id: 0
+
+      }
+
+
+      var moment = require('moment');
+      var formatted_dob_life1 = moment(this.Life1Dob).format('DD/MM/YYYY');
+
+
+      let assure1Obj: IAssureDetail = {
+        SeqId: 0,
+        AssureType: this.Life1AssureType,
+        Name: this.Life1Name,
+        DOB: formatted_dob_life1,
+        Age: this.Life1Age,
+        Gender: this.Life1Gender,
+        NIC: this.Life1Nic,
+        NationalityId: this.LifeAss1NationalityId,
+        Occupation: this.LifeAss1Occupation,
+        ContactNo: this.LifeAss1ContactNo,
+        Email: this.LifeAss1Email,
+        Address: this.LifeAss1Address,
+        HeightCm: this.LifeAss1HeightCm,
+        HeightInch: this.LifeAss1HeightInch,
+        WeightKg: this.LifeAss1WeightKg,
+        WeightLbs: this.LifeAss1WeightLbs,
+        BMI: this.Life1Bmi,
+        PreviousPolicyAmount: 0,
+        IsAgeAdmitted: this.Life1IsAgeAdmitted,
+        IsSmoker: this.Life1IsSmoker,
+        IsFemaleRebate: this.Life1IsFemaleRebate,
+        IsVIP: 0,
+        RegisterDate: '01/01/1970'
+
+      }
+
+
+
+      var formatted_dob_life2 = moment(this.Life2Dob).format('DD/MM/YYYY');
+
+      let assure2Obj: IAssureDetail = {
+        SeqId: 0,
+        AssureType: this.Life2AssureType,
+        Name: this.Life2Name,
+        DOB: formatted_dob_life2,
+        Age: this.Life2Age,
+        Gender: this.Life2Gender,
+        NIC: this.Life2Nic,
+        NationalityId: this.LifeAss2NationalityId,
+        Occupation: this.LifeAss2Occupation,
+        ContactNo: this.LifeAss2ContactNo,
+        Email: this.LifeAss2Email,
+        Address: this.LifeAss2Address,
+        HeightCm: this.LifeAss2HeightCm,
+        HeightInch: this.LifeAss2HeightInch,
+        WeightKg: this.LifeAss2WeightKg,
+        WeightLbs: this.LifeAss2WeightLbs,
+        BMI: this.Life2Bmi,
+        PreviousPolicyAmount: 0,
+        IsAgeAdmitted: this.Life2IsAgeAdmitted,
+        IsSmoker: this.Life2IsSmoker,
+        IsFemaleRebate: this.Life2IsFemaleRebate,
+        IsVIP: 0,
+        RegisterDate: '01/01/1970'
+
+      }
+
+
+      let mainData: any = {};
+      mainData.proposalData = proposalObj;
+      mainData.assure1Data = assure1Obj;
+      mainData.assure2Data = assure2Obj;
+
+
+
+      this.proposalRegisterService.saveProposalDetails(mainData).subscribe((data: any) => {
+ 
+        this.loading['loading1'] = false;
+
+        let obj: IMainSaveReturn = JSON.parse(data);
+
+        this.SeqId = obj.SeqId;
+        this.JobNo = obj.JobNo;
+        this.ProposalNo=obj.ProposalNo;
+        this.WorkflowJobNo=obj.WorkflowJobNo;
+
+
+
+        this.showSuccess("Proposal Successfully Saved. Job  Number is " + this.JobNo);
+
+
+
+        // this.SaveDataToMRP();
+
       },
         (err) => {
+          // alert(err);
           console.log(err);
+
           this.isLoading = false;
-          this.showError("Error while generating proposal No");
+          this.showError("Error while saving Proposal.");
         },
         () => console.log('done'));
-
-
-
-
-
-
-
     }
 
-  }
 
 
 
-  public SaveAssureDetails1() {
-
-
-    this.isLoading = true;
-
-
-    var moment = require('moment');
-    var formatted_dob_life1 = moment(this.Life1Dob).format('DD/MM/YYYY');
-
-    let obj: IAssureDetail = {
-      SeqId: 0,
-      MainSeqId: this.SeqId,
-      AssureType: this.Life1AssureType,
-      Name: this.Life1Name,
-      Dob: formatted_dob_life1,
-      Age: this.Life1Age,
-      Gender: this.Life1Gender,
-      Nic: this.Life1Nic,
-      NationalityId: this.LifeAss1NationalityId,
-      Occupation: this.LifeAss1Occupation,
-      ContactNo: this.LifeAss1ContactNo,
-      Email: this.LifeAss1Email,
-      Address: this.LifeAss1Address,
-      HeightCm: this.LifeAss1HeightCm,
-      HeightInch: this.LifeAss1HeightInch,
-      WeightKg: this.LifeAss1WeightKg,
-      WeightLbs: this.LifeAss1WeightLbs,
-      Bmi: this.Life1Bmi,
-      HnbaRefNo: this.Life1HnbaRefNo,
-      ReInsuranceRefNo: this.Life1RiRefNo,
-      PreviousPolicyAmount: this.Life1PrevPolicyAmount,
-      HealthExtraBasic: this.Life1HealthExtraBasic,
-      HealthExtraTpd: this.Life1HealthExtraTpd,
-      OccupationExtraBasic: this.Life1OccuExtraBasic,
-      OccupationExtraTpd: this.Life1OccuExtraTpd,
-      OccupationExtraPerMileBasic: this.Life1OccuExtraPerMileBasic,
-      OccupationExtraPerMileTpd: this.Life1OccuExtraPerMileTpd,
-      Discount: this.Life1Discount,
-      Loadings: this.Life1Loadings,
-      IsAgeAdmitted: this.Life1IsAgeAdmitted,
-      IsSmoker: this.Life1IsSmoker,
-      IsFemaleRebate: this.Life1IsFemaleRebate,
-      IsTpd: this.Life1IsTpd,
-      TpdOption: this.Life1TpdOption,
-      RegisterDate: '01/01/1970'
-
-    }
-
-    console.log(obj);
-    console.log(JSON.stringify(obj));
-    this.assureService.saveAssureDetails(obj).subscribe((data: any) => {
-      console.log(data);
-
-
-      this.loading['loading2'] = false;
-      this.loadingComplete();
-
-      if (data.status == 200) {
-
-        this.showSuccess(" Assure 1 Details Successfully Saved.");
-      } else {
-        this.showError("Error while saving Assure 1 Details.");
-
-
-      }
-    },
-      (err) => {
-        // alert(err);
-        console.log(err);
-
-        this.isLoading = false;
-        this.showError("Error while saving Assure 1 Details.");
-      },
-      () => console.log('done'));
 
 
   }
 
-  public SaveAssureDetails2() {
+  // public SaveProposal() {
+
+  //   if (this.isProposalSendByFax) {
+  //     this.ProposalSendingMethod = "fax";
+  //   } else {
+
+  //     this.ProposalSendingMethod = "upload";
+  //   }
 
 
-    this.isLoading = true;
+  //   this.validateFields();
+  //   console.log(this.isProposalDetailsValid);
+  //   if (this.isProposalDetailsValid) {
+  //     this.isLoading = true;
 
-    var moment = require('moment');
-    var formatted_dob_life2 = moment(this.Life2Dob).format('DD/MM/YYYY');
-
-    let obj: IAssureDetail = {
-      SeqId: 0,
-      MainSeqId: this.SeqId,
-      AssureType: this.Life2AssureType,
-      Name: this.Life2Name,
-      Dob: formatted_dob_life2,
-      Age: this.Life2Age,
-      Gender: this.Life2Gender,
-      Nic: this.Life2Nic,
-      NationalityId: this.LifeAss2NationalityId,
-      Occupation: this.LifeAss2Occupation,
-      ContactNo: this.LifeAss2ContactNo,
-      Email: this.LifeAss2Email,
-      Address: this.LifeAss2Address,
-      HeightCm: this.LifeAss2HeightCm,
-      HeightInch: this.LifeAss2HeightInch,
-      WeightKg: this.LifeAss2WeightKg,
-      WeightLbs: this.LifeAss2WeightLbs,
-      Bmi: this.Life2Bmi,
-      HnbaRefNo: this.Life2HnbaRefNo,
-      ReInsuranceRefNo: this.Life2RiRefNo,
-      PreviousPolicyAmount: this.Life2PrevPolicyAmount,
-      HealthExtraBasic: this.Life2HealthExtraBasic,
-      HealthExtraTpd: this.Life2HealthExtraTpd,
-      OccupationExtraBasic: this.Life2OccuExtraBasic,
-      OccupationExtraTpd: this.Life2OccuExtraTpd,
-      OccupationExtraPerMileBasic: this.Life2OccuExtraPerMileBasic,
-      OccupationExtraPerMileTpd: this.Life2OccuExtraPerMileTpd,
-      Discount: this.Life2Discount,
-      Loadings: this.Life2Loadings,
-      IsAgeAdmitted: this.Life2IsAgeAdmitted,
-      IsSmoker: this.Life2IsSmoker,
-      IsFemaleRebate: this.Life2IsFemaleRebate,
-      IsTpd: this.Life2IsTpd,
-      TpdOption: this.Life2TpdOption,
-      RegisterDate: '01/01/1970'
-
-    }
-
-    console.log(obj);
-    console.log(JSON.stringify(obj));
-    this.assureService.saveAssureDetails(obj).subscribe((data: any) => {
-      console.log(data);
+  //     console.log('bank   -' + this.BankId);
 
 
-      if (data.status == 200) {
-        this.showError("Error while saving Assure 2 Details.");
-      } else {
-        this.showSuccess(" Assure 2 Details Successfully Saved.");
+  //     console.log('bank code   - ' + this.BankCode);
 
 
-      }
-    },
-      (err) => {
-        // alert(err);
-        console.log(err);
+  //     console.log('pro no 0 - ' + this.ProposalNo);
 
-        this.isLoading = false;
-        this.showError("Error while saving Assure 2 Details.");
-      },
-      () => console.log('done'));
+  //     document.getElementById('openProposalNoModalButton').click();
+  //     this.proposalRegisterService.generateProposalNo(this.BankCode).subscribe((data: any) => {
+
+  //       console.log('data   = ' + data);
+  //       this.ProposalNo = data.toString().replace(/"/g, '');
+
+  //       if (this.ProposalNo == '' || this.ProposalNo == null) {
 
 
-  }
+  //         this.showError("Error while generating proposal No");
+  //         return;
+
+
+  //       } else {
+  //         console.log('pro no - ' + this.ProposalNo);
+  //         this.isLoading = false;
+  //         let obj: IMain = {
+  //           TempSeqId: this.TempSeqId,
+  //           SeqId: 0,
+  //           JobNo: '',
+  //           QuotationNo: this.QuotationNo,
+  //           RevisionNo: 0,
+  //           ProposalNo: this.ProposalNo,
+  //           MedicalType: '',
+  //           PolicyNo: '',
+  //           LoanAmount: this.LoanAmount,
+  //           Interest: this.Interest,
+  //           Term: this.Term,
+  //           FullTermInMonths: this.FullTermInMonths,
+  //           GracePeriod: 0,
+  //           CompanyBufferId: this.CompanyBufferId,
+  //           CurrentAwplr: this.CurrentAwplr,
+  //           AdditionToAwplr: this.AdditionToAwplr,
+  //           TermOfFixedInterest: this.TermOfFixedInterest,
+  //           BankId: this.BankId,
+  //           BranchId: this.BranchId,
+  //           CurrencyId: 0,
+  //           InterestRateType: '',
+  //           HnbaBranchCode: this.HnbaBranchCode,
+  //           BrokerCode: 0,
+  //           ChannelCode: 0,
+  //           IsReInsurance: 0,
+  //           LoanTypeId: this.LoanTypeId,
+  //           ReInsCompanyId: 0,
+  //           ExchangeRate: 0,
+  //           DateOfCommence: '01/01/1970',
+  //           DateOfProposal: '01/01/1970',
+  //           Premium: this.Premium,
+  //           PremiumWithPolicyFee: this.PremiumWithPolicyFee,
+  //           Status: this.Status,
+  //           UserId: this.User.UserName,
+  //           ProposalSendingMethod: this.ProposalSendingMethod,
+  //           RegisterDate: '01/01/1970',
+  //           IsValidated: 0,
+  //           IsVIP: 0
+  //         }
+
+  //         console.log(obj);
+  //         console.log(JSON.stringify(obj));
+  //         this.proposalRegisterService.saveProposalDetails(obj).subscribe((data: any) => {
+  //           console.log('data    =' + data);
+
+  //           this.loading['loading1'] = false;
+  //           this.loadingComplete();
+
+  //           let obj: IMainSaveReturn = JSON.parse(data);
+  //           //  let obj: IMainSaveReturn = data.toString().replace(/"/g, '');
+
+  //           this.SeqId = obj.SeqId;
+  //           this.JobNo = obj.JobNo;
+  //           console.log(' this.SeqId =' + this.SeqId);
+
+
+  //           console.log(' this.JobNo =' + this.JobNo);
+
+  //           this.showSuccess("Proposal Successfully Saved. Job  Number is " + this.JobNo);
+
+
+  //           // this.SaveAssureDetails1();
+  //           // if (this.Life2Name != "" && this.Life2Nic != "") {
+
+  //           //   this.SaveAssureDetails2();
+  //           // }
+
+
+  //           // this.SaveDataToMRP();
+
+  //         },
+  //           (err) => {
+  //             // alert(err);
+  //             console.log(err);
+
+  //             this.isLoading = false;
+  //             this.showError("Error while saving Proposal.");
+  //           },
+  //           () => console.log('done'));
+  //       }
+
+
+  //     },
+  //       (err) => {
+  //         console.log(err);
+  //         this.isLoading = false;
+  //         this.showError("Error while generating proposal No");
+  //       },
+  //       () => console.log('done'));
+
+
+
+
+
+
+
+  //   }
+
+  // }
+
+
+
+  // public SaveAssureDetails1() {
+
+
+  //   this.isLoading = true;
+
+
+  //   var moment = require('moment');
+  //   var formatted_dob_life1 = moment(this.Life1Dob).format('DD/MM/YYYY');
+
+  //   let obj: IAssureDetail = {
+  //     SeqId: 0,
+  //     MainSeqId: this.SeqId,
+  //     AssureType: this.Life1AssureType,
+  //     Name: this.Life1Name,
+  //     Dob: formatted_dob_life1,
+  //     Age: this.Life1Age,
+  //     Gender: this.Life1Gender,
+  //     Nic: this.Life1Nic,
+  //     NationalityId: this.LifeAss1NationalityId,
+  //     Occupation: this.LifeAss1Occupation,
+  //     ContactNo: this.LifeAss1ContactNo,
+  //     Email: this.LifeAss1Email,
+  //     Address: this.LifeAss1Address,
+  //     HeightCm: this.LifeAss1HeightCm,
+  //     HeightInch: this.LifeAss1HeightInch,
+  //     WeightKg: this.LifeAss1WeightKg,
+  //     WeightLbs: this.LifeAss1WeightLbs,
+  //     Bmi: this.Life1Bmi,
+  //     HnbaRefNo: this.Life1HnbaRefNo,
+  //     ReInsuranceRefNo: this.Life1RiRefNo,
+  //     PreviousPolicyAmount: this.Life1PrevPolicyAmount,
+  //     HealthExtraBasic: this.Life1HealthExtraBasic,
+  //     HealthExtraTpd: this.Life1HealthExtraTpd,
+  //     OccupationExtraBasic: this.Life1OccuExtraBasic,
+  //     OccupationExtraTpd: this.Life1OccuExtraTpd,
+  //     OccupationExtraPerMileBasic: this.Life1OccuExtraPerMileBasic,
+  //     OccupationExtraPerMileTpd: this.Life1OccuExtraPerMileTpd,
+  //     Discount: this.Life1Discount,
+  //     Loadings: this.Life1Loadings,
+  //     IsAgeAdmitted: this.Life1IsAgeAdmitted,
+  //     IsSmoker: this.Life1IsSmoker,
+  //     IsFemaleRebate: this.Life1IsFemaleRebate,
+  //     IsTpd: this.Life1IsTpd,
+  //     TpdOption: this.Life1TpdOption,
+  //     RegisterDate: '01/01/1970'
+
+  //   }
+
+  //   console.log(obj);
+  //   console.log(JSON.stringify(obj));
+  //   this.assureService.saveAssureDetails(obj).subscribe((data: any) => {
+  //     console.log(data);
+
+
+  //     this.loading['loading2'] = false;
+  //     this.loadingComplete();
+
+  //     if (data.status == 200) {
+
+  //       this.showSuccess(" Assure 1 Details Successfully Saved.");
+  //     } else {
+  //       this.showError("Error while saving Assure 1 Details.");
+
+
+  //     }
+  //   },
+  //     (err) => {
+  //       // alert(err);
+  //       console.log(err);
+
+  //       this.isLoading = false;
+  //       this.showError("Error while saving Assure 1 Details.");
+  //     },
+  //     () => console.log('done'));
+
+
+  // }
+
+  // public SaveAssureDetails2() {
+
+
+  //   this.isLoading = true;
+
+  //   var moment = require('moment');
+  //   var formatted_dob_life2 = moment(this.Life2Dob).format('DD/MM/YYYY');
+
+  //   let obj: IAssureDetail = {
+  //     SeqId: 0,
+  //     MainSeqId: this.SeqId,
+  //     AssureType: this.Life2AssureType,
+  //     Name: this.Life2Name,
+  //     Dob: formatted_dob_life2,
+  //     Age: this.Life2Age,
+  //     Gender: this.Life2Gender,
+  //     Nic: this.Life2Nic,
+  //     NationalityId: this.LifeAss2NationalityId,
+  //     Occupation: this.LifeAss2Occupation,
+  //     ContactNo: this.LifeAss2ContactNo,
+  //     Email: this.LifeAss2Email,
+  //     Address: this.LifeAss2Address,
+  //     HeightCm: this.LifeAss2HeightCm,
+  //     HeightInch: this.LifeAss2HeightInch,
+  //     WeightKg: this.LifeAss2WeightKg,
+  //     WeightLbs: this.LifeAss2WeightLbs,
+  //     Bmi: this.Life2Bmi,
+  //     HnbaRefNo: this.Life2HnbaRefNo,
+  //     ReInsuranceRefNo: this.Life2RiRefNo,
+  //     PreviousPolicyAmount: this.Life2PrevPolicyAmount,
+  //     HealthExtraBasic: this.Life2HealthExtraBasic,
+  //     HealthExtraTpd: this.Life2HealthExtraTpd,
+  //     OccupationExtraBasic: this.Life2OccuExtraBasic,
+  //     OccupationExtraTpd: this.Life2OccuExtraTpd,
+  //     OccupationExtraPerMileBasic: this.Life2OccuExtraPerMileBasic,
+  //     OccupationExtraPerMileTpd: this.Life2OccuExtraPerMileTpd,
+  //     Discount: this.Life2Discount,
+  //     Loadings: this.Life2Loadings,
+  //     IsAgeAdmitted: this.Life2IsAgeAdmitted,
+  //     IsSmoker: this.Life2IsSmoker,
+  //     IsFemaleRebate: this.Life2IsFemaleRebate,
+  //     IsTpd: this.Life2IsTpd,
+  //     TpdOption: this.Life2TpdOption,
+  //     RegisterDate: '01/01/1970'
+
+  //   }
+
+  //   console.log(obj);
+  //   console.log(JSON.stringify(obj));
+  //   this.assureService.saveAssureDetails(obj).subscribe((data: any) => {
+  //     console.log(data);
+
+
+  //     if (data.status == 200) {
+  //       this.showError("Error while saving Assure 2 Details.");
+  //     } else {
+  //       this.showSuccess(" Assure 2 Details Successfully Saved.");
+
+
+  //     }
+  //   },
+  //     (err) => {
+  //       // alert(err);
+  //       console.log(err);
+
+  //       this.isLoading = false;
+  //       this.showError("Error while saving Assure 2 Details.");
+  //     },
+  //     () => console.log('done'));
+
+
+  // }
 
   private valueChangeHeightCm1(height) {
     if (this.LifeAss1HeightCm != null && this.LifeAss1WeightKg != null) {
@@ -1160,7 +1367,7 @@ export class ProposalRegisterComponent implements OnInit {
       Premium: this.Premium,
       Fullterm: this.FullTermInMonths,
       Loantype: this.LoanTypeName,
-      DiscountRate:this.DiscountRate.toString()
+      DiscountRate: this.DiscountRate.toString()
     }
 
     console.log(obj);
@@ -1327,7 +1534,7 @@ export class ProposalRegisterComponent implements OnInit {
       BankBranch: BankBranchName,
       ProposalNo: this.ProposalNo,
       EmailAddresses: COMMON_VALUES.CUSTOMER_CARE_EMAIL,
-      SenderUserCode:this.User.UserName
+      SenderUserCode: this.User.UserName
     }
 
 

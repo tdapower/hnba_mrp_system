@@ -1,9 +1,8 @@
 export interface IMain {
-    TempSeqId: string;
     SeqId: number;
     JobNo: string;
     QuotationNo: string;
-    RevisionNo: number;
+    RevisionNo:  number ;
     ProposalNo: string;
     MedicalType: string;
     PolicyNo: string;
@@ -34,7 +33,33 @@ export interface IMain {
     Status: string;
     UserId: string;
     ProposalSendingMethod: string;
-    RegisterDate: string;
+    SystemDate: string;
     IsValidated: number;
-    IsVIP: number;
+    TempMainSeqId: string;
+    Life1HnbaRefNo: string;
+    Life1RiRefNo: string;
+    Life1HealthExtraBasic: number;
+    Life1HealthExtraTpd: number;
+    Life1OccuExtraBasic: number;
+    Life1OccuExtraTpd: number;
+    Life1OccuExtraPmileBasic: number;
+    Life1OccuExtraPmileTpd: number;
+    Life1Discount: number;
+    Life1Loadings: number;
+    Life1IsTpd: number;
+    Life1TpdOption: number;
+    Life2HnbaRefNo: string;
+    Life2RiRefNo: string;
+    Life2HealthExtraBasic: number;
+    Life2HealthExtraTpd: number;
+    Life2OccuExtraBasic: number;
+    Life2OccuExtraTpd: number;
+    Life2OccuExtraPMileBasic: number;
+    Life2OccuExtraPMileTpd: number;
+    Life2Discount: number;
+    Life2Loadings: number;
+    Life2IsTpd: number;
+    Life2TpdOption: number;
+    LifeAssure1Id: number;
+    LifeAssure2Id: number;
 }

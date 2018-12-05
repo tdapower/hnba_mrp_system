@@ -284,36 +284,36 @@ export class ProposalViewComponent implements OnInit {
         let obj: IAssureDetail = JSON.parse(data);
 
 
-        this.Life1AssureType = obj.AssureType
-        this.Life1Name = obj.Name
-        this.Life1Dob = obj.Dob
-        this.Life1Age = obj.Age
-        this.Life1Gender = obj.Gender
-        this.Life1Nic = obj.Nic
-        this.Life1NationalityId = obj.NationalityId
-        this.Life1Occupation = obj.Occupation
-        this.Life1ContactNo = obj.ContactNo
-        this.Life1Email = obj.Email
-        this.Life1Address = obj.Address
-        this.Life1HeightCm = obj.HeightCm
-        this.Life1HeightInch = obj.HeightInch
-        this.Life1WeightKg = obj.WeightKg
-        this.Life1WeightLbs = obj.WeightLbs
-        this.Life1Bmi = obj.Bmi
-        this.Life1HnbaRefNo = obj.HnbaRefNo
-        this.Life1RiRefNo = obj.ReInsuranceRefNo
-        this.Life1PrevPolicyAmount = obj.PreviousPolicyAmount
-        this.Life1HealthExtraBasic = obj.HealthExtraBasic
-        this.Life1HealthExtraTpd = obj.HealthExtraTpd
-        this.Life1OccuExtraBasic = obj.OccupationExtraBasic
-        this.Life1OccuExtraTpd = obj.OccupationExtraTpd
-        this.Life1OccuExtraPerMileBasic = obj.OccupationExtraPerMileBasic
-        this.Life1OccuExtraPerMileTpd = obj.OccupationExtraPerMileTpd
-        this.Life1Discount = obj.Discount
-        this.Life1Loadings = obj.Loadings
+        // this.Life1AssureType = obj.AssureType
+        // this.Life1Name = obj.Name
+        // this.Life1Dob = obj.Dob
+        // this.Life1Age = obj.Age
+        // this.Life1Gender = obj.Gender
+        // this.Life1Nic = obj.Nic
+        // this.Life1NationalityId = obj.NationalityId
+        // this.Life1Occupation = obj.Occupation
+        // this.Life1ContactNo = obj.ContactNo
+        // this.Life1Email = obj.Email
+        // this.Life1Address = obj.Address
+        // this.Life1HeightCm = obj.HeightCm
+        // this.Life1HeightInch = obj.HeightInch
+        // this.Life1WeightKg = obj.WeightKg
+        // this.Life1WeightLbs = obj.WeightLbs
+        // this.Life1Bmi = obj.Bmi
+        // this.Life1HnbaRefNo = obj.HnbaRefNo
+        // this.Life1RiRefNo = obj.ReInsuranceRefNo
+        // this.Life1PrevPolicyAmount = obj.PreviousPolicyAmount
+        // this.Life1HealthExtraBasic = obj.HealthExtraBasic
+        // this.Life1HealthExtraTpd = obj.HealthExtraTpd
+        // this.Life1OccuExtraBasic = obj.OccupationExtraBasic
+        // this.Life1OccuExtraTpd = obj.OccupationExtraTpd
+        // this.Life1OccuExtraPerMileBasic = obj.OccupationExtraPerMileBasic
+        // this.Life1OccuExtraPerMileTpd = obj.OccupationExtraPerMileTpd
+        // this.Life1Discount = obj.Discount
+        // this.Life1Loadings = obj.Loadings
 
-        this.Life1TpdOption = obj.TpdOption
-        this.Life1SysDate = obj.RegisterDate
+        // this.Life1TpdOption = obj.TpdOption
+        // this.Life1SysDate = obj.RegisterDate
 
 
 
@@ -345,36 +345,36 @@ export class ProposalViewComponent implements OnInit {
 
 
 
-          this.Life2AssureType = obj.AssureType
-          this.Life2Name = obj.Name
-          this.Life2Dob = obj.Dob
-          this.Life2Age = obj.Age
-          this.Life2Gender = obj.Gender
-          this.Life2Nic = obj.Nic
-          this.Life2NationalityId = obj.NationalityId
-          this.Life2Occupation = obj.Occupation
-          this.Life2ContactNo = obj.ContactNo
-          this.Life2Email = obj.Email
-          this.Life2Address = obj.Address
-          this.Life2HeightCm = obj.HeightCm
-          this.Life2HeightInch = obj.HeightInch
-          this.Life2WeightKg = obj.WeightKg
-          this.Life2WeightLbs = obj.WeightLbs
-          this.Life2Bmi = obj.Bmi
-          this.Life2HnbaRefNo = obj.HnbaRefNo
-          this.Life2RiRefNo = obj.ReInsuranceRefNo
-          this.Life2PrevPolicyAmount = obj.PreviousPolicyAmount
-          this.Life2HealthExtraBasic = obj.HealthExtraBasic
-          this.Life2HealthExtraTpd = obj.HealthExtraTpd
-          this.Life2OccuExtraBasic = obj.OccupationExtraBasic
-          this.Life2OccuExtraTpd = obj.OccupationExtraTpd
-          this.Life2OccuExtraPerMileBasic = obj.OccupationExtraPerMileBasic
-          this.Life2OccuExtraPerMileTpd = obj.OccupationExtraPerMileTpd
-          this.Life2Discount = obj.Discount
-          this.Life2Loadings = obj.Loadings
+          // this.Life2AssureType = obj.AssureType
+          // this.Life2Name = obj.Name
+          // this.Life2Dob = obj.Dob
+          // this.Life2Age = obj.Age
+          // this.Life2Gender = obj.Gender
+          // this.Life2Nic = obj.Nic
+          // this.Life2NationalityId = obj.NationalityId
+          // this.Life2Occupation = obj.Occupation
+          // this.Life2ContactNo = obj.ContactNo
+          // this.Life2Email = obj.Email
+          // this.Life2Address = obj.Address
+          // this.Life2HeightCm = obj.HeightCm
+          // this.Life2HeightInch = obj.HeightInch
+          // this.Life2WeightKg = obj.WeightKg
+          // this.Life2WeightLbs = obj.WeightLbs
+          // this.Life2Bmi = obj.Bmi
+          // this.Life2HnbaRefNo = obj.HnbaRefNo
+          // this.Life2RiRefNo = obj.ReInsuranceRefNo
+          // this.Life2PrevPolicyAmount = obj.PreviousPolicyAmount
+          // this.Life2HealthExtraBasic = obj.HealthExtraBasic
+          // this.Life2HealthExtraTpd = obj.HealthExtraTpd
+          // this.Life2OccuExtraBasic = obj.OccupationExtraBasic
+          // this.Life2OccuExtraTpd = obj.OccupationExtraTpd
+          // this.Life2OccuExtraPerMileBasic = obj.OccupationExtraPerMileBasic
+          // this.Life2OccuExtraPerMileTpd = obj.OccupationExtraPerMileTpd
+          // this.Life2Discount = obj.Discount
+          // this.Life2Loadings = obj.Loadings
 
-          this.Life2TpdOption = obj.TpdOption
-          this.Life2SysDate = obj.RegisterDate
+          // this.Life2TpdOption = obj.TpdOption
+          // this.Life2SysDate = obj.RegisterDate
         }
 
 

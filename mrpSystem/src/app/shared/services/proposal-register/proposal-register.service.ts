@@ -20,7 +20,7 @@ export class ProposalRegisterService {
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
     let postoptions = new RequestOptions({ headers: headers });
 
-    return this.http.post(URL_CONST.URL_PREFIX + 'api/Main/AddProposalDetails', body, postoptions)
+    return this.http.post(URL_CONST.CORE_URL_PREFIX + 'api/Main/SaveMainDetails', body, postoptions)
       .map((response: Response) => JSON.stringify(response.json()))
       .timeout(60000)
       .catch((error: any) => {
@@ -66,17 +66,40 @@ export class ProposalRegisterService {
 
 
   generateProposalNo(bankCode) {
+
+    let body = '';
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', USER.USER_AUTH_TOKEN);
-    let options = new RequestOptions({ headers: headers });
+    let postoptions = new RequestOptions({ headers: headers });
 
-    return this.http.get(URL_CONST.URL_PREFIX + 'api/Main/GenerateProposalNo?bankCode=' + bankCode, options)
-      .map((response: Response) => JSON.stringify(response.json()))
+    return this.http.post(URL_CONST.CORE_URL_PREFIX + 'api/Main/GenerateProposalNo?bankCode=' + bankCode, body, postoptions)
+    .map((response: Response) => (response.json()))
+      .timeout(60000)
       .catch((error: any) => {
+        console.log(error);
+        
         this.handleError;
         return Observable.throw(new Error(error.status))
       });
+
+
+
   }
+
+
+  // generateProposalNo(bankCode) {
+  //   let headers = new Headers({ 'Content-Type': 'application/json' });
+  //   headers.append('Authorization', USER.USER_AUTH_TOKEN);
+  //   let options = new RequestOptions({ headers: headers });
+
+  //   return this.http.get(URL_CONST.URL_PREFIX + 'api/Main/GenerateProposalNo?bankCode=' + bankCode, options)
+  //     .map((response: Response) => JSON.stringify(response.json()))
+  //     .catch((error: any) => {
+  //       this.handleError;
+  //       return Observable.throw(new Error(error.status))
+  //     });
+  // }
+
 
   saveProposalToMRP(params) {
     console.log('saveeeeee');
@@ -191,39 +214,39 @@ export class ProposalRegisterService {
 
 
   searchProposalDetails(searchObject) {
-    
-        let body = searchObject;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        headers.append('Authorization', USER.USER_AUTH_TOKEN);
-        let options = new RequestOptions({ headers: headers });
-    
-    
-        return this.http.post(URL_CONST.URL_PREFIX + 'api/Main/SearchProposals', body, options)
-          .map((response: Response) => response.json())
-          .timeout(60000)
-          .catch((error: any) => {
-            this.handleError;
-            return Observable.throw(new Error(error.status))
-          });
-      }
-    
+
+    let body = searchObject;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
 
 
-      getProposalToView(SeqId) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        headers.append('Authorization', USER.USER_AUTH_TOKEN);
-        let options = new RequestOptions({ headers: headers });
-    
-    
-        return this.http.get(URL_CONST.URL_PREFIX + 'api/Main/GetProposalToView/' + SeqId, options)
-          .map((response: Response) => JSON.stringify(response.json()))
-          .timeout(60000)
-          .catch((error: any) => {
-            this.handleError;
-            return Observable.throw(new Error(error.status))
-          });
-      }
-    
+    return this.http.post(URL_CONST.URL_PREFIX + 'api/Main/SearchProposals', body, options)
+      .map((response: Response) => response.json())
+      .timeout(60000)
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
+
+
+  getProposalToView(SeqId) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', USER.USER_AUTH_TOKEN);
+    let options = new RequestOptions({ headers: headers });
+
+
+    return this.http.get(URL_CONST.URL_PREFIX + 'api/Main/GetProposalToView/' + SeqId, options)
+      .map((response: Response) => JSON.stringify(response.json()))
+      .timeout(60000)
+      .catch((error: any) => {
+        this.handleError;
+        return Observable.throw(new Error(error.status))
+      });
+  }
+
 
   private handleError(error: Response) {
     console.error('Error occured - ', error);
