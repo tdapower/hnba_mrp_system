@@ -94,7 +94,7 @@ export class UserLoginComponent implements OnInit {
               localStorage.setItem("currentMRPUserToken", USER.USER_AUTH_TOKEN);
 
 
-              if (this.User.Password == COMMON_VALUES.COMMON_PWD) {
+              if (this.User.PasswordStatus == COMMON_VALUES.PWD_INITIAL_STATUS) {
                 this.router.navigate(['/', 'passwordChange']);
               } else {
                 this.router.navigate(['/', 'mainDashboard']);

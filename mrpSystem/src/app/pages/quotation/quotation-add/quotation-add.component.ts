@@ -811,188 +811,188 @@ export class QuotationAddComponent implements OnInit, AfterViewInit {
 
       this.isQuotationCalculated = false;
 
-      if (this.BankId == COMMON_VALUES.HNB_BANK_CODE) {
-        this.calculatePremiumWithOldCalculation();
+      // if (this.BankId == COMMON_VALUES.HNB_BANK_CODE) {
+      //   this.calculatePremiumWithOldCalculation();
 
-        // this.calculateHNBPremiumWithNewCalculation();
-      } else {
-        this.calculatePremiumWithNewCalculation();
-      }
-
+      //   // this.calculateHNBPremiumWithNewCalculation();
+      // } else {
+      //   this.calculatePremiumWithNewCalculation();
+      // }
+      this.calculatePremiumWithNewCalculation();
 
     }
   }
 
 
-  public calculatePremiumWithOldCalculation() {
+  // public calculatePremiumWithOldCalculation() {
 
 
-    this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == this.LoanTypeId)[0]['LoanTypeName'];
+  //   this.LoanTypeName = this.loanTypeList.filter(item => item.LoanTypeId == this.LoanTypeId)[0]['LoanTypeName'];
 
 
-    if (this.CompanyBufferId > 0) {
-      this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
-    }
-
-
-
-
-    var moment = require('moment');
-
-
-    if (this.LifeAss1Age == null) {
-      this.LifeAss1Age = 0;
-    }
-    if (this.LifeAss2Age == null) {
-      this.LifeAss2Age = 0;
-    }
-    if (this.LoanAmount == null) {
-      this.LoanAmount = 0;
-    }
-    if (this.FullTermOfLoanMonthly == null) {
-      this.FullTermOfLoanMonthly = 0;
-    }
-    if (this.FixedInterest == null) {
-      this.FixedInterest = 0;
-    }
-    if (this.CompanyBufferId == null) {
-      this.CompanyBufferId = 0;
-    }
-    if (this.CurrentAwplr == null) {
-      this.CurrentAwplr = 0;
-    }
-    if (this.AdditionalToAwplr == null) {
-      this.AdditionalToAwplr = 0;
-    }
-    if (this.TermOfFixedInterest == null) {
-      this.TermOfFixedInterest = 0;
-    }
-    if (this.DiscountRate == null) {
-      this.DiscountRate = 0;
-    }
-
-    if (this.LoanTypeId == null) {
-      this.LoanTypeId = 0;
-    }
-
-
-    var formatted_dob_life1 = moment(this.LifeAss1Dob).format('YYYY/MM/DD');
-
-
-    var formatted_dob_life2;
-    if (this.LifeAss2Dob == "01/01/1900") {
-      formatted_dob_life2 = "N/A";
-    } else {
-      formatted_dob_life2 = moment(this.LifeAss2Dob).format('YYYY/MM/DD');
-    }
-
-    var formattedLifeAss2Gender;
-    if (this.LifeAss2Gender == null || this.LifeAss2Gender == "") {
-      formattedLifeAss2Gender = "N/A";
-    } else {
-      formattedLifeAss2Gender = this.LifeAss2Gender;
-    }
-
-    var FullTermOfLoanYearly = 0;
-    FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
-
-    var quotationCalcServiceLoanType = "";
-    if (this.LoanTypeName == "MRP STD (Home Loans)") {
-      quotationCalcServiceLoanType = "type1";
-    } else if (this.LoanTypeName == "CAR/Education Loans") {
-      quotationCalcServiceLoanType = "type2";
-    }
-    else if (this.LoanTypeName == "Business Loan") {
-      quotationCalcServiceLoanType = "type3";
-    }
-    else if (this.LoanTypeName == "Personal Loan/Commercial Vehicle") {
-      quotationCalcServiceLoanType = "type4";
-    }
+  //   if (this.CompanyBufferId > 0) {
+  //     this.CompanyBufferValue = this.companyBufferList.filter(item => item.CompanyBufferId == this.CompanyBufferId)[0]['CompanyBufferName'];
+  //   }
 
 
 
-    var obj = {
-      username: this.User.UserName,
-      term: FullTermOfLoanYearly.toString(),
-      loan_interest: this.FixedInterest.toString(),
-      loan_amount: this.LoanAmount.toString(),
-      grace_period: 0,
-      dob_life1: formatted_dob_life1,
-      dob_life2: formatted_dob_life2,
-      loan_type: quotationCalcServiceLoanType,
-      gender_life1: this.LifeAss1Gender,
-      gender_life2: formattedLifeAss2Gender,
-      Company_Buffer: this.CompanyBufferId,
-      Current_AWPLR: this.CurrentAwplr.toString(),
-      Addition_to_AWPLR: this.AdditionalToAwplr.toString(),
-      life1_discount: 0,
-      life2_discount: 0,
-      basic_healthExtraPecentage_life1: 0,
-      basic_healthExtraPecentage_life2: 0,
-      tpd_healthExtraPecentage_life1: 0,
-      tpd_healthExtraPecentage_life2: 0,
-      basic_healthExtraPermile_life1: 0,
-      basic_healthExtraPermile_life2: 0,
-      tpd_healthExtraPermile_life1: 0,
-      tpd_healthExtraPermile_life2: 0,
-      term_fixed_interest: this.TermOfFixedInterest
 
-    };
+  //   var moment = require('moment');
 
 
-    //   console.log(obj);
-    //  console.log(JSON.stringify(obj));
+  //   if (this.LifeAss1Age == null) {
+  //     this.LifeAss1Age = 0;
+  //   }
+  //   if (this.LifeAss2Age == null) {
+  //     this.LifeAss2Age = 0;
+  //   }
+  //   if (this.LoanAmount == null) {
+  //     this.LoanAmount = 0;
+  //   }
+  //   if (this.FullTermOfLoanMonthly == null) {
+  //     this.FullTermOfLoanMonthly = 0;
+  //   }
+  //   if (this.FixedInterest == null) {
+  //     this.FixedInterest = 0;
+  //   }
+  //   if (this.CompanyBufferId == null) {
+  //     this.CompanyBufferId = 0;
+  //   }
+  //   if (this.CurrentAwplr == null) {
+  //     this.CurrentAwplr = 0;
+  //   }
+  //   if (this.AdditionalToAwplr == null) {
+  //     this.AdditionalToAwplr = 0;
+  //   }
+  //   if (this.TermOfFixedInterest == null) {
+  //     this.TermOfFixedInterest = 0;
+  //   }
+  //   if (this.DiscountRate == null) {
+  //     this.DiscountRate = 0;
+  //   }
 
-    var data = obj;
-    var keyValPairString = "?";
-    for (var key in data) {
-      //   console.log(key + ' : ' + data[key]);
-      keyValPairString = keyValPairString + key + '=' + data[key] + '&';
-      // alert(key + ' --> ' + data[key]);
-    }
-
-
-    keyValPairString = keyValPairString.slice(0, -1);
-
-    //console.log('http://mobileapps.hnbassurance.com/quotation_calculation/webservice/mrptest.php' + keyValPairString);
-    console.log(' key pair --- ' + keyValPairString);
-    this.quotationService.calculateQuotation(keyValPairString).subscribe((data: any) => {
-      if (data.data.premium != 'N/A') {
-
-        this.isQuotationCalculated = true;
-
-        this.Premium = data.data.premium.replace(/,/g, '');
-        this.PremiumWithPolicyFee = data.data.premium_with_policy_fee.replace(/,/g, '');
-
-
-        if (this.DiscountRate > 0) {
-
-          var premiumWithDiscount = 0;
-          premiumWithDiscount = Math.ceil(Number(data.data.premium.toString().replace(/,/g, '')) * ((100 - this.DiscountRate) / 100));
-
-
-          this.Premium = premiumWithDiscount;
-          this.PremiumWithPolicyFee = premiumWithDiscount + COMMON_VALUES.POLICY_FEE;
-
-        }
-      } else {
-        this.Premium = 0.00;
-        this.PremiumWithPolicyFee = 0.00;
-
-      }
-      this.isLoading = false;
+  //   if (this.LoanTypeId == null) {
+  //     this.LoanTypeId = 0;
+  //   }
 
 
-      this.showInfo("Premium: " + this.PremiumWithPolicyFee);
-    },
-      (err) => {
+  //   var formatted_dob_life1 = moment(this.LifeAss1Dob).format('YYYY/MM/DD');
 
-        this.isLoading = false;
-        this.showError("Error calculating premium");
-      },
-      () => console.log('done')
-    );
-  }
+
+  //   var formatted_dob_life2;
+  //   if (this.LifeAss2Dob == "01/01/1900") {
+  //     formatted_dob_life2 = "N/A";
+  //   } else {
+  //     formatted_dob_life2 = moment(this.LifeAss2Dob).format('YYYY/MM/DD');
+  //   }
+
+  //   var formattedLifeAss2Gender;
+  //   if (this.LifeAss2Gender == null || this.LifeAss2Gender == "") {
+  //     formattedLifeAss2Gender = "N/A";
+  //   } else {
+  //     formattedLifeAss2Gender = this.LifeAss2Gender;
+  //   }
+
+  //   var FullTermOfLoanYearly = 0;
+  //   FullTermOfLoanYearly = this.FullTermOfLoanMonthly / 12;
+
+  //   var quotationCalcServiceLoanType = "";
+  //   if (this.LoanTypeName == "MRP STD (Home Loans)") {
+  //     quotationCalcServiceLoanType = "type1";
+  //   } else if (this.LoanTypeName == "CAR/Education Loans") {
+  //     quotationCalcServiceLoanType = "type2";
+  //   }
+  //   else if (this.LoanTypeName == "Business Loan") {
+  //     quotationCalcServiceLoanType = "type3";
+  //   }
+  //   else if (this.LoanTypeName == "Personal Loan/Commercial Vehicle") {
+  //     quotationCalcServiceLoanType = "type4";
+  //   }
+
+
+
+  //   var obj = {
+  //     username: this.User.UserName,
+  //     term: FullTermOfLoanYearly.toString(),
+  //     loan_interest: this.FixedInterest.toString(),
+  //     loan_amount: this.LoanAmount.toString(),
+  //     grace_period: 0,
+  //     dob_life1: formatted_dob_life1,
+  //     dob_life2: formatted_dob_life2,
+  //     loan_type: quotationCalcServiceLoanType,
+  //     gender_life1: this.LifeAss1Gender,
+  //     gender_life2: formattedLifeAss2Gender,
+  //     Company_Buffer: this.CompanyBufferId,
+  //     Current_AWPLR: this.CurrentAwplr.toString(),
+  //     Addition_to_AWPLR: this.AdditionalToAwplr.toString(),
+  //     life1_discount: 0,
+  //     life2_discount: 0,
+  //     basic_healthExtraPecentage_life1: 0,
+  //     basic_healthExtraPecentage_life2: 0,
+  //     tpd_healthExtraPecentage_life1: 0,
+  //     tpd_healthExtraPecentage_life2: 0,
+  //     basic_healthExtraPermile_life1: 0,
+  //     basic_healthExtraPermile_life2: 0,
+  //     tpd_healthExtraPermile_life1: 0,
+  //     tpd_healthExtraPermile_life2: 0,
+  //     term_fixed_interest: this.TermOfFixedInterest
+
+  //   };
+
+
+  //   //   console.log(obj);
+  //   //  console.log(JSON.stringify(obj));
+
+  //   var data = obj;
+  //   var keyValPairString = "?";
+  //   for (var key in data) {
+  //     //   console.log(key + ' : ' + data[key]);
+  //     keyValPairString = keyValPairString + key + '=' + data[key] + '&';
+  //     // alert(key + ' --> ' + data[key]);
+  //   }
+
+
+  //   keyValPairString = keyValPairString.slice(0, -1);
+
+  //   //console.log('http://mobileapps.hnbassurance.com/quotation_calculation/webservice/mrptest.php' + keyValPairString);
+  //   console.log(' key pair --- ' + keyValPairString);
+  //   this.quotationService.calculateQuotation(keyValPairString).subscribe((data: any) => {
+  //     if (data.data.premium != 'N/A') {
+
+  //       this.isQuotationCalculated = true;
+
+  //       this.Premium = data.data.premium.replace(/,/g, '');
+  //       this.PremiumWithPolicyFee = data.data.premium_with_policy_fee.replace(/,/g, '');
+
+
+  //       if (this.DiscountRate > 0) {
+
+  //         var premiumWithDiscount = 0;
+  //         premiumWithDiscount = Math.ceil(Number(data.data.premium.toString().replace(/,/g, '')) * ((100 - this.DiscountRate) / 100));
+
+
+  //         this.Premium = premiumWithDiscount;
+  //         this.PremiumWithPolicyFee = premiumWithDiscount + COMMON_VALUES.POLICY_FEE;
+
+  //       }
+  //     } else {
+  //       this.Premium = 0.00;
+  //       this.PremiumWithPolicyFee = 0.00;
+
+  //     }
+  //     this.isLoading = false;
+
+
+  //     this.showInfo("Premium: " + this.PremiumWithPolicyFee);
+  //   },
+  //     (err) => {
+
+  //       this.isLoading = false;
+  //       this.showError("Error calculating premium");
+  //     },
+  //     () => console.log('done')
+  //   );
+  // }
 
   public calculatePremiumWithNewCalculation() {
     var moment = require('moment');

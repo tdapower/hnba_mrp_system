@@ -10,7 +10,8 @@ export const COMMON_VALUES = {
     DEFAULT_RI_COMPANY: 'MunichRe',
 
     COMMON_PWD: '1234',
-    MIN_PWD_LENGTH: 4
+    MIN_PWD_LENGTH: 4,
+    PWD_INITIAL_STATUS:'INITIAL'
 };
 
 // CUSTOMER_CARE_EMAIL:'customer.care@hnbassurance.com'

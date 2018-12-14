@@ -1189,26 +1189,26 @@ export class ProposalUpdateComponent implements OnInit {
       keyValPairString = keyValPairString.slice(0, -1);
       console.log('point 3');
       console.log(keyValPairString);
-      this.quotationService.calculateQuotation(keyValPairString).subscribe((data: any) => {
-        console.log(data);
-        console.log('Premium = ' + data.data.premium);
+      // this.quotationService.calculateQuotation(keyValPairString).subscribe((data: any) => {
+      //   console.log(data);
+      //   console.log('Premium = ' + data.data.premium);
 
 
-        this.Premium = data.data.premium;
-        this.PremiumWithPolicyFee = data.data.premium_with_policy_fee;
+      //   this.Premium = data.data.premium;
+      //   this.PremiumWithPolicyFee = data.data.premium_with_policy_fee;
 
 
-        this.isLoading = false;
+      //   this.isLoading = false;
 
 
-      },
-        (err) => {
+      // },
+      //   (err) => {
 
-          this.isLoading = false;
-          this.showError("Error calculating premium");
-        },
-        () => console.log('done')
-      );
+      //     this.isLoading = false;
+      //     this.showError("Error calculating premium");
+      //   },
+      //   () => console.log('done')
+      // );
     }
   }
 

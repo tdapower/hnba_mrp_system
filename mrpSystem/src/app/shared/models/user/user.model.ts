@@ -6,4 +6,6 @@ export interface IUser {
     BranchCode: string;
     Epf: string;
     UserRoleCode: string;
+    PasswordStatus : string;
+    PasswordLastUpdatedDate : string;
 }

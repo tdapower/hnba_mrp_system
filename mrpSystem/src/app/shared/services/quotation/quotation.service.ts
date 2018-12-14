@@ -97,20 +97,20 @@ export class QuotationService {
   }
 
 
-  calculateQuotation(params) {
-    let body = params.toString();
-    // let headers = new Headers({ 'Content-Type': '' });
-    //headers.append('Authorization', USER.USER_AUTH_TOKEN);
-    // let postoptions = new RequestOptions({ headers: headers });
+  // calculateQuotation(params) {
+  //   let body = params.toString();
+  //   // let headers = new Headers({ 'Content-Type': '' });
+  //   //headers.append('Authorization', USER.USER_AUTH_TOKEN);
+  //   // let postoptions = new RequestOptions({ headers: headers });
 
-    return this.http.post(URL_CONST.CALCULATION_URL + body, '')
-      .map((response: Response) => response.json())
-      .timeout(60000)
-      .catch((error: any) => {
-        this.handleError;
-        return Observable.throw(new Error(error.status))
-      });
-  }
+  //   return this.http.post(URL_CONST.CALCULATION_URL + body, '')
+  //     .map((response: Response) => response.json())
+  //     .timeout(60000)
+  //     .catch((error: any) => {
+  //       this.handleError;
+  //       return Observable.throw(new Error(error.status))
+  //     });
+  // }
 
   searchQuotationDetails(searchObject) {
 
